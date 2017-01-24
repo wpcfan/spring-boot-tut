@@ -336,3 +336,14 @@ public class Application {
 ![创建Spring配置的默认上下文][10]
  
 本章代码：https://github.com/wpcfan/spring-boot-tut/tree/chap01
+
+  [1]: http://static.zybuluo.com/wpcfan/de99jylqsulfydybajqnw6nc/image_1b7081mu6vke127v1ej2jhp1b1i9.png
+  [2]: http://static.zybuluo.com/wpcfan/1k8jb3uyfab7f42cljyjitjj/image_1b7089410gi4u3o1r1pdt2t4om.png
+  [3]: http://static.zybuluo.com/wpcfan/a8jzrxuyv7lz6cnigke3k1dp/image_1b778ebofol0d7ijcb1a5pamj13.png
+  [4]: http://static.zybuluo.com/wpcfan/219ydnaga0jczzx76drzpd2o/image_1b77gr2om1rb7u8111du137e1hoe1t.png
+  [5]: http://static.zybuluo.com/wpcfan/z0n134l61e9ofg64phcfjagj/image_1b77vqast1d2h1qioeepsdm1tkb9.png
+  [6]: http://static.zybuluo.com/wpcfan/gd06q598sdaf1v848668hzvr/image_1b782evj1iuuupb2e71fr51ngm13.png
+  [7]: http://static.zybuluo.com/wpcfan/aqezgb1pkk85651fpbyote7n/image_1b780non09ng12vr67ult7ml2m.png
+  [8]: http://static.zybuluo.com/wpcfan/si7egzd0jh5369qe2ghzyn7y/image_1b77h6kies66199e1spn1vs0kin2a.png
+  [9]: http://static.zybuluo.com/wpcfan/d7d20ngovrg3a9jzc441om19/image_1b77h90ud140r1ghc1p7qeq515542n.png
+  [10]: http://static.zybuluo.com/wpcfan/xkapgi54m6944yzc5zkor2bf/image_1b77hol5adff1et81prknrn59s34.png
