@@ -6,8 +6,8 @@
 *.ear
 
 #Gradle temporary files
-target/
-dist/
+build/
+wrapper/dists/
 
 #Eclipse files
 **/.project
