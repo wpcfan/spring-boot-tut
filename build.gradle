@@ -11,7 +11,7 @@ buildscript {
 		springBootVersion = '1.4.3.RELEASE'
 	}
 	repositories {
-		mavenCentral()
+        maven {url "http://maven.aliyun.com/nexus/content/repositories/central/"}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -39,7 +39,7 @@ jar {
 repositories {
     // 使用 'jcenter' 作为中心仓储查询解析你的项目依赖。
     // 你可以声明任何 Maven/Ivy/file 类型的依赖类库仓储位置
-    mavenCentral()
+    maven {url "http://maven.aliyun.com/nexus/content/repositories/central/"}
 }
 
 // 在这个段落中你可以声明源文件和目标编译后的Java版本兼容性
@@ -48,6 +48,7 @@ targetCompatibility = 1.8
 
 // 在这个段落你可以声明你的项目的开发和测试所需的依赖类库
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
+	compile("org.springframework.boot:spring-boot-starter-data-rest")
+	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

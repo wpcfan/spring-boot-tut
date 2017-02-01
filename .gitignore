@@ -8,6 +8,7 @@
 #Gradle temporary files
 build/
 wrapper/dists/
+.gradle/
 
 #Eclipse files
 **/.project
@@ -19,7 +20,6 @@ blog/bin/
 #IntelliJ files
 **/*.iml
 **/.idea
-**/.gradle
 
 #Log file
 *.log

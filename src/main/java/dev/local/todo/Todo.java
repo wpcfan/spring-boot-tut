@@ -1,13 +1,17 @@
 package dev.local.todo;
 
+import dev.local.user.User;
+import org.springframework.data.annotation.Id;
+
 /**
  * Todo是一个领域对象（domain object）
  * Created by wangpeng on 2017/1/24.
  */
 public class Todo {
-    private String id;
+    @Id private String id;
     private String desc;
     private boolean completed;
+    private User user;
 
     public String getId() {
         return id;
@@ -31,5 +35,13 @@ public class Todo {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
