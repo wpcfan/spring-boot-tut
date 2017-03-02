@@ -846,13 +846,222 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
  
 其实，这种支持的力度已经可以让我们写出相对较复杂的查询了。但肯定还是不够的，对于开发人员来讲，如果不给可以自定义的方式基本没人会用的，因为总有这样那样的原因会导致我们希望能完全掌控我们的查询或存储过程。但这个话题展开感觉就内容更多了，后面再讲吧。
 
+本章代码：https://github.com/wpcfan/spring-boot-tut/tree/chap02
+
+# 找回熟悉的Controller，Service
+
 ## Controller哪儿去了？
 
 对于很多习惯了Spring开发的同学来讲，`Controller`，`Service`，`DAO` 这些套路突然间都没了会有不适感。其实呢，这些东西还在，只不过对于较简单的情景下，这些都变成了系统背后帮你做的事情。这一小节我们就先来看看如何将Controller再召唤回来。召唤回来的好处有哪些呢？首先我们可以自定义API URL的路径，其次可以对参数和返回的json结构做一定的处理。
 
+如果要让 `TodoController` 可以和 `TodoRepository` 配合工作的话，我们当然需要在 `TodoController` 中需要引用 `TodoRepository`。
+
+```java
+public class TodoController {
+    @Autowired
+    private TodoRepository repository;
+    //省略其它部分
+}
+```
+
+`@Autowired` 这个修饰符是用于做依赖性注入的，上面的用法叫做 `field injection`，直接做类成员的注入。但Spring现在鼓励用构造函数来做注入，所以，我们来看看构造函数的注入方法：
+
+```java
+public class TodoController {
+
+    private TodoRepository repository;
+
+    @Autowired
+    public TodoController(TodoRepository repository){
+        this.repository = repository;
+    }
+    //省略其它部分
+}
+```
+
+当然我们为了可以让Spring知道这是一个支持REST API的 `Controller` ，还是需要标记其为 `@RestController`。由于默认的路径映射会在资源根用复数形式，由于todo是辅音后的o结尾，按英语习惯，会映射成 `todoes`。但这里用 `todos` 比 `todoes` 更舒服一些，所以我们再使用另一个 `@RequestMapping("/todos")` 来自定义路径。这个 `Controller` 中的其它方法比较简单，就是利用repository中的方法去增删改查即可。
+
+```java
+package dev.local.todo;
+
+import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/todos")
+public class TodoController {
+
+    private TodoRepository repository;
+
+    @Autowired
+    public TodoController(TodoRepository repository){
+        this.repository = repository;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Todo> getAllTodos(@RequestHeader(value = "userId") String userId) {
+        return repository.findByUserId(new ObjectId(userId));
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    Todo addTodo(@RequestBody Todo addedTodo) {
+        return repository.insert(addedTodo);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Todo getTodo(@PathVariable String id) {
+        return repository.findOne(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    Todo updateTodo(@PathVariable String id, @RequestBody Todo updatedTodo) {
+        updatedTodo.setId(id);
+        return repository.save(updatedTodo);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    Todo removeTodo(@PathVariable String id) {
+        Todo deletedTodo = repository.findOne(id);
+        repository.delete(id);
+        return deletedTodo;
+    }
+}
+
+```
+
+上面的代码中需要再说明几个要点：
+
+ 1. 为什么在类上标记 `@RequestMapping("/todos")` 后在每个方法上还需要添加 `@RequestMapping`？类上面定义的 `@RequestMapping` 的参数会默认应用于所有方法，但如果我们发现某个方法需要有自己的特殊值时，就需要定义这个方法的映射参数。比如上面例子中 `addTodo`，路径也是 `todos`，但要求 Request的方法是 `POST`，所以我们给出了 `@RequestMapping(method = RequestMethod.POST)`。但 `getTodo` 方法的路径应该是 `todos/:id`，这时我们要给出 `@RequestMapping(value = "/{id}", method = RequestMethod.GET)`
+ 2. 这些方法接受的参数也使用了各种修饰符，`@PathVariable` 表示参数是从路径中得来的，而 `@RequestBody` 表示参数应该从 Http Request的`body` 中解析，类似的 `@RequestHeader` 表示参数是 Http Request的Header中定义的。
+
+在可以测试之前，我们还需要使用 `@Repository` 来标记 `TodoRepository`，以便于Spring可以在依赖注入时可以找到这个类。
+
+```java
+package dev.local.todo;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
+/**
+ * Created by wangpeng on 2017/1/26.
+ */
+@Repository
+public interface TodoRepository extends MongoRepository<Todo, String>{
+    List<Todo> findByUserId(ObjectId userId);
+}
 
+```
+
+接下来就可以用PostMan做一下测试：
+
+![测试一下Controller][12]
+ 
+## Service呢？在哪里？
+
+熟悉Spring的童鞋肯定会问，我们刚才的做法等于直接是Controller访问Data了，隔离不够啊。其实我觉得有很多时候，这种简单设计是挺好的，因为业务还没有到达那步，过于复杂的设计其实没啥太大意义。但这里我们还是一步步来实践一下，找回大家熟悉的感觉。
+
+回到原来的熟悉模式再简单不过的，新建一个 `TodoService` 接口，定义一下目前的增删改查几个操作：
+
+```java
+public interface TodoService {
+    Todo addTodo(Todo todo);
+    Todo deleteTodo(String id);
+    List<Todo> findAll(String userId);
+    Todo findById(String id);
+    Todo update(Todo todo);
+}
+```
+
+为预防我们以后使用 `MySQL` 等潜在的 “可扩展性”，我们给这个接口的实现命名为 `MongoTodoServiceImpl`，然后把 `Controller` 中的大部分代码拿过来改改就行了。当然为了系统可以找到这个依赖并注入需要的类中，我们标记它为 `@Service`
+
+```java
+@Service
+public class MongoTodoServiceImpl implements TodoService{
+    private final TodoRepository repository;
+
+    @Autowired
+    MongoTodoServiceImpl(TodoRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public Todo addTodo(Todo todo) {
+        return repository.insert(todo);
+    }
+
+    @Override
+    public Todo deleteTodo(String id) {
+        Todo deletedTodo = repository.findOne(id);
+        repository.delete(id);
+        return deletedTodo;
+    }
+
+    @Override
+    public List<Todo> findAll(String userId) {
+        return repository.findByUserId(new ObjectId(userId));
+    }
+
+    @Override
+    public Todo findById(String id) {
+        return repository.findOne(id);
+    }
+
+    @Override
+    public Todo update(Todo todo) {
+        repository.save(todo);
+        return todo;
+    }
+}
+```
+
+最后把Controller中的所有方法改为使用Service的简单调用就大功告成了。
+
+```
+public class TodoController {
+
+    private TodoService service;
+
+    @Autowired
+    public TodoController(TodoService service){
+        this.service = service;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Todo> getAllTodos(@RequestHeader(value = "userId") String userId) {
+        return service.findAll(userId);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    Todo addTodo(@RequestBody Todo addedTodo) {
+        return service.addTodo(addedTodo);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Todo getTodo(@PathVariable String id) {
+        return service.findById(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    Todo updateTodo(@PathVariable String id, @RequestBody Todo updatedTodo) {
+        updatedTodo.setId(id);
+        return service.update(updatedTodo);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    Todo removeTodo(@PathVariable String id) {
+        return service.deleteTodo(id);
+    }
+}
+```
+
+说实话如果每个简单类都这么写，我深深地赶脚背离了Spring Boot的意图，虽然你能举出1000个理由这么做有好处。类似的，DAO或DTO要写起来也很简单，但我还是建议在业务没有复杂之前还是享受Spring Boot带给我们的便利吧。
 
   [1]: http://static.zybuluo.com/wpcfan/xx9vcwko6cnqlpcds9gkre83/image_1b783isnc14631jfr14groi5fuo1g.png
   [2]: http://static.zybuluo.com/wpcfan/de99jylqsulfydybajqnw6nc/image_1b7081mu6vke127v1ej2jhp1b1i9.png
@@ -865,3 +1074,4 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
   [9]: http://static.zybuluo.com/wpcfan/si7egzd0jh5369qe2ghzyn7y/image_1b77h6kies66199e1spn1vs0kin2a.png
   [10]: http://static.zybuluo.com/wpcfan/d7d20ngovrg3a9jzc441om19/image_1b77h90ud140r1ghc1p7qeq515542n.png
   [11]: http://static.zybuluo.com/wpcfan/xkapgi54m6944yzc5zkor2bf/image_1b77hol5adff1et81prknrn59s34.png
+  [12]: http://static.zybuluo.com/wpcfan/nxmplqhi4732w6xy6160dtjk/image_1ba756i081dkm1jbgnm91q72fctc.png

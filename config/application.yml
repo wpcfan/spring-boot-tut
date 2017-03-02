@@ -1,0 +1,4 @@
+server:
+  port: 8090
+#spring.boot.admin.url: http://localhost:8080
+logging.config: logback-spring.xml
