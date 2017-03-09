@@ -1,6 +1,7 @@
 # Server configuration
 server:
   port: 8090
+  contextPath:
 
 # Spring configuration
 spring:
@@ -26,7 +27,8 @@ jwt:
 # Logging configuration
 logging:
   level:
-    org.springframework.data: debug
-    org.springframework.security: debug
+    org.springframework:
+      data: DEBUG
+      security: DEBUG
 
 #spring.boot.admin.url: http://localhost:8080
