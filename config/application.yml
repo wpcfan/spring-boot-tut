@@ -23,6 +23,7 @@ jwt:
     authentication:
       path: auth
       refresh: refresh
+      register: "auth/register"
 
 # Logging configuration
 logging:
