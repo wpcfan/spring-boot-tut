@@ -1,15 +1,14 @@
 package dev.local.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Created by wangpeng on 2017/3/2.
- */
 @RestController
 @RequestMapping("/users")
+@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
     @Autowired
     private UserRepository repository;
@@ -40,5 +39,10 @@ public class UserController {
         User deletedUser = repository.findOne(id);
         repository.delete(id);
         return deletedUser;
+    }
+
+    @RequestMapping(value = "/",method = RequestMethod.GET)
+    public User getUserByUsername(@RequestParam(value="username") String username) {
+        return repository.findByUsername(username);
     }
 }

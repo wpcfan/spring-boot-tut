@@ -1,4 +1,32 @@
+# Server configuration
 server:
   port: 8090
+
+# Spring configuration
+spring:
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+  data.mongodb:
+    host: localhost
+    port: 27017
+    database: springboot
+
+# JWT
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  tokenHead: "Bearer "
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+
+# Logging configuration
+logging:
+  level:
+    org.springframework.data: debug
+    org.springframework.security: debug
+
 #spring.boot.admin.url: http://localhost:8080
-logging.config: logback-spring.xml
