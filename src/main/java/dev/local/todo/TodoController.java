@@ -1,15 +1,14 @@
 package dev.local.todo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Created by wangpeng on 2017/1/24.
- */
 @RestController
 @RequestMapping("/todos")
+@PreAuthorize("hasRole('USER')")
 public class TodoController {
 
     private TodoService service;
@@ -20,8 +19,8 @@ public class TodoController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Todo> getAllTodos(@RequestHeader(value = "userId") String userId) {
-        return service.findAll(userId);
+    public List<Todo> getAllTodos(@RequestHeader(value = "username") String username) {
+        return service.findAll(username);
     }
 
     @RequestMapping(method = RequestMethod.POST)

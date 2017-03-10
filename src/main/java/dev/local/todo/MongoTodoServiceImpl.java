@@ -1,14 +1,10 @@
 package dev.local.todo;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by wangpeng on 2017/3/2.
- */
 @Service
 public class MongoTodoServiceImpl implements TodoService{
     private final TodoRepository repository;
@@ -31,8 +27,8 @@ public class MongoTodoServiceImpl implements TodoService{
     }
 
     @Override
-    public List<Todo> findAll(String userId) {
-        return repository.findByUserId(new ObjectId(userId));
+    public List<Todo> findAll(String username) {
+        return repository.findByUserUsername(username);
     }
 
     @Override

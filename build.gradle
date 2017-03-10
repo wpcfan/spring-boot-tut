@@ -8,7 +8,9 @@
 // 在这个段落中你可以声明你的build脚本需要的依赖和解析下载该依赖所使用的仓储位置
 buildscript {
 	ext {
-		springBootVersion = '1.4.3.RELEASE'
+		springBootVersion = '1.5.1.RELEASE'
+		lombokVersion = '1.16.14'
+		jjwtVersion = '0.7.0'
 	}
 	repositories {
         jcenter()
@@ -50,7 +52,10 @@ targetCompatibility = 1.8
 
 // 在这个段落你可以声明你的项目的开发和测试所需的依赖类库
 dependencies {
-	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.boot:spring-boot-starter-data-rest")
 	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile("org.springframework.boot:spring-boot-starter-security")
+	compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
+	compile("org.projectlombok:lombok:${lombokVersion}")
+	testCompile("org.springframework.boot:spring-boot-starter-test")
 }
