@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User register(User userToAdd) {
         final String username = userToAdd.getUsername();
-        if(userDetailsService.loadUserByUsername(username)!=null) {
+        if(userRepository.findByUsername(username)!=null) {
             return null;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

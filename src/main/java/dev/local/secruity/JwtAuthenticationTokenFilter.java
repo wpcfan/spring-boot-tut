@@ -46,12 +46,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                // It is not compelling necessary to load the use details from the database. You could also store the information
-                // in the token and read it from it. It's up to you ;)
+                // 如果我们足够相信token中的数据，也就是我们足够相信签名token的secret的机制足够好
+                // 这种情况下，我们可以不用再查询数据库，而直接采用token中的数据
+                // 本例中，我们还是通过Spring Security的 @UserDetailsService 进行了数据查询
+                // 但简单验证的话，你可以采用直接验证token是否合法来避免昂贵的数据查询
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-                // For simple validation it is completely sufficient to just check the token integrity. You don't have to call
-                // the database compellingly. Again it's up to you ;)
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
