@@ -3,6 +3,7 @@ package dev.local.auth;
 import dev.local.secruity.JwtAuthenticationRequest;
 import dev.local.secruity.JwtAuthenticationResponse;
 import dev.local.user.User;
+import dev.local.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +20,22 @@ public class AuthController {
     @Value("${jwt.header}")
     private String tokenHeader;
 
-    @Autowired
     private AuthService authService;
+    private UserRepository userRepository;
 
-    @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(
+    @Autowired
+    public AuthController(AuthService authService, UserRepository userRepository){
+        this.authService = authService;
+        this.userRepository = userRepository;
+    }
+
+    @RequestMapping(value = "${jwt.route.authentication.login}", method = RequestMethod.POST)
+    public Auth createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException{
         final String token = authService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
+        final User user = userRepository.findByUsername(authenticationRequest.getUsername());
         // Return the token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        return new Auth(token, user);
     }
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)

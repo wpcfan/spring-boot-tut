@@ -21,7 +21,7 @@ jwt:
   tokenHead: "Bearer "
   route:
     authentication:
-      path: auth
+      login: auth
       refresh: refresh
       register: "auth/register"
 

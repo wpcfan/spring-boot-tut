@@ -1,4 +1,4 @@
-package dev.local.todo;
+package dev.local.project;
 
 import dev.local.taskgroup.TaskGroup;
 import dev.local.user.User;
@@ -6,25 +6,19 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import java.util.Date;
 import java.util.List;
 
-/**
- * Todo是一个领域对象（domain object）
- */
 @Data
-public class Todo {
+public class Project {
     @Id private String id;
+    private String name;
     private String desc;
-    private boolean completed;
-    @DBRef(lazy = true)
-    private TaskGroup group;
+    private boolean enabled;
+    private boolean archived;
     @DBRef(lazy = true)
     private User owner;
     @DBRef(lazy = true)
-    private List<User> participants;
-    private Date dueDate;
-    private Date reminder;
-    private int priority;
-    private String remark;
+    private List<User> members;
+    @DBRef(lazy = true)
+    private List<TaskGroup> groups;
 }

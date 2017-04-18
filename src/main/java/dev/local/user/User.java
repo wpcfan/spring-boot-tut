@@ -15,8 +15,8 @@ public class User {
 
     @Indexed(unique=true, direction= IndexDirection.DESCENDING, dropDups=true)
     private String username;
-
     private String password;
+    @Indexed(unique=true, direction= IndexDirection.DESCENDING, dropDups=true)
     private String email;
     private Date lastPasswordResetDate;
     private List<String> roles;

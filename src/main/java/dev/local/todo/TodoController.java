@@ -19,28 +19,28 @@ public class TodoController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Todo> getAllTodos(@RequestHeader(value = "username") String username) {
-        return service.findAll(username);
+    public List<Todo> findRelated(@RequestHeader(value = "userId") String userId) {
+        return service.findRelated(userId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    Todo addTodo(@RequestBody Todo addedTodo) {
-        return service.addTodo(addedTodo);
+    Todo add(@RequestBody Todo addedTodo) {
+        return service.add(addedTodo);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Todo getTodo(@PathVariable String id) {
+    public Todo get(@PathVariable String id) {
         return service.findById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    Todo updateTodo(@PathVariable String id, @RequestBody Todo updatedTodo) {
+    Todo update(@PathVariable String id, @RequestBody Todo updatedTodo) {
         updatedTodo.setId(id);
         return service.update(updatedTodo);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    Todo removeTodo(@PathVariable String id) {
-        return service.deleteTodo(id);
+    Todo remove(@PathVariable String id) {
+        return service.delete(id);
     }
 }
