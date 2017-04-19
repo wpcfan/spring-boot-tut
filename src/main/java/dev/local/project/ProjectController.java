@@ -1,10 +1,10 @@
 package dev.local.project;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
 
 /**
  * Created by wangpeng on 2017/4/18.
@@ -22,8 +22,12 @@ public class ProjectController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Set<Project> findRelated(@RequestHeader(value = "userId") String userId) {
-        return service.findRelated(userId);
+    public Page<Project> findRelated(
+            @RequestHeader(value = "userId") String userId,
+            @RequestParam(value = "enabled", defaultValue = "true", required = false) boolean enabled,
+            @RequestParam(value = "archived", defaultValue = "false", required = false) boolean archived,
+            Pageable pageable) {
+        return service.findRelated(userId, enabled, archived, pageable);
     }
 
     @RequestMapping(method = RequestMethod.POST)

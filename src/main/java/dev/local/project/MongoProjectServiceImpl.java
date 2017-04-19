@@ -5,25 +5,29 @@ import dev.local.taskgroup.TaskGroupRepository;
 import dev.local.user.User;
 import dev.local.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
 import static java.util.Arrays.asList;
 /**
  * Created by wangpeng on 2017/4/18.
  */
 @Service
 public class MongoProjectServiceImpl implements ProjectService {
-    private ProjectRepository repository;
+    private PagableProjectRepository pagableProjectRepository;
+    private MongoProjectRepository repository;
     private UserRepository userRepository;
     private TaskGroupRepository taskGroupRepository;
 
     @Autowired
     public MongoProjectServiceImpl(
-            ProjectRepository repository,
+            MongoProjectRepository repository,
+            PagableProjectRepository pagableProjectRepository,
             UserRepository userRepository,
             TaskGroupRepository taskGroupService){
         this.repository = repository;
+        this.pagableProjectRepository = pagableProjectRepository;
         this.userRepository = userRepository;
         this.taskGroupRepository = taskGroupService;
     }
@@ -59,9 +63,9 @@ public class MongoProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Set<Project> findRelated(String userId) {
+    public Page<Project> findRelated(String userId, boolean enabled, boolean archived, Pageable pageable) {
         final User user =  userRepository.findOne(userId);
-        return repository.findByMembersContaining(user);
+        return pagableProjectRepository.findByMembersContainingAndEnabledAndArchived(user, enabled, archived, pageable);
     }
 
     @Override
