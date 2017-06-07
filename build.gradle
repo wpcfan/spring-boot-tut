@@ -8,7 +8,7 @@
 // 在这个段落中你可以声明你的build脚本需要的依赖和解析下载该依赖所使用的仓储位置
 buildscript {
 	ext {
-		springBootVersion = '1.5.2.RELEASE'
+		springBootVersion = '1.5.3.RELEASE'
 		lombokVersion = '1.16.16'
 		jjwtVersion = '0.7.0'
 	}
