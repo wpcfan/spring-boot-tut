@@ -32,4 +32,5 @@ logging:
       data: DEBUG
       security: DEBUG
 
+
 #spring.boot.admin.url: http://localhost:8080
