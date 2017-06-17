@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 针对 JWT 的全局 Filter
+ */
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {

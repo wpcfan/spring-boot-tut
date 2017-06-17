@@ -8,10 +8,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
- * Created by wangpeng on 2017/4/19.
+ * 配置 CORS 跨域访问
  */
 @Configuration
 public class CorsConfig {
+
     @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

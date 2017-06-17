@@ -2,13 +2,8 @@
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
 <!-- 2017-06-16T11:32:49 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7ed449c5-de65-4f3d-88d2-ff48664cbeff">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<queryString>
-		<![CDATA[]]>
-	</queryString>
-	<field name="Name" class="java.lang.String">
-		<fieldDescription><![CDATA[name]]></fieldDescription>
-	</field>
+	<parameter name="title" class="java.lang.String"/>
+
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -19,7 +14,9 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="26"/>
 				</textElement>
-				<textFieldExpression><![CDATA["$F{Name}"]]></textFieldExpression>
+				<textFieldExpression>
+					<![CDATA["$P{title}"]]>
+				</textFieldExpression>
 			</textField>
 		</band>
 	</title>
