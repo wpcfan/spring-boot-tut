@@ -13,7 +13,7 @@ public class ReportController {
     @RequestMapping(path = "/pdf", method = RequestMethod.GET)
     public ModelAndView report(ModelMap modelMap, ModelAndView modelAndView) {
         modelMap.put("datasource", new JREmptyDataSource());
-        modelMap.put("title", "wang");
+        modelMap.put("title", "王芃");
         modelAndView = new ModelAndView("pdf", modelMap);
         return modelAndView;
     }

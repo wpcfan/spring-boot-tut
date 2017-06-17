@@ -14,6 +14,8 @@ buildscript {
 		jasperVersion = '6.4.0'
         poiVersion = '3.16'
         itextVersion = '2.1.7'
+        itextPdfVersion = '5.5.6'
+		itextAsianVersion = '5.2.0'
         olap4jVersion = '1.2.0'
 	}
 	repositories {
@@ -56,6 +58,7 @@ targetCompatibility = 1.8
 
 // 在这个段落你可以声明你的项目的开发和测试所需的依赖类库
 dependencies {
+    compile files("lib/iTextAsian.jar")
     compile("org.springframework:spring-context-support")
 	compile("org.springframework.boot:spring-boot-starter-data-rest")
 	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
@@ -64,6 +67,8 @@ dependencies {
 	compile("org.projectlombok:lombok:${lombokVersion}")
 	compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
     compile("com.lowagie:itext:${itextVersion}")
+//  compile("com.itextpdf:itextpdf:${itextPdfVersion}")
+//	compile("com.itextpdf:itext-asian:${itextAsianVersion}")
     compile("org.apache.poi:poi:${poiVersion}")
     compile("org.olap4j:olap4j:${olap4jVersion}")
 	testCompile("org.springframework.boot:spring-boot-starter-test")
