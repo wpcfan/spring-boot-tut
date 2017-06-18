@@ -20,7 +20,7 @@
             <textField>
                 <reportElement x="238" y="0" width="100" height="20" />
                 <textElement>
-                    <font fontName="STSong" size="16" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+                    <font fontName="simsun" size="16" />
                 </textElement>
                 <textFieldExpression class="java.lang.String">
                     <![CDATA[$P{title}]]></textFieldExpression>

@@ -12,6 +12,7 @@ buildscript {
 		lombokVersion = '1.16.16'
 		jjwtVersion = '0.7.0'
 		jasperVersion = '6.4.0'
+        jasperFontVersion = '6.0.0'
         poiVersion = '3.16'
         itextVersion = '2.1.7'
         itextPdfVersion = '5.5.6'
@@ -58,7 +59,7 @@ targetCompatibility = 1.8
 
 // 在这个段落你可以声明你的项目的开发和测试所需的依赖类库
 dependencies {
-    compile files("lib/iTextAsian.jar")
+    compile files("lib/simsun.jar")
     compile("org.springframework:spring-context-support")
 	compile("org.springframework.boot:spring-boot-starter-data-rest")
 	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
@@ -66,6 +67,7 @@ dependencies {
 	compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
 	compile("org.projectlombok:lombok:${lombokVersion}")
 	compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
+	compile("net.sf.jasperreports:jasperreports-fonts:${jasperFontVersion}")
     compile("com.lowagie:itext:${itextVersion}")
 //  compile("com.itextpdf:itextpdf:${itextPdfVersion}")
 //	compile("com.itextpdf:itext-asian:${itextAsianVersion}")

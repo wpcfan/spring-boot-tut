@@ -23,3 +23,5 @@ blog/bin/
 
 #Log file
 *.log
+
+!lib/simsun.jar
