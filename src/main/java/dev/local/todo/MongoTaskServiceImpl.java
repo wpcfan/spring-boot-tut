@@ -8,49 +8,49 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MongoTodoServiceImpl implements TodoService{
-    private final TodoRepository repository;
+public class MongoTaskServiceImpl implements TaskService {
+    private final TaskRepository repository;
     private final UserRepository userRepository;
 
     @Autowired
-    MongoTodoServiceImpl(
-            TodoRepository repository,
+    MongoTaskServiceImpl(
+            TaskRepository repository,
             UserRepository userRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
     }
 
     @Override
-    public Todo add(Todo todo) {
-        return repository.insert(todo);
+    public Task add(Task task) {
+        return repository.insert(task);
     }
 
     @Override
-    public Todo delete(String id) {
-        Todo deletedTodo = repository.findOne(id);
+    public Task delete(String id) {
+        Task deletedTask = repository.findOne(id);
         repository.delete(id);
-        return deletedTodo;
+        return deletedTask;
     }
 
     @Override
-    public List<Todo> findRelated(String userId) {
+    public List<Task> findRelated(String userId) {
         final User user = userRepository.findOne(userId);
         return repository.findByParticipantsContaining(user);
     }
 
     @Override
-    public List<Todo> findByGroupId(String groupId) {
+    public List<Task> findByGroupId(String groupId) {
         return repository.findByGroupId(groupId);
     }
 
     @Override
-    public Todo findById(String id) {
+    public Task findById(String id) {
         return repository.findOne(id);
     }
 
     @Override
-    public Todo update(Todo todo) {
-        repository.save(todo);
-        return todo;
+    public Task update(Task task) {
+        repository.save(task);
+        return task;
     }
 }

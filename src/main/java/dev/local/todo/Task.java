@@ -1,6 +1,6 @@
 package dev.local.todo;
 
-import dev.local.taskgroup.TaskGroup;
+import dev.local.tasklist.TaskList;
 import dev.local.user.User;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -13,12 +13,12 @@ import java.util.List;
  * Todo是一个领域对象（domain object）
  */
 @Data
-public class Todo {
+public class Task {
     @Id private String id;
     private String desc;
     private boolean completed;
     @DBRef(lazy = true)
-    private TaskGroup group;
+    private TaskList group;
     @DBRef(lazy = true)
     private User owner;
     @DBRef(lazy = true)

@@ -1,6 +1,6 @@
 package dev.local.project;
 
-import dev.local.taskgroup.TaskGroup;
+import dev.local.tasklist.TaskList;
 import dev.local.user.User;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -20,5 +20,5 @@ public class Project {
     @DBRef(lazy = true)
     private List<User> members;
     @DBRef(lazy = true)
-    private List<TaskGroup> groups;
+    private List<TaskList> groups;
 }

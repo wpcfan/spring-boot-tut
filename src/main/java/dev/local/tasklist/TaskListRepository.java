@@ -1,4 +1,4 @@
-package dev.local.taskgroup;
+package dev.local.tasklist;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -7,4 +7,4 @@ import org.springframework.stereotype.Repository;
  * 任务组存储
  */
 @Repository
-public interface TaskGroupRepository extends MongoRepository<TaskGroup, String> {}
+public interface TaskListRepository extends MongoRepository<TaskList, String> {}

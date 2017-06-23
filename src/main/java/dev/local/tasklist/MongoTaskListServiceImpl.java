@@ -1,52 +1,50 @@
-package dev.local.taskgroup;
+package dev.local.tasklist;
 
 import dev.local.project.Project;
 import dev.local.project.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 /**
  * Created by wangpeng on 2017/4/18.
  */
 @Service
-public class MongoTaskGroupServiceImpl implements TaskGroupService{
+public class MongoTaskListServiceImpl implements TaskListService {
 
-    private TaskGroupRepository repository;
+    private TaskListRepository repository;
     private ProjectService projectService;
 
     @Autowired
-    public MongoTaskGroupServiceImpl(
-            TaskGroupRepository repository,
+    public MongoTaskListServiceImpl(
+            TaskListRepository repository,
             ProjectService projectService){
         this.repository = repository;
         this.projectService = projectService;
     }
 
     @Override
-    public TaskGroup add(TaskGroup group, String projectId) {
+    public TaskList add(TaskList list, String projectId) {
         Project project = projectService.findById(projectId);
-        TaskGroup added = repository.insert(group);
+        TaskList added = repository.insert(list);
         project.getGroups().add(added);
         projectService.update(project);
         return added;
     }
 
     @Override
-    public TaskGroup delete(String id) {
-        final TaskGroup group = repository.findOne(id);
+    public TaskList delete(String id) {
+        final TaskList group = repository.findOne(id);
         repository.delete(id);
         return group;
     }
 
     @Override
-    public TaskGroup findById(String id) {
+    public TaskList findById(String id) {
         return repository.findOne(id);
     }
 
     @Override
-    public TaskGroup update(TaskGroup group) {
-        return repository.save(group);
+    public TaskList update(TaskList list) {
+        return repository.save(list);
     }
 }

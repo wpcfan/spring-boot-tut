@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TodoRepository extends MongoRepository<Todo, String>{
-    List<Todo> findByParticipantsContaining(User user);
-    List<Todo> findByGroupId(String id);
+public interface TaskRepository extends MongoRepository<Task, String>{
+    List<Task> findByParticipantsContaining(User user);
+    List<Task> findByGroupId(String id);
 }

@@ -1,7 +1,7 @@
 package dev.local.project;
 
-import dev.local.taskgroup.TaskGroup;
-import dev.local.taskgroup.TaskGroupRepository;
+import dev.local.tasklist.TaskList;
+import dev.local.tasklist.TaskListRepository;
 import dev.local.user.User;
 import dev.local.user.UserRepository;
 import org.bson.types.ObjectId;
@@ -18,13 +18,13 @@ import static java.util.Arrays.asList;
 public class MongoProjectServiceImpl implements ProjectService {
     final MongoProjectRepository repository;
     final UserRepository userRepository;
-    final TaskGroupRepository taskGroupRepository;
+    final TaskListRepository taskGroupRepository;
 
     @Autowired
     public MongoProjectServiceImpl(
             MongoProjectRepository repository,
             UserRepository userRepository,
-            TaskGroupRepository taskGroupService){
+            TaskListRepository taskGroupService){
         this.repository = repository;
         this.userRepository = userRepository;
         this.taskGroupRepository = taskGroupService;
@@ -37,13 +37,13 @@ public class MongoProjectServiceImpl implements ProjectService {
         project.setMembers(asList(user));
         project.setEnabled(true);
         project.setArchived(false);
-        TaskGroup plan = new TaskGroup();
+        TaskList plan = new TaskList();
         plan.setName("计划");
         plan.setOrder(0);
-        TaskGroup inProgress = new TaskGroup();
+        TaskList inProgress = new TaskList();
         inProgress.setName("进行中");
         inProgress.setOrder(1);
-        TaskGroup done = new TaskGroup();
+        TaskList done = new TaskList();
         done.setName("已完成");
         done.setOrder(2);
         project.setGroups(asList(

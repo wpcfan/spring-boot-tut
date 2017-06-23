@@ -7,40 +7,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/todos")
+@RequestMapping("/tasks")
 @PreAuthorize("hasRole('USER')")
-public class TodoController {
+public class TaskController {
 
-    private TodoService service;
+    private TaskService service;
 
     @Autowired
-    public TodoController(TodoService service){
+    public TaskController(TaskService service){
         this.service = service;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Todo> findRelated(@RequestHeader(value = "userId") String userId) {
+    public List<Task> findRelated(@RequestHeader(value = "userId") String userId) {
         return service.findRelated(userId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    Todo add(@RequestBody Todo addedTodo) {
-        return service.add(addedTodo);
+    Task add(@RequestBody Task addedTask) {
+        return service.add(addedTask);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Todo get(@PathVariable String id) {
+    public Task get(@PathVariable String id) {
         return service.findById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    Todo update(@PathVariable String id, @RequestBody Todo updatedTodo) {
-        updatedTodo.setId(id);
-        return service.update(updatedTodo);
+    Task update(@PathVariable String id, @RequestBody Task updatedTask) {
+        updatedTask.setId(id);
+        return service.update(updatedTask);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    Todo remove(@PathVariable String id) {
+    Task remove(@PathVariable String id) {
         return service.delete(id);
     }
 }
