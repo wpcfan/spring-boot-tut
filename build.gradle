@@ -25,6 +25,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        compile("org.springframework.boot:spring-boot-devtools")
         classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
@@ -39,6 +40,10 @@ apply plugin: 'java'
 apply plugin: 'idea' 
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'docker'
+
+// docker 的 group
+group = 'wpcfan'
 
 // 在这个段落中你可以声明编译后的Jar文件信息
 jar {
@@ -73,10 +78,8 @@ dependencies {
     compile("org.olap4j:olap4j:${olap4jVersion}")
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 }
-group = 'wpcfan'
 
-apply plugin: 'docker'
-
+// 建立 docker image
 task buildDocker(type: Docker, dependsOn: build) {
     baseImage = 'frolvlad/alpine-oraclejdk8:slim'
     tag = 'wpcfan/taskmgr-backend'
@@ -86,6 +89,12 @@ task buildDocker(type: Docker, dependsOn: build) {
         from jar
         rename {'app.jar'}
     }
-    entryPoint(['java', '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr', '-Djava.security.egd=file:/dev/./urandom', '-jar', '/app.jar'])
+    entryPoint([
+            'java',
+            '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr',
+            '-Djava.security.egd=file:/dev/./urandom',
+            '-jar',
+            '/app.jar'
+    ])
     exposePort(8090)
 }

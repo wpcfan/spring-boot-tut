@@ -5,6 +5,9 @@ server:
 
 # Spring configuration
 spring:
+  devtools:
+    remote:
+      secret: thisismysecret
   jackson:
     serialization:
       INDENT_OUTPUT: true
@@ -28,6 +31,5 @@ logging:
     org.springframework:
       data: DEBUG
       security: DEBUG
-
 
 #spring.boot.admin.url: http://localhost:8080
