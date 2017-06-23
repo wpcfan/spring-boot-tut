@@ -8,10 +8,7 @@ spring:
   jackson:
     serialization:
       INDENT_OUTPUT: true
-  data.mongodb:
-    host: localhost
-    port: 27017
-    database: springboot
+
 
 # JWT
 jwt:

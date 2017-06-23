@@ -25,6 +25,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
 /*
@@ -41,7 +42,7 @@ apply plugin: 'org.springframework.boot'
 
 // 在这个段落中你可以声明编译后的Jar文件信息
 jar {
-	baseName = 'todo'
+	baseName = 'taskmgr-backend'
 	version = '0.0.1-SNAPSHOT'
 }
 
@@ -67,11 +68,24 @@ dependencies {
 	compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
 	compile("org.projectlombok:lombok:${lombokVersion}")
 	compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
-	compile("net.sf.jasperreports:jasperreports-fonts:${jasperFontVersion}")
     compile("com.lowagie:itext:${itextVersion}")
-//  compile("com.itextpdf:itextpdf:${itextPdfVersion}")
-//	compile("com.itextpdf:itext-asian:${itextAsianVersion}")
     compile("org.apache.poi:poi:${poiVersion}")
     compile("org.olap4j:olap4j:${olap4jVersion}")
 	testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+group = 'wpcfan'
+
+apply plugin: 'docker'
+
+task buildDocker(type: Docker, dependsOn: build) {
+    baseImage = 'frolvlad/alpine-oraclejdk8:slim'
+    tag = 'wpcfan/taskmgr-backend'
+    push = true
+    applicationName = jar.baseName
+    addFile {
+        from jar
+        rename {'app.jar'}
+    }
+    entryPoint(['java', '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr', '-Djava.security.egd=file:/dev/./urandom', '-jar', '/app.jar'])
+    exposePort(8090)
 }

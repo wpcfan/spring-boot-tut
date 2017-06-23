@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Spring Boot 应用的入口文件
- * Created by wangpeng on 2017/1/24.
+ * @Author Peng Wang
  */
 @SpringBootApplication
 public class Application {
