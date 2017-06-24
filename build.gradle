@@ -50,6 +50,10 @@ jar {
 	version = '0.0.1-SNAPSHOT'
 }
 
+bootRepackage {
+    mainClass = 'dev.local.Application'
+}
+
 // 在这个段落中你可以声明在哪里可以找到你的项目依赖
 repositories {
     // 使用 'jcenter' 作为中心仓储查询解析你的项目依赖。
@@ -85,7 +89,7 @@ task buildDocker(type: Docker, dependsOn: build) {
     push = false
     applicationName = jar.baseName
     addFile {
-        from jar
+        from "build/libs/$applicationName-$jar.version" + ".jar"
         rename {'app.jar'}
     }
     entryPoint([
