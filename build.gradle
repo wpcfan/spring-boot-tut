@@ -25,7 +25,6 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        compile("org.springframework.boot:spring-boot-devtools")
         classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
@@ -66,7 +65,7 @@ targetCompatibility = 1.8
 // 在这个段落你可以声明你的项目的开发和测试所需的依赖类库
 dependencies {
     compile files("lib/simsun.jar")
-    compile("org.springframework:spring-context-support")
+    compile("org.springframework.boot:spring-boot-devtools")
 	compile("org.springframework.boot:spring-boot-starter-data-rest")
 	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
 	compile("org.springframework.boot:spring-boot-starter-security")
@@ -83,7 +82,7 @@ dependencies {
 task buildDocker(type: Docker, dependsOn: build) {
     baseImage = 'frolvlad/alpine-oraclejdk8:slim'
     tag = 'wpcfan/taskmgr-backend'
-    push = true
+    push = false
     applicationName = jar.baseName
     addFile {
         from jar
@@ -91,6 +90,7 @@ task buildDocker(type: Docker, dependsOn: build) {
     }
     entryPoint([
             'java',
+            '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
             '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr',
             '-Djava.security.egd=file:/dev/./urandom',
             '-jar',
