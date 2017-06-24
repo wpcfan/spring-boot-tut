@@ -12,7 +12,6 @@ spring:
     serialization:
       INDENT_OUTPUT: true
 
-
 # JWT
 jwt:
   header: Authorization
