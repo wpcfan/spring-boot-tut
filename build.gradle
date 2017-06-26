@@ -9,14 +9,12 @@
 buildscript {
 	ext {
 		springBootVersion = '1.5.4.RELEASE'
+        springCtxSupportVersion = '4.2.0.RELEASE'
 		lombokVersion = '1.16.16'
 		jjwtVersion = '0.7.0'
 		jasperVersion = '6.4.0'
-        jasperFontVersion = '6.0.0'
         poiVersion = '3.16'
         itextVersion = '2.1.7'
-        itextPdfVersion = '5.5.6'
-		itextAsianVersion = '5.2.0'
         olap4jVersion = '1.2.0'
 	}
 	repositories {
@@ -68,14 +66,16 @@ targetCompatibility = 1.8
 
 // 在这个段落你可以声明你的项目的开发和测试所需的依赖类库
 dependencies {
-    compile files("lib/simsun.jar", "lib/fzlt.jar")
+    compile files("lib/simsun.jar")
     compile("org.springframework.boot:spring-boot-devtools")
-	compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
 	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
 	compile("org.springframework.boot:spring-boot-starter-security")
 	compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
 	compile("org.projectlombok:lombok:${lombokVersion}")
-	compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
+    // the following 5 are required by jasperreport rendering
+    compile("org.springframework:spring-context-support:${springCtxSupportVersion}")
+    compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
     compile("com.lowagie:itext:${itextVersion}")
     compile("org.apache.poi:poi:${poiVersion}")
     compile("org.olap4j:olap4j:${olap4jVersion}")
