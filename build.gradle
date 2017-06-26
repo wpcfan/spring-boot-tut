@@ -68,7 +68,7 @@ targetCompatibility = 1.8
 
 // 在这个段落你可以声明你的项目的开发和测试所需的依赖类库
 dependencies {
-    compile files("lib/simsun.jar")
+    compile files("lib/simsun.jar", "lib/fzlt.jar")
     compile("org.springframework.boot:spring-boot-devtools")
 	compile("org.springframework.boot:spring-boot-starter-data-rest")
 	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
