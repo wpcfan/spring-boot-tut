@@ -1,0 +1,33 @@
+// 在这个段落中你可以声明编译后的Jar文件信息
+jar {
+    baseName = 'taskmgr-report'
+    version = '0.0.1-SNAPSHOT'
+}
+
+bootRepackage {
+    mainClass = 'dev.local.Application'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// 建立 docker image
+task buildDocker(type: Docker, dependsOn: build) {
+    baseImage = 'frolvlad/alpine-oraclejdk8:slim'
+    tag = 'wpcfan/taskmgr-report'
+    push = false
+    applicationName = jar.baseName
+    addFile {
+        from "build/libs/$applicationName-$jar.version" + ".jar"
+        rename {'app.jar'}
+    }
+    entryPoint([
+            'java',
+            '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
+            '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr',
+            '-Djava.security.egd=file:/dev/./urandom',
+            '-jar',
+            '/app.jar'
+    ])
+    exposePort(8090)
+}

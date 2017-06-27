@@ -1,104 +1,71 @@
-/*
- * 这个build文件是由Gradle的 `init` 任务生成的。
- *
- * 更多关于在Gradle中构建Java项目的信息可以查看Gradle用户文档中的
- * Java项目快速启动章节
- * https://docs.gradle.org/3.3/userguide/tutorial_java_projects.html
- */
-// 在这个段落中你可以声明你的build脚本需要的依赖和解析下载该依赖所使用的仓储位置
 buildscript {
-	ext {
-		springBootVersion = '1.5.4.RELEASE'
+    ext {
+        springBootVersion = '1.5.4.RELEASE'
         springCtxSupportVersion = '4.2.0.RELEASE'
-		lombokVersion = '1.16.16'
-		jjwtVersion = '0.7.0'
-		jasperVersion = '6.4.0'
+        lombokVersion = '1.16.16'
+        jjwtVersion = '0.7.0'
+        jasperVersion = '6.4.0'
         poiVersion = '3.16'
         itextVersion = '2.1.7'
         olap4jVersion = '1.2.0'
-	}
-	repositories {
-        jcenter()
-//        maven {url "http://maven.aliyun.com/nexus/content/repositories/central/"}
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath('se.transmode.gradle:gradle-docker:1.2')
-	}
-}
-/*
- * 在这个段落中你可以声明使用哪些插件
- * apply plugin: 'java' 代表这是一个Java项目，需要使用java插件
- * 如果想生成一个 `Intellij IDEA` 的工程，类似的如果要生成 
- * eclipse工程，就写 apply plugin: 'eclipse'
- * 同样的我们要学的是Spring Boot，所以应用Spring Boot插件
- */
-apply plugin: 'java' 
-apply plugin: 'idea' 
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'docker'
-
-// docker 的 group
-group = 'wpcfan'
-
-// 在这个段落中你可以声明编译后的Jar文件信息
-jar {
-	baseName = 'taskmgr-backend'
-	version = '0.0.1-SNAPSHOT'
-}
-
-bootRepackage {
-    mainClass = 'dev.local.Application'
-}
-
-// 在这个段落中你可以声明在哪里可以找到你的项目依赖
-repositories {
-    // 使用 'jcenter' 作为中心仓储查询解析你的项目依赖。
-    // 你可以声明任何 Maven/Ivy/file 类型的依赖类库仓储位置
-    jcenter()
-//    maven {url "http://maven.aliyun.com/nexus/content/repositories/central/"}
-}
-
-// 在这个段落中你可以声明源文件和目标编译后的Java版本兼容性
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-// 在这个段落你可以声明你的项目的开发和测试所需的依赖类库
-dependencies {
-    compile files("lib/simsun.jar")
-    compile("org.springframework.boot:spring-boot-devtools")
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
-	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-	compile("org.springframework.boot:spring-boot-starter-security")
-	compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
-	compile("org.projectlombok:lombok:${lombokVersion}")
-    // the following 5 are required by jasperreport rendering
-    compile("org.springframework:spring-context-support:${springCtxSupportVersion}")
-    compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
-    compile("com.lowagie:itext:${itextVersion}")
-    compile("org.apache.poi:poi:${poiVersion}")
-    compile("org.olap4j:olap4j:${olap4jVersion}")
-	testCompile("org.springframework.boot:spring-boot-starter-test")
-}
-
-// 建立 docker image
-task buildDocker(type: Docker, dependsOn: build) {
-    baseImage = 'frolvlad/alpine-oraclejdk8:slim'
-    tag = 'wpcfan/taskmgr-backend'
-    push = false
-    applicationName = jar.baseName
-    addFile {
-        from "build/libs/$applicationName-$jar.version" + ".jar"
-        rename {'app.jar'}
+        gradleDockerVersion = '1.2'
     }
-    entryPoint([
-            'java',
-            '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
-            '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr',
-            '-Djava.security.egd=file:/dev/./urandom',
-            '-jar',
-            '/app.jar'
-    ])
-    exposePort(8090)
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("se.transmode.gradle:gradle-docker:${gradleDockerVersion}")
+    }
+}
+
+allprojects {
+    // docker 的 group
+    group = 'wpcfan'
+    version = "0.0.1"
+    repositories() {
+        jcenter()
+    }
+}
+
+subprojects {
+    /*
+     * 在这个段落中你可以声明使用哪些插件
+     * apply plugin: 'java' 代表这是一个Java项目，需要使用java插件
+     * 如果想生成一个 `Intellij IDEA` 的工程，类似的如果要生成
+     * eclipse工程，就写 apply plugin: 'eclipse'
+     * 同样的我们要学的是Spring Boot，所以应用Spring Boot插件
+     */
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'docker'
+    dependencies {
+        compile("org.springframework.boot:spring-boot-devtools")
+        testCompile("org.springframework.boot:spring-boot-starter-test")
+    }
+}
+
+project(':api') {
+    dependencies {
+        compile("org.springframework.boot:spring-boot-starter-data-rest")
+        compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+        compile("org.springframework.boot:spring-boot-starter-security")
+        compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
+        compile("org.projectlombok:lombok:${lombokVersion}")
+    }
+}
+
+project(':report') {
+    dependencies {
+        // the following 5 are required by jasperreport rendering
+        compile files(["lib/simsun.jar"])
+        compile("org.springframework.boot:spring-boot-starter-web")
+        compile("org.springframework:spring-context-support:${springCtxSupportVersion}")
+        compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
+        compile("com.lowagie:itext:${itextVersion}")
+        compile("org.apache.poi:poi:${poiVersion}")
+        compile("org.olap4j:olap4j:${olap4jVersion}")
+    }
 }
