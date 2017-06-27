@@ -39,7 +39,7 @@ public class MongoTaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> findByGroupId(String groupId) {
+    public List<Task> findByListId(String groupId) {
         return repository.findByGroupId(groupId);
     }
 
