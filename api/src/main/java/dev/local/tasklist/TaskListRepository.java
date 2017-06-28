@@ -1,5 +1,6 @@
 package dev.local.tasklist;
 
+import dev.local.domain.TaskList;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

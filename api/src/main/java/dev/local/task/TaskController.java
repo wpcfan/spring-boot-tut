@@ -1,5 +1,6 @@
-package dev.local.todo;
+package dev.local.task;
 
+import dev.local.domain.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

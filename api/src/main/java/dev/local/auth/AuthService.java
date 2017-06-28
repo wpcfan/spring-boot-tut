@@ -1,6 +1,6 @@
 package dev.local.auth;
 
-import dev.local.user.User;
+import dev.local.domain.User;
 
 public interface AuthService {
     User register(User userToAdd);

@@ -1,8 +1,9 @@
 package dev.local.project;
 
-import dev.local.tasklist.TaskList;
+import dev.local.domain.Project;
+import dev.local.domain.TaskList;
 import dev.local.tasklist.TaskListRepository;
-import dev.local.user.User;
+import dev.local.domain.User;
 import dev.local.user.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;

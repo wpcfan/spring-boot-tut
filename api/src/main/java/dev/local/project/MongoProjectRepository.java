@@ -1,5 +1,6 @@
 package dev.local.project;
 
+import dev.local.domain.Project;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,0 +1,4 @@
+jar {
+    baseName = 'taskmgr-common'
+    version = '0.0.1-SNAPSHOT'
+}

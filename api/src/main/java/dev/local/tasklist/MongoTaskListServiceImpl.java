@@ -1,6 +1,7 @@
 package dev.local.tasklist;
 
-import dev.local.project.Project;
+import dev.local.domain.Project;
+import dev.local.domain.TaskList;
 import dev.local.project.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

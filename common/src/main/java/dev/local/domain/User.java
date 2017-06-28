@@ -1,4 +1,4 @@
-package dev.local.user;
+package dev.local.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

@@ -1,5 +1,6 @@
 package dev.local.user;
 
+import dev.local.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;

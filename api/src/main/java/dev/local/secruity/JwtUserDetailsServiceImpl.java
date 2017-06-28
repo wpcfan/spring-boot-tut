@@ -1,6 +1,6 @@
 package dev.local.secruity;
 
-import dev.local.user.User;
+import dev.local.domain.User;
 import dev.local.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

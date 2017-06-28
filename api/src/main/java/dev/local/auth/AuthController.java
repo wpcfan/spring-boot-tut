@@ -2,7 +2,7 @@ package dev.local.auth;
 
 import dev.local.secruity.JwtAuthenticationRequest;
 import dev.local.secruity.JwtAuthenticationResponse;
-import dev.local.user.User;
+import dev.local.domain.User;
 import dev.local.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

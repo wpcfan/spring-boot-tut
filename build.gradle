@@ -18,6 +18,7 @@ buildscript {
         classpath("se.transmode.gradle:gradle-docker:${gradleDockerVersion}")
     }
 }
+plugins { id "io.spring.dependency-management" version "1.0.0.RELEASE" }
 
 allprojects {
     // docker 的 group
@@ -38,17 +39,29 @@ subprojects {
      */
     apply plugin: 'java'
     apply plugin: 'idea'
-    apply plugin: 'eclipse'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'docker'
     dependencies {
-        compile("org.springframework.boot:spring-boot-devtools")
         testCompile("org.springframework.boot:spring-boot-starter-test")
     }
 }
 
-project(':api') {
+project(':common') {
+    apply plugin: 'io.spring.dependency-management'
     dependencies {
+        compile("org.springframework.boot:spring-boot-starter-data-rest")
+        compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+        compile("org.projectlombok:lombok:${lombokVersion}")
+    }
+    dependencyManagement {
+        imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+    }
+}
+
+project(':api') {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'docker'
+    dependencies {
+        compile project(':common')
+        compile("org.springframework.boot:spring-boot-devtools")
         compile("org.springframework.boot:spring-boot-starter-data-rest")
         compile("org.springframework.boot:spring-boot-starter-data-mongodb")
         compile("org.springframework.boot:spring-boot-starter-security")
@@ -58,7 +71,11 @@ project(':api') {
 }
 
 project(':report') {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'docker'
     dependencies {
+        compile project(':common')
+        compile("org.springframework.boot:spring-boot-devtools")
         // the following 5 are required by jasperreport rendering
         compile files(["lib/simsun.jar"])
         compile("org.springframework.boot:spring-boot-starter-web")

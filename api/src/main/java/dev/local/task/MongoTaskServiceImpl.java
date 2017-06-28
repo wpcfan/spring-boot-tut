@@ -1,6 +1,7 @@
-package dev.local.todo;
+package dev.local.task;
 
-import dev.local.user.User;
+import dev.local.domain.Task;
+import dev.local.domain.User;
 import dev.local.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

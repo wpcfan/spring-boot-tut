@@ -1,5 +1,6 @@
 package dev.local.project;
 
+import dev.local.domain.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,6 +1,7 @@
-package dev.local.todo;
+package dev.local.task;
 
-import dev.local.user.User;
+import dev.local.domain.Task;
+import dev.local.domain.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,5 @@
-package dev.local.project;
+package dev.local.domain;
 
-import dev.local.tasklist.TaskList;
-import dev.local.user.User;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;

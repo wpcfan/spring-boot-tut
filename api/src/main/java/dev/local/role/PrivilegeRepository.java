@@ -1,5 +1,6 @@
 package dev.local.role;
 
+import dev.local.domain.Privilege;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

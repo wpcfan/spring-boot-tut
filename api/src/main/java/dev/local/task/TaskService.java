@@ -1,4 +1,6 @@
-package dev.local.todo;
+package dev.local.task;
+
+import dev.local.domain.Task;
 
 import java.util.List;
 

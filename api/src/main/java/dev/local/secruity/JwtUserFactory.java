@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-import dev.local.user.User;
+import dev.local.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

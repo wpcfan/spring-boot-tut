@@ -8,6 +8,7 @@
  * in the user guide at https://docs.gradle.org/3.3/userguide/multi_project_builds.html
  */
 
+include 'common'
 include 'api'
 include 'report'
 
