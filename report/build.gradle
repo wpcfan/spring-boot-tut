@@ -1,16 +1,23 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'docker'
+
 // 在这个段落中你可以声明编译后的Jar文件信息
 jar {
     baseName = 'taskmgr-report'
-    version = '0.0.1-SNAPSHOT'
 }
 
-bootRepackage {
-    mainClass = 'dev.local.Application'
+dependencies {
+    compile project(':common')
+    compile("org.springframework.boot:spring-boot-devtools")
+    // the following 5 are required by jasperreport rendering
+    compile files(["lib/simsun.jar"])
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework:spring-context-support:${springCtxSupportVersion}")
+    compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
+    compile("com.lowagie:itext:${itextVersion}")
+    compile("org.apache.poi:poi:${poiVersion}")
+    compile("org.olap4j:olap4j:${olap4jVersion}")
 }
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 // 建立 docker image
 task buildDocker(type: Docker, dependsOn: build) {
     baseImage = 'frolvlad/alpine-oraclejdk8:slim'

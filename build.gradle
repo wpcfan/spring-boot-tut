@@ -30,55 +30,24 @@ allprojects {
 }
 
 subprojects {
-    /*
-     * 在这个段落中你可以声明使用哪些插件
-     * apply plugin: 'java' 代表这是一个Java项目，需要使用java插件
-     * 如果想生成一个 `Intellij IDEA` 的工程，类似的如果要生成
-     * eclipse工程，就写 apply plugin: 'eclipse'
-     * 同样的我们要学的是Spring Boot，所以应用Spring Boot插件
-     */
     apply plugin: 'java'
     apply plugin: 'idea'
-    version = "0.0.1"
+    version = "0.0.1-SNAPSHOT"
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
     dependencies {
         testCompile("org.springframework.boot:spring-boot-starter-test")
     }
 }
 
-project(':common') {
-    apply plugin: 'io.spring.dependency-management'
-    dependencies {
-        compile("org.springframework.boot:spring-boot-starter-data-rest")
-        compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-        compile("org.projectlombok:lombok:${lombokVersion}")
-    }
-}
-
-project(':api') {
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'docker'
-    dependencies {
-        compile project(':common')
-        compile("org.springframework.boot:spring-boot-devtools")
-        compile("org.springframework.boot:spring-boot-starter-security")
-        compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
-        compile("org.projectlombok:lombok:${lombokVersion}")
-    }
-}
-
-project(':report') {
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'docker'
-    dependencies {
-        compile project(':common')
-        compile("org.springframework.boot:spring-boot-devtools")
-        // the following 5 are required by jasperreport rendering
-        compile files(["lib/simsun.jar"])
-        compile("org.springframework.boot:spring-boot-starter-web")
-        compile("org.springframework:spring-context-support:${springCtxSupportVersion}")
-        compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
-        compile("com.lowagie:itext:${itextVersion}")
-        compile("org.apache.poi:poi:${poiVersion}")
-        compile("org.olap4j:olap4j:${olap4jVersion}")
-    }
-}
+//project(':common') {
+//
+//}
+//
+//project(':api') {
+//
+//}
+//
+//project(':report') {
+//
+//}
