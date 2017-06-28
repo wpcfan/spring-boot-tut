@@ -1,20 +1,21 @@
-package dev.local.task;
+package dev.local.services;
 
 import dev.local.domain.Task;
 import dev.local.domain.User;
-import dev.local.user.UserRepository;
+import dev.local.repositories.TaskRepository;
+import dev.local.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MongoTaskServiceImpl implements TaskService {
+public class TaskServiceImpl implements TaskService {
     private final TaskRepository repository;
     private final UserRepository userRepository;
 
     @Autowired
-    MongoTaskServiceImpl(
+    TaskServiceImpl(
             TaskRepository repository,
             UserRepository userRepository) {
         this.repository = repository;

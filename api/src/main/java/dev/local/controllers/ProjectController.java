@@ -1,6 +1,7 @@
-package dev.local.project;
+package dev.local.controllers;
 
 import dev.local.domain.Project;
+import dev.local.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

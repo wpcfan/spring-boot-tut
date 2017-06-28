@@ -1,4 +1,4 @@
-package dev.local.user;
+package dev.local.repositories;
 
 import dev.local.domain.User;
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -1,8 +1,8 @@
-package dev.local.tasklist;
+package dev.local.services;
 
 import dev.local.domain.Project;
 import dev.local.domain.TaskList;
-import dev.local.project.ProjectService;
+import dev.local.repositories.TaskListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
  * Created by wangpeng on 2017/4/18.
  */
 @Service
-public class MongoTaskListServiceImpl implements TaskListService {
+public class TaskListServiceImpl implements TaskListService {
 
     private TaskListRepository repository;
     private ProjectService projectService;
 
     @Autowired
-    public MongoTaskListServiceImpl(
+    public TaskListServiceImpl(
             TaskListRepository repository,
             ProjectService projectService){
         this.repository = repository;

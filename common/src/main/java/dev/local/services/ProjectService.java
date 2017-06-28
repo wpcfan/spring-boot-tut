@@ -1,4 +1,4 @@
-package dev.local.project;
+package dev.local.services;
 
 import dev.local.domain.Project;
 import org.springframework.data.domain.Page;

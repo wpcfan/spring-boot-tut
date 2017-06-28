@@ -579,10 +579,7 @@ public class SimpleMongoRepository<T, ID extends Serializable> implements MongoR
 		this.mongoOperations = mongoOperations;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.CrudRepository#save(java.lang.Object)
-	 */
+	repositories
 	public <S extends T> S save(S entity) {
 
 		Assert.notNull(entity, "Entity must not be null!");

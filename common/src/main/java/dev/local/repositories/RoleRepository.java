@@ -1,4 +1,4 @@
-package dev.local.role;
+package dev.local.repositories;
 
 import dev.local.domain.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;

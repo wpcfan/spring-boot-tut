@@ -1,4 +1,4 @@
-package dev.local.task;
+package dev.local.services;
 
 import dev.local.domain.Task;
 

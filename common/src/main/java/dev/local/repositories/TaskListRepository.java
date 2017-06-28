@@ -1,4 +1,4 @@
-package dev.local.tasklist;
+package dev.local.repositories;
 
 import dev.local.domain.TaskList;
 import org.springframework.data.mongodb.repository.MongoRepository;

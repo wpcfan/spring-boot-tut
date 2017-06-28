@@ -1,10 +1,11 @@
-package dev.local.project;
+package dev.local.services;
 
 import dev.local.domain.Project;
 import dev.local.domain.TaskList;
-import dev.local.tasklist.TaskListRepository;
 import dev.local.domain.User;
-import dev.local.user.UserRepository;
+import dev.local.repositories.ProjectRepository;
+import dev.local.repositories.TaskListRepository;
+import dev.local.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,18 +13,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static java.util.Arrays.asList;
+
 /**
  * Created by wangpeng on 2017/4/18.
  */
 @Service
-public class MongoProjectServiceImpl implements ProjectService {
-    final MongoProjectRepository repository;
+public class ProjectServiceImpl implements ProjectService {
+    final ProjectRepository repository;
     final UserRepository userRepository;
     final TaskListRepository taskGroupRepository;
 
     @Autowired
-    public MongoProjectServiceImpl(
-            MongoProjectRepository repository,
+    public ProjectServiceImpl(
+            ProjectRepository repository,
             UserRepository userRepository,
             TaskListRepository taskGroupService){
         this.repository = repository;

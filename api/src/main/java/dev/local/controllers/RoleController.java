@@ -1,6 +1,7 @@
-package dev.local.role;
+package dev.local.controllers;
 
 import dev.local.domain.Role;
+import dev.local.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package dev.local.task;
+package dev.local.repositories;
 
 import dev.local.domain.Task;
 import dev.local.domain.User;
