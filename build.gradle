@@ -9,6 +9,7 @@ buildscript {
         itextVersion = '2.1.7'
         olap4jVersion = '1.2.0'
         gradleDockerVersion = '1.2'
+        gradleDMVersion = '1.0.3.RELEASE'
     }
     repositories {
         jcenter()
@@ -16,14 +17,13 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("se.transmode.gradle:gradle-docker:${gradleDockerVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:${gradleDMVersion}")
     }
 }
-plugins { id "io.spring.dependency-management" version "1.0.0.RELEASE" }
 
 allprojects {
     // docker 的 group
     group = 'wpcfan'
-    version = "0.0.1"
     repositories() {
         jcenter()
     }
@@ -39,6 +39,7 @@ subprojects {
      */
     apply plugin: 'java'
     apply plugin: 'idea'
+    version = "0.0.1"
     dependencies {
         testCompile("org.springframework.boot:spring-boot-starter-test")
     }
@@ -51,9 +52,6 @@ project(':common') {
         compile("org.springframework.boot:spring-boot-starter-data-mongodb")
         compile("org.projectlombok:lombok:${lombokVersion}")
     }
-    dependencyManagement {
-        imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
-    }
 }
 
 project(':api') {
@@ -62,8 +60,6 @@ project(':api') {
     dependencies {
         compile project(':common')
         compile("org.springframework.boot:spring-boot-devtools")
-        compile("org.springframework.boot:spring-boot-starter-data-rest")
-        compile("org.springframework.boot:spring-boot-starter-data-mongodb")
         compile("org.springframework.boot:spring-boot-starter-security")
         compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
         compile("org.projectlombok:lombok:${lombokVersion}")

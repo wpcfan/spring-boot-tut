@@ -2,3 +2,7 @@ jar {
     baseName = 'taskmgr-common'
     version = '0.0.1-SNAPSHOT'
 }
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
