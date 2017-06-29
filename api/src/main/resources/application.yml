@@ -11,6 +11,8 @@ spring:
   jackson:
     serialization:
       INDENT_OUTPUT: true
+  data.mongodb:
+      database: springboot
 
 # JWT
 jwt:
