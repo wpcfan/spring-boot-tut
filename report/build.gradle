@@ -26,7 +26,7 @@ task buildDocker(type: Docker, dependsOn: build) {
     applicationName = jar.baseName
     addFile {
         from "build/libs/$applicationName-$jar.version" + ".jar"
-        rename {'app.jar'}
+        rename {'report.jar'}
     }
     entryPoint([
             'java',
@@ -34,7 +34,7 @@ task buildDocker(type: Docker, dependsOn: build) {
             '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr',
             '-Djava.security.egd=file:/dev/./urandom',
             '-jar',
-            '/app.jar'
+            '/report.jar'
     ])
     exposePort(8090)
 }

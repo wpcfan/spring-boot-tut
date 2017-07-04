@@ -3,34 +3,35 @@ apply plugin: 'docker'
 
 // 在这个段落中你可以声明编译后的Jar文件信息
 jar {
-    baseName = 'taskmgr-api'
+    baseName = 'taskmgr-scheduled'
 }
 
 dependencies {
-    compile project(':common')
     compile("org.springframework.boot:spring-boot-devtools")
-    compile("org.springframework.boot:spring-boot-starter-security")
-    compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
-    compile("org.projectlombok:lombok:${lombokVersion}")
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa") {
+        exclude module: 'org.apache.tomcat:tomcat-jdbc'
+    }
+    compile("cn.easyproject:ojdbc7:${oracleVersion}")
+    compile("com.h2database:h2:${h2Version}")
 }
 
 // 建立 docker image
 task buildDocker(type: Docker, dependsOn: build) {
     baseImage = 'frolvlad/alpine-oraclejdk8:slim'
-    tag = 'wpcfan/taskmgr-api'
+    tag = 'wpcfan/taskmgr-scheduled'
     push = false
     applicationName = jar.baseName
     addFile {
         from "build/libs/$applicationName-$jar.version" + ".jar"
-        rename {'api.jar'}
+        rename {'scheduled.jar'}
     }
     entryPoint([
             'java',
             '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
-            '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr',
             '-Djava.security.egd=file:/dev/./urandom',
             '-jar',
-            '/api.jar'
+            '/scheduled.jar'
     ])
-    exposePort(8090)
+    exposePort(8092)
 }

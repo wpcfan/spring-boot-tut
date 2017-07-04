@@ -10,6 +10,8 @@ buildscript {
         olap4jVersion = '1.2.0'
         gradleDockerVersion = '1.2'
         gradleDMVersion = '1.0.3.RELEASE'
+        oracleVersion =  '12.1.0.2.0'
+        h2Version = '1.4.196'
     }
     repositories {
         jcenter()

@@ -11,5 +11,6 @@
 include 'common'
 include 'api'
 include 'report'
+include 'scheduled'
 
 rootProject.name = 'spring-boot-tut'
