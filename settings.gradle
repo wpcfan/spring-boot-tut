@@ -12,5 +12,6 @@ include 'common'
 include 'api'
 include 'report'
 include 'scheduled'
+include 'websocket'
 
 rootProject.name = 'spring-boot-tut'
