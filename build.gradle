@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.4.RELEASE'
-        springCtxSupportVersion = '4.2.0.RELEASE'
+        springBootVersion = '1.5.6.RELEASE'
+        springCtxSupportVersion = '4.3.10.RELEASE'
         lombokVersion = '1.16.16'
         jjwtVersion = '0.7.0'
         jasperVersion = '6.4.0'
@@ -12,6 +12,7 @@ buildscript {
         gradleDMVersion = '1.0.3.RELEASE'
         oracleVersion =  '12.1.0.2.0'
         h2Version = '1.4.196'
+        sqlserverVersion = '4.0'
     }
     repositories {
         jcenter()

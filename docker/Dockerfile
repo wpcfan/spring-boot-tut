@@ -1,6 +1,6 @@
 FROM frolvlad/alpine-oraclejdk8:slim
 VOLUME /tmp
-ADD taskmgr-backend-0.0.1-SNAPSHOT.jar app.jar
+ADD "taskmgr-backend-0.0.1-SNAPSHOT.jar" "app.jar"
 RUN sh -c 'touch /app.jar'
 ENV JAVA_OPTS="-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n"
 ENV MONGODB_URI=mongodb://mongodb/taskmgr
