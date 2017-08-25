@@ -1,0 +1,15 @@
+apply plugin: 'io.spring.dependency-management'
+
+jar {
+    baseName = 'taskmgr-common'
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("org.projectlombok:lombok:${lombokVersion}")
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}

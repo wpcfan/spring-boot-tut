@@ -48,7 +48,7 @@
 
 但下面我们要做的不是通过这种方式，而是手动的通过命令行方式创建。创建的是gradle工程，而不是maven的，原因呢是因为个人现在对于xml类型的配置文件比较无感;-)，官方推荐使用gradle 2.14.1版本，请自行安装gradle。下面来建立一个gradle工程，其实步骤也不算太难：
 
- 1. 新建一个工程目录 `mkdir todo`
+ 1. 新建一个工程目录 `mkdir task`
  2. 在此目录下使用gradle进行初始化 `gradle init`（就和在node中使用 `npm init` 的效果类似）
 
 这个命令帮我们建立一个一个使用gradle进行管理的模版工程：
@@ -104,7 +104,7 @@ apply plugin: 'org.springframework.boot'
 
 // 在这个段落中你可以声明编译后的Jar文件信息
 jar {
-	baseName = 'todo'
+	baseName = 'task'
 	version = '0.0.1-SNAPSHOT'
 }
 
@@ -207,10 +207,10 @@ dependencies {
 
 ### 领域对象
 
-那么我们的源代码目录在哪里呢？我们得手动建立一个，这个目录一般情况下是 `src/main/java`。好的，下面我们要开始第一个RESTful的API搭建了，首先还是在 `src/main/java` 下新建一个 `package`。既然是本机的就叫 `dev.local` 吧。我们还是来尝试建立一个 Todo 的Web API，在 `dev.local` 下建立一个子 `package`: `todo`，然后创建一个Todo的领域对象：
+那么我们的源代码目录在哪里呢？我们得手动建立一个，这个目录一般情况下是 `src/main/java`。好的，下面我们要开始第一个RESTful的API搭建了，首先还是在 `src/main/java` 下新建一个 `package`。既然是本机的就叫 `dev.local` 吧。我们还是来尝试建立一个 Todo 的Web API，在 `dev.local` 下建立一个子 `package`: `task`，然后创建一个Todo的领域对象：
 
 ```java
-package dev.local.todo;
+package dev.local.task;
 
 /**
  * Todo是一个领域对象（domain object）
@@ -252,10 +252,10 @@ public class Todo {
 
 ### 构造Controller
 
-我们经常看到的RESTful API是这样的：`http://local.dev/todos`、`http://local.dev/todos/1` 。Controller就是要暴露这样的API给外部使用。现在我们同样的在 `todo` 下建立一个叫 `TodoController` 的java文件
+我们经常看到的RESTful API是这样的：`http://local.dev/todos`、`http://local.dev/todos/1` 。Controller就是要暴露这样的API给外部使用。现在我们同样的在 `task` 下建立一个叫 `TodoController` 的java文件
 
 ```java
-package dev.local.todo;
+package dev.local.task;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -393,29 +393,29 @@ NoSQL一般情况下是没有Schema这个概念的，这也给开发带来较大
  2. 新建一个如下的 `TodoRepository.java`
 
 ```java
-package dev.local.todo;
+package dev.local.task;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(collectionResourceRel = "todo", path = "todo")
+@RepositoryRestResource(collectionResourceRel = "task", path = "task")
 public interface TodoRepository extends MongoRepository<Todo, String>{
 }
 ```
 
-此时我们甚至不需要Controller了，所以暂时注释掉 `TodoController.java` 中的代码。然后我们 `./gradlew bootRun` 启动应用。访问 `http://localhost:8080/todo` 我们会得到下面的的结果。
+此时我们甚至不需要Controller了，所以暂时注释掉 `TodoController.java` 中的代码。然后我们 `./gradlew bootRun` 启动应用。访问 `http://localhost:8080/task` 我们会得到下面的的结果。
 
 ```json
 {
     _embedded: {
-        todo: [ ]
+        task: [ ]
     },
     _links: {
         self: {
-            href: "http://localhost:8080/todo"
+            href: "http://localhost:8080/task"
         },
         profile: {
-            href: "http://localhost:8080/profile/todo"
+            href: "http://localhost:8080/profile/task"
         }
     },
     page: {
@@ -427,13 +427,13 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
 }
 ```
 
-我勒个去，不光是有数据集的返回结果 `todo: [ ]` ，还附赠了一个links对象和page对象。如果你了解 `Hypermedia` 的概念，就会发现这是个符合 `Hypermedia` REST API返回的数据。
+我勒个去，不光是有数据集的返回结果 `task: [ ]` ，还附赠了一个links对象和page对象。如果你了解 `Hypermedia` 的概念，就会发现这是个符合 `Hypermedia` REST API返回的数据。
 
 说两句关于 `MongoRepository<Todo, String>` 这个接口，前一个参数类型是领域对象类型，后一个指定该领域对象的Id类型。 
 
 ### Hypermedia REST
 
-简单说两句Hypermedia是什么。简单来说它是可以让客户端清晰的知道自己可以做什么，而无需依赖服务器端指示你做什么。原理呢，也很简单，通过返回的结果中包括不仅是数据本身，也包括指向相关资源的链接。拿上面的例子来说（虽然这种默认状态生成的东西不是很有代表性）：links中有一个profiles，我们看看这个profile的链接 `http://localhost:8080/profile/todo` 执行的结果是什么：
+简单说两句Hypermedia是什么。简单来说它是可以让客户端清晰的知道自己可以做什么，而无需依赖服务器端指示你做什么。原理呢，也很简单，通过返回的结果中包括不仅是数据本身，也包括指向相关资源的链接。拿上面的例子来说（虽然这种默认状态生成的东西不是很有代表性）：links中有一个profiles，我们看看这个profile的链接 `http://localhost:8080/profile/task` 执行的结果是什么：
 
 ```json
 {
@@ -441,8 +441,8 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
     "version" : "1.0",
     "descriptors" : [ 
         {
-          "id" : "todo-representation",
-          "href" : "http://localhost:8080/profile/todo",
+          "id" : "task-representation",
+          "href" : "http://localhost:8080/profile/task",
           "descriptors" : [ 
               {
                 "name" : "desc",
@@ -455,16 +455,16 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
           ]
         }, 
         {
-          "id" : "create-todo",
-          "name" : "todo",
+          "id" : "create-task",
+          "name" : "task",
           "type" : "UNSAFE",
-          "rt" : "#todo-representation"
+          "rt" : "#task-representation"
         }, 
         {
-          "id" : "get-todo",
-          "name" : "todo",
+          "id" : "get-task",
+          "name" : "task",
           "type" : "SAFE",
-          "rt" : "#todo-representation",
+          "rt" : "#task-representation",
           "descriptors" : [ 
               {
                 "name" : "page",
@@ -493,28 +493,28 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
             ]
         }, 
         {
-          "id" : "patch-todo",
-          "name" : "todo",
+          "id" : "patch-task",
+          "name" : "task",
           "type" : "UNSAFE",
-          "rt" : "#todo-representation"
+          "rt" : "#task-representation"
         }, 
         {
-          "id" : "update-todo",
-          "name" : "todo",
+          "id" : "update-task",
+          "name" : "task",
           "type" : "IDEMPOTENT",
-          "rt" : "#todo-representation"
+          "rt" : "#task-representation"
         }, 
         {
-          "id" : "delete-todo",
-          "name" : "todo",
+          "id" : "delete-task",
+          "name" : "task",
           "type" : "IDEMPOTENT",
-          "rt" : "#todo-representation"
+          "rt" : "#task-representation"
         }, 
         {
-          "id" : "get-todo",
-          "name" : "todo",
+          "id" : "get-task",
+          "name" : "task",
           "type" : "SAFE",
-          "rt" : "#todo-representation"
+          "rt" : "#task-representation"
         } 
     ]
   }
@@ -523,14 +523,14 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
 
 这个对象虽然我们暂时不是完全的理解，但大致可以猜出来，这个是todo这个REST API的元数据描述，告诉我们这个API中定义了哪些操作和接受哪些参数等等。我们可以看到todo这个API有增删改查等对应功能。
 
-其实呢，Spring是使用了一个叫 `ALPS` （http://alps.io/spec/index.html） 的专门描述应用语义的数据格式。摘出下面这一小段来分析一下，这个描述了一个get方法，类型是 `SAFE` 表明这个操作不会对系统状态产生影响（因为只是查询），而且这个操作返回的结果格式定义在 `todo-representation` 中了。 `todo-representation`
+其实呢，Spring是使用了一个叫 `ALPS` （http://alps.io/spec/index.html） 的专门描述应用语义的数据格式。摘出下面这一小段来分析一下，这个描述了一个get方法，类型是 `SAFE` 表明这个操作不会对系统状态产生影响（因为只是查询），而且这个操作返回的结果格式定义在 `task-representation` 中了。 `task-representation`
 
 ```json
 {
-  "id" : "get-todo",
-  "name" : "todo",
+  "id" : "get-task",
+  "name" : "task",
   "type" : "SAFE",
-  "rt" : "#todo-representation"
+  "rt" : "#task-representation"
 } 
 ```
 
@@ -538,7 +538,7 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
 
 ![用Postman构建一个POST请求添加一个Todo][13]
  
-执行后的结果如下，我们可以看到返回的links中包括了刚刚新增的Todo的link `http://localhost:8080/todo/588a01abc5d0e23873d4c1b8` （ `588a01abc5d0e23873d4c1b8` 就是数据库自动为这个Todo生成的Id），这样客户端可以方便的知道指向刚刚生成的Todo的API链接。
+执行后的结果如下，我们可以看到返回的links中包括了刚刚新增的Todo的link `http://localhost:8080/task/588a01abc5d0e23873d4c1b8` （ `588a01abc5d0e23873d4c1b8` 就是数据库自动为这个Todo生成的Id），这样客户端可以方便的知道指向刚刚生成的Todo的API链接。
 
 ![执行添加Todo后的返回Json数据][14]
 
@@ -551,7 +551,7 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
 这么简单就生成一个有数据库支持的REST API，这件事看起来比较魔幻，但一般这么魔幻的事情总感觉不太托底，除非我们知道背后的原理是什么。首先再来回顾一下 `TodoRepository` 的代码：
 
 ```java
-@RepositoryRestResource(collectionResourceRel = "todo", path = "todo")
+@RepositoryRestResource(collectionResourceRel = "task", path = "task")
 public interface TodoRepository extends MongoRepository<Todo, String>{
 }
 ```
@@ -579,10 +579,7 @@ public class SimpleMongoRepository<T, ID extends Serializable> implements MongoR
 		this.mongoOperations = mongoOperations;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.CrudRepository#save(java.lang.Object)
-	 */
+	repositories
 	public <S extends T> S save(S entity) {
 
 		Assert.notNull(entity, "Entity must not be null!");
@@ -616,7 +613,7 @@ public class SimpleMongoRepository<T, ID extends Serializable> implements MongoR
 
 虽然不想在具体类上继续研究，但我们还是应该多了解一些关于 `MongoRepository` 的东西。这个接口继承了 `PagingAndSortingRepository` （定义了排序和分页） 和 `QueryByExampleExecutor`。而 `PagingAndSortingRepository` 又继承了 `CrudRepository` （定义了增删改查等）。
 
-第二个魔法就是 `@RepositoryRestResource(collectionResourceRel = "todo", path = "todo")` 这个元数据的修饰了，它直接对MongoDB中的集合（本例中的todo）映射到了一个REST URI（todo）。因此我们连Controller都没写就把API搞出来了，而且还是个Hypermedia REST。
+第二个魔法就是 `@RepositoryRestResource(collectionResourceRel = "task", path = "task")` 这个元数据的修饰了，它直接对MongoDB中的集合（本例中的todo）映射到了一个REST URI（task）。因此我们连Controller都没写就把API搞出来了，而且还是个Hypermedia REST。
 
 其实呢，这个第二个魔法只在你需要变更映射路径时需要。本例中如果我们不加 `@RepositoryRestResource` 这个修饰符的话，同样也可以生成API，只不过其路径按照默认的方式变成了 `todoes` ，大家可以试试把这个元数据修饰去掉，然后重启服务，访问 `http://localhost:8080/todoes` 看看。
 
@@ -624,7 +621,7 @@ public class SimpleMongoRepository<T, ID extends Serializable> implements MongoR
 
 而这个某个指定的对象（比如指定了某个ID的Todo）可以使用 `todoes/:id` 来访问，比如本例中 `http://localhost:8080/todoes/588a01abc5d0e23873d4c1b8`。对于这个对象的修改和删除使用的也是这个URL，只不过HTTP Request的方法变成了PUT（或者PATCH）和DELETE。
 
-这个里面默认采用的这个命名 `todoes` 是根据英语的语法来的，一般来说复数是加s即可，但这个todo，是辅音+o结尾，所以采用的加es方式。 `todo` 其实并不是一个真正意义上的单词，所以我认为更合理的命名方式应该是 `todos`。所以我们还是改成 `@RepositoryRestResource(collectionResourceRel = "todos", path = "todos")`
+这个里面默认采用的这个命名 `todoes` 是根据英语的语法来的，一般来说复数是加s即可，但这个todo，是辅音+o结尾，所以采用的加es方式。 `task` 其实并不是一个真正意义上的单词，所以我认为更合理的命名方式应该是 `todos`。所以我们还是改成 `@RepositoryRestResource(collectionResourceRel = "todos", path = "todos")`
 
 ## 无招胜有招
 
@@ -688,7 +685,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 然后给 `Todo` 领域对象添加一个User属性。
 
 ```java
-package dev.local.todo;
+package dev.local.task;
 //省略import部分
 public class Todo {
     //省略其他部分
@@ -729,7 +726,7 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
         "self" : {
           "href" : "http://localhost:8080/todos/58908a92c5d0e2524e24545a"
         },
-        "todo" : {
+        "task" : {
           "href" : "http://localhost:8080/todos/58908a92c5d0e2524e24545a"
         }
       }
@@ -744,7 +741,7 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
         "self" : {
           "href" : "http://localhost:8080/todos/58908aa1c5d0e2524e24545b"
         },
-        "todo" : {
+        "task" : {
           "href" : "http://localhost:8080/todos/58908aa1c5d0e2524e24545b"
         }
       }
@@ -759,7 +756,7 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
         "self" : {
           "href" : "http://localhost:8080/todos/58908ab6c5d0e2524e24545c"
         },
-        "todo" : {
+        "task" : {
           "href" : "http://localhost:8080/todos/58908ab6c5d0e2524e24545c"
         }
       }
@@ -774,7 +771,7 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
         "self" : {
           "href" : "http://localhost:8080/todos/58908abdc5d0e2524e24545d"
         },
-        "todo" : {
+        "task" : {
           "href" : "http://localhost:8080/todos/58908abdc5d0e2524e24545d"
         }
       }
@@ -802,7 +799,7 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
 你如果打开浏览器输入 `http://localhost:8080/todos/search/findByUserId?userId=589089c3c5d0e2524e245458` (这里的Id请改成你自己mongodb中的user的id)，你会发现返回的结果是个空数组。原因是虽然我们在类中标识 `id` 为 `String` 类型，但对于这种数据库自己生成维护的字段，它在MongoDB中的类型是ObjectId，所以在我们的接口定义的查询函数中应该标识这个参数是 `ObjectId`。那么我们只需要改动 `userId` 的类型为 `org.bson.types.ObjectId` 即可。
 
 ```java
-package dev.local.todo;
+package dev.local.task;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -882,7 +879,7 @@ public class TodoController {
 当然我们为了可以让Spring知道这是一个支持REST API的 `Controller` ，还是需要标记其为 `@RestController`。由于默认的路径映射会在资源根用复数形式，由于todo是辅音后的o结尾，按英语习惯，会映射成 `todoes`。但这里用 `todos` 比 `todoes` 更舒服一些，所以我们再使用另一个 `@RequestMapping("/todos")` 来自定义路径。这个 `Controller` 中的其它方法比较简单，就是利用repository中的方法去增删改查即可。
 
 ```java
-package dev.local.todo;
+package dev.local.task;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -907,8 +904,8 @@ public class TodoController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    Todo addTodo(@RequestBody Todo addedTodo) {
-        return repository.insert(addedTodo);
+    Todo addTodo(@RequestBody Todo addedTask) {
+        return repository.insert(addedTask);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -917,16 +914,16 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    Todo updateTodo(@PathVariable String id, @RequestBody Todo updatedTodo) {
-        updatedTodo.setId(id);
-        return repository.save(updatedTodo);
+    Todo updateTodo(@PathVariable String id, @RequestBody Todo updatedTask) {
+        updatedTask.setId(id);
+        return repository.save(updatedTask);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     Todo removeTodo(@PathVariable String id) {
-        Todo deletedTodo = repository.findOne(id);
+        Todo deletedTask = repository.findOne(id);
         repository.delete(id);
-        return deletedTodo;
+        return deletedTask;
     }
 }
 
@@ -940,7 +937,7 @@ public class TodoController {
 在可以测试之前，我们还需要使用 `@Repository` 来标记 `TodoRepository`，以便于Spring可以在依赖注入时可以找到这个类。
 
 ```java
-package dev.local.todo;
+package dev.local.task;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -971,11 +968,11 @@ public interface TodoRepository extends MongoRepository<Todo, String>{
 
 ```java
 public interface TodoService {
-    Todo addTodo(Todo todo);
+    Todo addTodo(Todo task);
     Todo deleteTodo(String id);
     List<Todo> findAll(String userId);
     Todo findById(String id);
-    Todo update(Todo todo);
+    Todo update(Todo task);
 }
 ```
 
@@ -992,15 +989,15 @@ public class MongoTodoServiceImpl implements TodoService{
     }
 
     @Override
-    public Todo addTodo(Todo todo) {
-        return repository.insert(todo);
+    public Todo addTodo(Todo task) {
+        return repository.insert(task);
     }
 
     @Override
     public Todo deleteTodo(String id) {
-        Todo deletedTodo = repository.findOne(id);
+        Todo deletedTask = repository.findOne(id);
         repository.delete(id);
-        return deletedTodo;
+        return deletedTask;
     }
 
     @Override
@@ -1014,9 +1011,9 @@ public class MongoTodoServiceImpl implements TodoService{
     }
 
     @Override
-    public Todo update(Todo todo) {
-        repository.save(todo);
-        return todo;
+    public Todo update(Todo task) {
+        repository.save(task);
+        return task;
     }
 }
 ```
@@ -1039,8 +1036,8 @@ public class TodoController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    Todo addTodo(@RequestBody Todo addedTodo) {
-        return service.addTodo(addedTodo);
+    Todo addTodo(@RequestBody Todo addedTask) {
+        return service.addTodo(addedTask);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -1049,9 +1046,9 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    Todo updateTodo(@PathVariable String id, @RequestBody Todo updatedTodo) {
-        updatedTodo.setId(id);
-        return service.update(updatedTodo);
+    Todo updateTodo(@PathVariable String id, @RequestBody Todo updatedTask) {
+        updatedTask.setId(id);
+        return service.update(updatedTask);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

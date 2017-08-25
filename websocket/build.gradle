@@ -1,0 +1,33 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'docker'
+
+// 在这个段落中你可以声明编译后的Jar文件信息
+jar {
+    baseName = 'taskmgr-websocket'
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    runtime("com.h2database:h2:${h2Version}")
+}
+
+// 建立 docker image
+task buildDocker(type: Docker, dependsOn: build) {
+    baseImage = 'frolvlad/alpine-oraclejdk8:slim'
+    tag = 'wpcfan/taskmgr-websocket'
+    push = false
+    applicationName = jar.baseName
+    addFile {
+        from "build/libs/$applicationName-$jar.version" + ".jar"
+        rename {'websocket.jar'}
+    }
+    entryPoint([
+            'java',
+            '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
+            '-Djava.security.egd=file:/dev/./urandom',
+            '-jar',
+            '/websocket.jar'
+    ])
+    exposePort(8095)
+}

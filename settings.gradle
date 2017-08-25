@@ -8,11 +8,11 @@
  * in the user guide at https://docs.gradle.org/3.3/userguide/multi_project_builds.html
  */
 
-/*
-// To declare projects as part of a multi-project build use the 'include' method
-include 'shared'
+include 'common'
 include 'api'
-include 'services:webservice'
-*/
+include 'report'
+include 'scheduled'
+include 'websocket'
+include 'sqlserver'
 
 rootProject.name = 'spring-boot-tut'
