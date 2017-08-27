@@ -8,10 +8,10 @@ jar {
 
 dependencies {
     compile project(':common')
-    compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
-    compile("org.projectlombok:lombok:${lombokVersion}")
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    runtime("org.springframework.boot:spring-boot-devtools")
 }
 
 // 建立 docker image
