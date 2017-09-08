@@ -10,9 +10,9 @@
 
 include 'common'
 include 'api'
+include 'tenant'
 include 'report'
 include 'scheduled'
 include 'websocket'
-include 'sqlserver'
 
 rootProject.name = 'spring-boot-tut'

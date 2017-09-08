@@ -1,6 +1,3 @@
-apply plugin: 'org.springframework.boot'
-apply plugin: 'docker'
-
 // 在这个段落中你可以声明编译后的Jar文件信息
 jar {
     baseName = 'taskmgr-api'
@@ -10,6 +7,7 @@ dependencies {
     compile project(':common')
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
+    //compile("com.microsoft.sqlserver:sqljdbc4:${sqlserverVersion}")
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     runtime("org.springframework.boot:spring-boot-devtools")
 }

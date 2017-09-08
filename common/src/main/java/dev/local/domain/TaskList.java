@@ -2,6 +2,7 @@ package dev.local.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Data
 public class TaskList {
@@ -9,4 +10,6 @@ public class TaskList {
     private String id;
     private String name;
     private int order;
+    @DBRef(lazy = true)
+    private Project project;
 }

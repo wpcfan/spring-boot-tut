@@ -1,5 +1,7 @@
 package dev.local.auth;
 
+import dev.local.domain.Role;
+import dev.local.helpers.PrivilegeUtils;
 import dev.local.repositories.UserRepository;
 import dev.local.secruity.JwtTokenUtil;
 import dev.local.secruity.JwtUser;
@@ -51,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
         final String rawPassword = userToAdd.getPassword();
         userToAdd.setPassword(encoder.encode(rawPassword));
         userToAdd.setLastPasswordResetDate(new Date());
-        userToAdd.setRoles(Collections.singletonList("ROLE_USER"));
+        userToAdd.setRoles(Collections.singletonList(PrivilegeUtils.createDefaultUserRole()));
         return userRepository.insert(userToAdd);
     }
 

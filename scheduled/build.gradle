@@ -7,7 +7,6 @@ jar {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter")
     compile("org.springframework.boot:spring-boot-starter-data-jpa") {
         exclude module: 'org.apache.tomcat:tomcat-jdbc'

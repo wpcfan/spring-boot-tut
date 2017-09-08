@@ -13,12 +13,15 @@ buildscript {
         oracleVersion =  '12.1.0.2.0'
         h2Version = '1.4.196'
         sqlserverVersion = '4.0'
+        kotlinVersion = '1.1.4-2'
     }
     repositories {
-        jcenter()
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
         classpath("se.transmode.gradle:gradle-docker:${gradleDockerVersion}")
         classpath("io.spring.gradle:dependency-management-plugin:${gradleDMVersion}")
     }
@@ -28,18 +31,26 @@ allprojects {
     // docker 的 group
     group = 'wpcfan'
     repositories() {
-        jcenter()
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
 }
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-spring'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'docker'
     version = "0.0.1-SNAPSHOT"
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     dependencies {
-        testCompile("org.springframework.boot:spring-boot-starter-test")
+        compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
+        compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+        runtime('org.springframework.boot:spring-boot-devtools')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+        testCompile('org.springframework.security:spring-security-test')
     }
 }
 
