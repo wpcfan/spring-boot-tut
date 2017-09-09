@@ -13,7 +13,7 @@ buildscript {
         oracleVersion =  '12.1.0.2.0'
         h2Version = '1.4.196'
         sqlserverVersion = '4.0'
-        kotlinVersion = '1.1.4-2'
+        kotlinVersion = '1.1.4-3'
     }
     repositories {
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
@@ -41,6 +41,7 @@ subprojects {
     apply plugin: 'kotlin'
     apply plugin: 'kotlin-spring'
     apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
     apply plugin: 'docker'
     version = "0.0.1-SNAPSHOT"
     sourceCompatibility = 1.8

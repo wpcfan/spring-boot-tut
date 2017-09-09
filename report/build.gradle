@@ -8,7 +8,7 @@ dependencies {
     // the following 5 are required by jasperreport rendering
     compile files(["lib/simsun.jar"])
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework:spring-context-support:${springCtxSupportVersion}")
+//    compile("org.springframework:spring-context-support:${springCtxSupportVersion}")
     compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
     compile("com.lowagie:itext:${itextVersion}")
     compile("org.apache.poi:poi:${poiVersion}")

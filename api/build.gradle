@@ -9,7 +9,6 @@ dependencies {
     compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
     //compile("com.microsoft.sqlserver:sqljdbc4:${sqlserverVersion}")
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
-    runtime("org.springframework.boot:spring-boot-devtools")
 }
 
 // 建立 docker image

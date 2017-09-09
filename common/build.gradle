@@ -1,5 +1,3 @@
-apply plugin: 'io.spring.dependency-management'
-
 jar {
     baseName = 'taskmgr-common'
 }
@@ -7,6 +5,7 @@ jar {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+//    compile("org.springframework.boot:spring-boot-starter-data-couchbase")
     compile("org.projectlombok:lombok:${lombokVersion}")
 }
 
