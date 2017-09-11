@@ -11,6 +11,7 @@ public class Tenant {
     private String id;
     @Indexed(unique=true, direction= IndexDirection.DESCENDING, dropDups=true)
     private String name;
+    private Address address;
     private boolean enabled;
     private TenantInfo info;
 }
