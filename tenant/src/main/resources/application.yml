@@ -1,6 +1,6 @@
 # Server configuration
 server:
-  port: 8090
+  port: 8096
   contextPath:
 
 # Spring configuration
