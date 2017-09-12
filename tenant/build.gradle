@@ -6,8 +6,7 @@ jar {
 dependencies {
     compile project(':common')
     compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
-    //compile("com.microsoft.sqlserver:sqljdbc4:${sqlserverVersion}")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    compile("cn.leancloud:java-sdk:0.1.7")
 }
 
 // 建立 docker image
