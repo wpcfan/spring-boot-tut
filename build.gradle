@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.6.RELEASE'
+        springBootVersion = '1.5.7.RELEASE'
         springCtxSupportVersion = '4.3.10.RELEASE'
         lombokVersion = '1.16.16'
         jjwtVersion = '0.7.0'
@@ -14,9 +14,11 @@ buildscript {
         h2Version = '1.4.196'
         sqlserverVersion = '4.0'
         kotlinVersion = '1.1.4-3'
+        swaggerVersion = '2.7.0'
     }
     repositories {
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -32,6 +34,7 @@ allprojects {
     group = 'wpcfan'
     repositories() {
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        jcenter()
     }
 }
 
