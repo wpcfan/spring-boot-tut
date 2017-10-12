@@ -1,9 +1,7 @@
 package dev.local.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -20,10 +18,11 @@ public class User {
     @Indexed(unique=true, direction= IndexDirection.DESCENDING, dropDups=true)
     @NonNull
     private String username;
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private Date lastPasswordResetDate;
-    @DBRef(lazy = true)
+    @JsonIgnore
+    @DBRef
     private List<Role> roles;
-    @DBRef(lazy = true)
-    private List<Tenant> tenants;
 }

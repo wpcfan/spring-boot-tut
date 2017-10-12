@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaskListServiceImpl implements TaskListService {
 
-    private TaskListRepository repository;
-    private ProjectService projectService;
+    private final TaskListRepository repository;
+    private final ProjectService projectService;
 
     @Autowired
     public TaskListServiceImpl(

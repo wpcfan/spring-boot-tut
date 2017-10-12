@@ -11,8 +11,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa") {
         exclude module: 'org.apache.tomcat:tomcat-jdbc'
     }
-    runtime("cn.easyproject:ojdbc7:${oracleVersion}")
-    runtime("com.h2database:h2:${h2Version}")
+//    runtime("cn.easyproject:ojdbc7:${oracleVersion}")
+    runtime("com.h2database:h2")
 }
 
 // 建立 docker image

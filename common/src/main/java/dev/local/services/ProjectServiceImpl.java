@@ -19,9 +19,9 @@ import static java.util.Arrays.asList;
  */
 @Service
 public class ProjectServiceImpl implements ProjectService {
-    final ProjectRepository repository;
-    final UserRepository userRepository;
-    final TaskListRepository taskGroupRepository;
+    private final ProjectRepository repository;
+    private final UserRepository userRepository;
+    private final TaskListRepository taskGroupRepository;
 
     @Autowired
     public ProjectServiceImpl(

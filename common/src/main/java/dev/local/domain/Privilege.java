@@ -18,6 +18,4 @@ public class Privilege {
     @Indexed(unique=true, direction= IndexDirection.DESCENDING, dropDups=true)
     @NonNull
     private String name;
-    @DBRef(lazy = true)
-    private List<Role> roles;
 }

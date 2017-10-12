@@ -13,8 +13,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/roles")
 public class RoleController {
+
+    private final RoleRepository repository;
+
     @Autowired
-    private RoleRepository repository;
+    public RoleController(RoleRepository repository) {
+        this.repository = repository;
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(method = RequestMethod.GET)

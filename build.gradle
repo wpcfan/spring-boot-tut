@@ -2,18 +2,15 @@ buildscript {
     ext {
         springBootVersion = '1.5.7.RELEASE'
         springCtxSupportVersion = '4.3.10.RELEASE'
-        lombokVersion = '1.16.16'
         jjwtVersion = '0.7.0'
         jasperVersion = '6.4.0'
-        poiVersion = '3.16'
-        itextVersion = '2.1.7'
         olap4jVersion = '1.2.0'
         gradleDockerVersion = '1.2'
         gradleDMVersion = '1.0.3.RELEASE'
         oracleVersion =  '12.1.0.2.0'
         h2Version = '1.4.196'
         sqlserverVersion = '4.0'
-        kotlinVersion = '1.1.4-3'
+        kotlinVersion = '1.1.50'
         swaggerVersion = '2.7.0'
     }
     repositories {
@@ -36,9 +33,7 @@ allprojects {
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
         jcenter()
     }
-}
 
-subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'kotlin'
@@ -46,6 +41,15 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'docker'
+
+    dependencyManagement {
+        imports {
+            mavenBom 'io.spring.platform:platform-bom:Brussels-SR5'
+        }
+    }
+}
+
+subprojects {
     version = "0.0.1-SNAPSHOT"
     sourceCompatibility = 1.8
     targetCompatibility = 1.8

@@ -1,5 +1,6 @@
 package dev.local.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
@@ -19,7 +20,4 @@ public class Role {
     @Indexed(unique=true, direction= IndexDirection.DESCENDING, dropDups=true)
     @NonNull
     private String name;
-    @DBRef(lazy = true)
-    @NonNull
-    private List<Privilege> privileges;
 }

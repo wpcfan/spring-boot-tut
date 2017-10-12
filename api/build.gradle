@@ -10,7 +10,7 @@ dependencies {
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     //compile("com.microsoft.sqlserver:sqljdbc4:${sqlserverVersion}")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    compileOnly("org.projectlombok:lombok")
 }
 
 // 建立 docker image
