@@ -1,5 +1,7 @@
-package dev.local.secruity;
+package dev.local.config;
 
+import dev.local.secruity.JwtAuthenticationEntryPoint;
+import dev.local.secruity.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

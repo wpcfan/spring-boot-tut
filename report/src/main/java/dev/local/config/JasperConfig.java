@@ -1,4 +1,4 @@
-package dev.local.reports;
+package dev.local.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
