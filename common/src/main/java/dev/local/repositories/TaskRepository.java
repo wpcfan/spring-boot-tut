@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends MongoRepository<Task, String>{
-    List<Task> findByParticipantsContaining(User user);
-    List<Task> findByGroupId(String id);
+    List<Task> findByParticipantIdsContaining(String userId);
+    List<Task> findByTaskListId(String taskListId);
 }

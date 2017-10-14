@@ -6,20 +6,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.local.domain.Quote;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static kotlin.text.Typography.quote;
+import java.util.Date;
 
 @Service
 public class QuoteServiceImpl implements QuoteService {

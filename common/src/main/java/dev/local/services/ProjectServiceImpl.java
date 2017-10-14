@@ -34,26 +34,27 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project add(Project project, String userId) {
-        final User user = userRepository.findOne(userId);
-        project.setOwner(user);
-        project.setMembers(asList(user));
+    public Project add(Project project) {
         project.setEnabled(true);
         project.setArchived(false);
+        Project savedProject = repository.insert(project);
         TaskList plan = new TaskList();
         plan.setName("计划");
         plan.setOrder(0);
+        plan.setProjectId(savedProject.getId());
+        taskGroupRepository.insert(plan);
         TaskList inProgress = new TaskList();
         inProgress.setName("进行中");
         inProgress.setOrder(1);
+        inProgress.setProjectId(savedProject.getId());
+        taskGroupRepository.insert(inProgress);
         TaskList done = new TaskList();
         done.setName("已完成");
         done.setOrder(2);
-        project.setGroups(asList(
-                taskGroupRepository.insert(plan),
-                taskGroupRepository.insert(inProgress),
-                taskGroupRepository.insert(done)));
-        return repository.insert(project);
+        done.setProjectId(savedProject.getId());
+        taskGroupRepository.insert(done);
+//        savedProject.setGroups(asList(plan, inProgress, done));
+        return savedProject;
     }
 
     @Override

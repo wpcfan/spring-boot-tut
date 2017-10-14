@@ -27,7 +27,7 @@ public class TaskListServiceImpl implements TaskListService {
     public TaskList add(TaskList list, String projectId) {
         Project project = projectService.findById(projectId);
         TaskList added = repository.insert(list);
-        project.getGroups().add(added);
+        project.getTaskListIds().add(added.getId());
         projectService.update(project);
         return added;
     }

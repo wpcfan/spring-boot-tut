@@ -6,7 +6,10 @@ import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -17,10 +20,7 @@ public class Project {
     private String desc;
     private boolean enabled = true;
     private boolean archived = false;
-    @DBRef(lazy = true)
-    private User owner;
-    @DBRef(lazy = true)
-    private List<User> members;
-    @DBRef(lazy = true)
-    private List<TaskList> groups;
+    private String ownerId;
+    private Set<String> memberIds = new HashSet<>();
+    private Set<String> taskListIds = new HashSet<>();
 }

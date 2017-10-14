@@ -3,9 +3,10 @@ package dev.local.services;
 import dev.local.domain.User;
 import dev.local.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User add(User user) {
+        user.setRoles(Collections.singletonList("ROLE_USER"));
         return repository.insert(user);
     }
 

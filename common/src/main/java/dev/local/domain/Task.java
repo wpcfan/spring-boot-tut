@@ -15,12 +15,9 @@ public class Task {
     @Id private String id;
     private String desc;
     private boolean completed;
-    @DBRef(lazy = true)
-    private TaskList group;
-    @DBRef(lazy = true)
-    private User owner;
-    @DBRef(lazy = true)
-    private List<User> participants;
+    private String taskListId;
+    private String ownerId;
+    private List<String> participantIds;
     private Date dueDate;
     private Date reminder;
     private int priority;

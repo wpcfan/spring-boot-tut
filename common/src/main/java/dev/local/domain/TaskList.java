@@ -10,6 +10,5 @@ public class TaskList {
     private String id;
     private String name;
     private int order;
-    @DBRef(lazy = true)
-    private Project project;
+    private String projectId;
 }

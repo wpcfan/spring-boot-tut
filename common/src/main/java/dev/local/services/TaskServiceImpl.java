@@ -12,14 +12,11 @@ import java.util.List;
 @Service
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository repository;
-    private final UserRepository userRepository;
 
     @Autowired
     TaskServiceImpl(
-            TaskRepository repository,
-            UserRepository userRepository) {
+            TaskRepository repository) {
         this.repository = repository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -36,13 +33,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> findRelated(String userId) {
-        final User user = userRepository.findOne(userId);
-        return repository.findByParticipantsContaining(user);
+        return repository.findByParticipantIdsContaining(userId);
     }
 
     @Override
-    public List<Task> findByListId(String groupId) {
-        return repository.findByGroupId(groupId);
+    public List<Task> findByListId(String taskListId) {
+        return repository.findByTaskListId(taskListId);
     }
 
     @Override
