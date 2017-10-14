@@ -2,6 +2,7 @@ package dev.local.controllers;
 
 import dev.local.domain.Project;
 import dev.local.domain.User;
+import dev.local.dto.CreateProjectDTO;
 import dev.local.services.ProjectService;
 import dev.local.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +44,11 @@ public class ProjectController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Project add(@RequestBody Project project){
+    public Project add(@RequestBody CreateProjectDTO projectDTO){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        final User user = userService.findByUsername(username);
-        project.setOwnerId(user.getId());
-        project.setMemberIds(Collections.singleton(user.getId()));
-        return service.add(project);
+        User user = userService.findByUsername(username);
+        Project project = projectDTO.buildProject();
+        return service.add(project, user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User add(User user) {
-        user.setRoles(Collections.singletonList("ROLE_USER"));
+        user.setRoles(Collections.singleton("ROLE_USER"));
         return repository.insert(user);
     }
 

@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserDTO {
+public class CreateUserDTO {
     private String username;
     private String password;
     private String name;

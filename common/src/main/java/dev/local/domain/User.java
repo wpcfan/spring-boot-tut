@@ -8,9 +8,7 @@ import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 
@@ -23,8 +21,8 @@ public class User {
     private String password;
     @JsonIgnore
     private Date lastPasswordResetDate;
-    private List<String> roles = new ArrayList<>();
-    private List<String> joinedProjectIds = new ArrayList<>();
+    private Set<String> roles = new HashSet<>();
+    private Set<String> joinedProjectIds = new HashSet<>();
 
     @JsonProperty
     public void setPassword(String password) {

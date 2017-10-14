@@ -12,12 +12,11 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
 public class Project {
     @Id private String id;
-    @NonNull
     private String name;
     private String desc;
+    private String coverImg;
     private boolean enabled = true;
     private boolean archived = false;
     private String ownerId;

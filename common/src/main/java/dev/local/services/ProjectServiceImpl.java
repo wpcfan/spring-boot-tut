@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 import static java.util.Arrays.asList;
 
 /**
@@ -20,41 +22,46 @@ import static java.util.Arrays.asList;
 @Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository repository;
+    private final TaskListRepository taskListRepository;
     private final UserRepository userRepository;
-    private final TaskListRepository taskGroupRepository;
 
     @Autowired
     public ProjectServiceImpl(
             ProjectRepository repository,
-            UserRepository userRepository,
-            TaskListRepository taskGroupService){
+            TaskListRepository taskListRepository,
+            UserRepository userRepository){
         this.repository = repository;
+        this.taskListRepository = taskListRepository;
         this.userRepository = userRepository;
-        this.taskGroupRepository = taskGroupService;
     }
 
     @Override
-    public Project add(Project project) {
-        project.setEnabled(true);
-        project.setArchived(false);
+    public Project add(Project project, User user) {
+        project.setOwnerId(user.getId());
+        project.setMemberIds(Collections.singleton(user.getId()));
         Project savedProject = repository.insert(project);
         TaskList plan = new TaskList();
         plan.setName("计划");
         plan.setOrder(0);
         plan.setProjectId(savedProject.getId());
-        taskGroupRepository.insert(plan);
+        taskListRepository.insert(plan);
         TaskList inProgress = new TaskList();
         inProgress.setName("进行中");
         inProgress.setOrder(1);
         inProgress.setProjectId(savedProject.getId());
-        taskGroupRepository.insert(inProgress);
+        taskListRepository.insert(inProgress);
         TaskList done = new TaskList();
         done.setName("已完成");
         done.setOrder(2);
         done.setProjectId(savedProject.getId());
-        taskGroupRepository.insert(done);
-//        savedProject.setGroups(asList(plan, inProgress, done));
-        return savedProject;
+        taskListRepository.insert(done);
+        savedProject.getTaskListIds().addAll(asList(
+                plan.getId(),
+                inProgress.getId(),
+                done.getId()));
+        user.getJoinedProjectIds().add(project.getId());
+        userRepository.save(user);
+        return repository.save(savedProject);
     }
 
     @Override

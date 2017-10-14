@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProjectRepository extends MongoRepository<Project, String> {
-    @Query("{'owner.$id': ?#{[0]}, 'enabled': ?#{[1]}, 'archived': ?#{[2]}}")
+    @Query("{'ownerId': ?#{[0]}, 'enabled': ?#{[1]}, 'archived': ?#{[2]}}")
     Page<Project> findRelated(ObjectId userId, boolean enabled, boolean archived, Pageable pageable);
 //    Page<Project> findByMembersContainingAndEnabledAndArchived(User user, boolean enabled, boolean archived, Pageable pageable);
 }

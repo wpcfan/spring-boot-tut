@@ -2,7 +2,7 @@ package dev.local.controllers;
 
 import dev.local.domain.Profile;
 import dev.local.domain.User;
-import dev.local.dto.UserDTO;
+import dev.local.dto.CreateUserDTO;
 import dev.local.repositories.ProfileRepository;
 import dev.local.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(method = RequestMethod.POST)
-    User addUser(@RequestBody UserDTO addedUser) {
+    User addUser(@RequestBody CreateUserDTO addedUser) {
         User userAdd = repository.insert(addedUser.buildUser());
         Profile profileAdd = addedUser.buildProfile();
         profileAdd.setUserId(userAdd.getId());

@@ -1,6 +1,7 @@
 package dev.local.secruity;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -23,10 +24,10 @@ final class JwtUserFactory {
         );
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthorities(List<String> authorities) {
+    private static Set<GrantedAuthority> mapToGrantedAuthorities(Set<String> authorities) {
         return authorities.stream()
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }
 
