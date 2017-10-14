@@ -1,6 +1,5 @@
 package dev.local.controllers;
 
-import dev.local.domain.Quote;
 import dev.local.helpers.CacheFor;
 import dev.local.services.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;

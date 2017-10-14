@@ -1,6 +1,9 @@
 package dev.local.controllers;
 
+import dev.local.domain.Profile;
 import dev.local.domain.User;
+import dev.local.dto.UserDTO;
+import dev.local.repositories.ProfileRepository;
 import dev.local.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -17,8 +20,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    private final UserRepository repository;
+    private final ProfileRepository profileRepository;
+
     @Autowired
-    private UserRepository repository;
+    public UserController(UserRepository repository, ProfileRepository profileRepository) {
+        this.repository = repository;
+        this.profileRepository = profileRepository;
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
@@ -28,8 +38,12 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(method = RequestMethod.POST)
-    User addUser(@RequestBody User addedUser) {
-        return repository.insert(addedUser);
+    User addUser(@RequestBody UserDTO addedUser) {
+        User userAdd = repository.insert(addedUser.buildUser());
+        Profile profileAdd = addedUser.buildProfile();
+        profileAdd.setUserId(userAdd.getId());
+        profileRepository.insert(profileAdd);
+        return userAdd;
     }
 
     @PostAuthorize("returnObject.username == principal.username or hasRole('ROLE_ADMIN')")

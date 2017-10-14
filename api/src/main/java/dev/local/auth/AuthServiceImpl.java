@@ -1,10 +1,9 @@
 package dev.local.auth;
 
-import dev.local.domain.Role;
-import dev.local.repositories.UserRepository;
 import dev.local.secruity.JwtTokenUtil;
 import dev.local.secruity.JwtUser;
 import dev.local.domain.User;
+import dev.local.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Date;
 
 @Service
@@ -25,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
     private AuthenticationManager authenticationManager;
     private UserDetailsService userDetailsService;
     private JwtTokenUtil jwtTokenUtil;
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
@@ -35,25 +33,25 @@ public class AuthServiceImpl implements AuthService {
             AuthenticationManager authenticationManager,
             UserDetailsService userDetailsService,
             JwtTokenUtil jwtTokenUtil,
-            UserRepository userRepository) {
+            UserService userService) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Override
     public User register(User userToAdd) {
         final String username = userToAdd.getUsername();
-        if(userRepository.findByUsername(username)!=null) {
+        if(userService.findByUsername(username) != null) {
             return null;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         final String rawPassword = userToAdd.getPassword();
         userToAdd.setPassword(encoder.encode(rawPassword));
         userToAdd.setLastPasswordResetDate(new Date());
-        userToAdd.setRoles(Collections.singletonList(new Role("ROLE_USER")));
-        return userRepository.insert(userToAdd);
+
+        return userService.add(userToAdd);
     }
 
     @Override
@@ -65,8 +63,7 @@ public class AuthServiceImpl implements AuthService {
 
         // 生成token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        final String token = jwtTokenUtil.generateToken(userDetails);
-        return token;
+        return jwtTokenUtil.generateToken(userDetails);
     }
 
     @Override

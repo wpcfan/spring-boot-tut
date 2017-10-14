@@ -1,12 +1,17 @@
 package dev.local.controllers;
 
 import dev.local.domain.Project;
+import dev.local.domain.User;
 import dev.local.services.ProjectService;
+import dev.local.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 /**
  * Created by wangpeng on 2017/4/18.
@@ -17,24 +22,33 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectController {
 
     private ProjectService service;
+    private UserService userService;
 
     @Autowired
-    public ProjectController(ProjectService service){
+    public ProjectController(
+            ProjectService service,
+            UserService userService){
         this.service = service;
+        this.userService = userService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public Page<Project> findRelated(
-            @RequestHeader(value = "userId") String userId,
             @RequestParam(value = "enabled", defaultValue = "true", required = false) boolean enabled,
             @RequestParam(value = "archived", defaultValue = "false", required = false) boolean archived,
             Pageable pageable) {
-        return service.findRelated(userId, enabled, archived, pageable);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByUsername(username);
+        return service.findRelated(user.getId(), enabled, archived, pageable);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Project add(@RequestBody Project project, @RequestHeader(value = "userId") String userId){
-        return service.add(project, userId);
+    public Project add(@RequestBody Project project){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        final User user = userService.findByUsername(username);
+        project.setOwnerId(user.getId());
+        project.setMemberIds(Collections.singleton(user.getId()));
+        return service.add(project);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -42,7 +56,7 @@ public class ProjectController {
         return service.findById(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     public Project update(@PathVariable String id, @RequestBody Project project){
         project.setId(id);
         return service.update(project);
