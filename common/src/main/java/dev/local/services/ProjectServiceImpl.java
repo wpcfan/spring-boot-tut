@@ -74,7 +74,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Page<Project> findRelated(String userId, boolean enabled, boolean archived, Pageable pageable) {
 //        final User user =  userRepository.findOne(userId);
-        return repository.findRelated(new ObjectId(userId), enabled, archived, pageable);
+        return repository.findRelated(userId, enabled, archived, pageable);
     }
 
     @Override
