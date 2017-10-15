@@ -2,7 +2,6 @@ package dev.local.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.Date;
 import java.util.List;

@@ -1,8 +1,6 @@
 package dev.local.services;
 
 import dev.local.domain.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public interface UserService {
     User add(User user);

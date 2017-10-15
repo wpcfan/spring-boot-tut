@@ -2,13 +2,15 @@ package dev.local.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 
@@ -22,7 +24,6 @@ public class User {
     @JsonIgnore
     private Date lastPasswordResetDate;
     private Set<String> roles = new HashSet<>();
-    private Set<String> joinedProjectIds = new HashSet<>();
 
     @JsonProperty
     public void setPassword(String password) {

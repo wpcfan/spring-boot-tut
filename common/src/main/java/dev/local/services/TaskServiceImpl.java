@@ -1,9 +1,7 @@
 package dev.local.services;
 
 import dev.local.domain.Task;
-import dev.local.domain.User;
 import dev.local.repositories.TaskRepository;
-import dev.local.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

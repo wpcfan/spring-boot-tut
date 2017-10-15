@@ -5,8 +5,6 @@ import dev.local.domain.TaskList;
 import dev.local.domain.User;
 import dev.local.repositories.ProjectRepository;
 import dev.local.repositories.TaskListRepository;
-import dev.local.repositories.UserRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,16 +21,13 @@ import static java.util.Arrays.asList;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository repository;
     private final TaskListRepository taskListRepository;
-    private final UserRepository userRepository;
 
     @Autowired
     public ProjectServiceImpl(
             ProjectRepository repository,
-            TaskListRepository taskListRepository,
-            UserRepository userRepository){
+            TaskListRepository taskListRepository){
         this.repository = repository;
         this.taskListRepository = taskListRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -59,8 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
                 plan.getId(),
                 inProgress.getId(),
                 done.getId()));
-        user.getJoinedProjectIds().add(project.getId());
-        userRepository.save(user);
+
         return repository.save(savedProject);
     }
 
