@@ -31,9 +31,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project add(Project project, User user) {
-        project.setOwnerId(user.getId());
-        project.setMemberIds(Collections.singleton(user.getId()));
+    public Project add(Project project, String username) {
+        project.setOwnerId(username);
+        project.setMemberIds(Collections.singleton(username));
         Project savedProject = repository.insert(project);
         TaskList plan = new TaskList();
         plan.setName("计划");

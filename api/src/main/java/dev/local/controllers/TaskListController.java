@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 任务分组的API，由于任务分组只是一个项目中的逻辑上的分类，因此不提供列表API
  * 需要列表可以取得项目信息，在项目中会有该项目的列表信息。
  */
 @RestController
-@RequestMapping("/tasklists")
+@RequestMapping("/taskLists")
 @PreAuthorize("hasRole('USER')")
 public class TaskListController {
 
@@ -20,6 +22,18 @@ public class TaskListController {
     @Autowired
     public TaskListController(TaskListService service){
         this.service = service;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<TaskList> findByProjectId(@RequestParam(value = "projectId") String projectId) {
+        return service.findByProjectId(projectId);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/swaporder")
+    public List<TaskList> swapOrder(
+            @RequestHeader(value = "srcListId") String srcListId,
+            @RequestHeader(value = "targetListId") String targetListId) {
+        return service.swapOrder(srcListId, targetListId);
     }
 
     @RequestMapping(method = RequestMethod.POST)

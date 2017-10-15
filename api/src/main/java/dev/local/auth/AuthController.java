@@ -1,5 +1,6 @@
 package dev.local.auth;
 
+import dev.local.domain.Profile;
 import dev.local.dto.CreateUserDTO;
 import dev.local.secruity.JwtAuthenticationRequest;
 import dev.local.secruity.JwtAuthenticationResponse;
@@ -57,9 +58,10 @@ public class AuthController {
     @RequestMapping(value = "${jwt.route.authentication.register}", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody CreateUserDTO addedUser) throws AuthenticationException{
         User user = authService.register(addedUser.buildUser());
+        Profile profile = null;
         if (user != null) {
-            profileService.add(addedUser.buildProfile(), user.getId());
+            profile = profileService.add(addedUser.buildProfile(), user.getUsername());
         }
-        return user == null ? ResponseEntity.badRequest().body(null) : ResponseEntity.ok(user);
+        return profile == null ? ResponseEntity.badRequest().body(null) : ResponseEntity.ok(profile);
     }
 }

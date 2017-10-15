@@ -24,7 +24,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public Profile add(Profile profile, String userId) {
-        profile.setUserId(userId);
+        profile.setUsername(userId);
         return repository.insert(profile);
     }
 

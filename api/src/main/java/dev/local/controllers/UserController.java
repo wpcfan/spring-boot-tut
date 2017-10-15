@@ -1,9 +1,11 @@
 package dev.local.controllers;
 
 import dev.local.domain.Profile;
+import dev.local.domain.Task;
 import dev.local.domain.User;
 import dev.local.dto.CreateUserDTO;
 import dev.local.repositories.ProfileRepository;
+import dev.local.repositories.TaskRepository;
 import dev.local.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -23,11 +25,16 @@ public class UserController {
 
     private final UserRepository repository;
     private final ProfileRepository profileRepository;
+    private final TaskRepository taskRepository;
 
     @Autowired
-    public UserController(UserRepository repository, ProfileRepository profileRepository) {
+    public UserController(
+            UserRepository repository,
+            ProfileRepository profileRepository,
+            TaskRepository taskRepository) {
         this.repository = repository;
         this.profileRepository = profileRepository;
+        this.taskRepository = taskRepository;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -41,9 +48,16 @@ public class UserController {
     User addUser(@RequestBody CreateUserDTO addedUser) {
         User userAdd = repository.insert(addedUser.buildUser());
         Profile profileAdd = addedUser.buildProfile();
-        profileAdd.setUserId(userAdd.getId());
+        profileAdd.setUsername(userAdd.getUsername());
         profileRepository.insert(profileAdd);
         return userAdd;
+    }
+
+    @PostAuthorize("returnObject.username == principal.username or hasRole('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/tasks")
+    public List<Task> findRelated(@PathVariable String id) {
+        String username = repository.findOne(id).getUsername();
+        return taskRepository.findByParticipantIdsContaining(username);
     }
 
     @PostAuthorize("returnObject.username == principal.username or hasRole('ROLE_ADMIN')")

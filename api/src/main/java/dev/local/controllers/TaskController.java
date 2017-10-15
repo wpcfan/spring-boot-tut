@@ -3,7 +3,10 @@ package dev.local.controllers;
 import dev.local.domain.Task;
 import dev.local.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +24,10 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Task> findRelated(@RequestHeader(value = "userId") String userId) {
-        return service.findRelated(userId);
+    public Page<Task> findByTaskListId(
+            @RequestParam(value = "taskListId") String taskListId,
+            Pageable pageable) {
+        return service.findByListId(taskListId, pageable);
     }
 
     @RequestMapping(method = RequestMethod.POST)

@@ -3,6 +3,8 @@ package dev.local.services;
 import dev.local.domain.Task;
 import dev.local.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,13 +32,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> findRelated(String userId) {
-        return repository.findByParticipantIdsContaining(userId);
-    }
-
-    @Override
-    public List<Task> findByListId(String taskListId) {
-        return repository.findByTaskListId(taskListId);
+    public Page<Task> findByListId(String taskListId, Pageable pageable) {
+        return repository.findByTaskListId(taskListId, pageable);
     }
 
     @Override

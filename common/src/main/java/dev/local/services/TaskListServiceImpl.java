@@ -6,6 +6,10 @@ import dev.local.repositories.TaskListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by wangpeng on 2017/4/18.
  */
@@ -47,5 +51,22 @@ public class TaskListServiceImpl implements TaskListService {
     @Override
     public TaskList update(TaskList list) {
         return repository.save(list);
+    }
+
+    @Override
+    public List<TaskList> findByProjectId(String projectId) {
+        return repository.findByProjectId(projectId);
+    }
+
+    @Override
+    public List<TaskList> swapOrder(String srcTaskListId, String targetTaskListId) {
+        TaskList src = repository.findOne(srcTaskListId);
+        TaskList target = repository.findOne(targetTaskListId);
+        final int tempOrder = src.getOrder();
+        src.setOrder(target.getOrder());
+        repository.save(src);
+        target.setOrder(tempOrder);
+        repository.save(target);
+        return Arrays.asList(src, target);
     }
 }

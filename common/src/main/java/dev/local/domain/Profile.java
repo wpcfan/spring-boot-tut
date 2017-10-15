@@ -9,7 +9,9 @@ import java.util.Date;
 public class Profile {
     @Id
     private String id;
-    private String userId;
+    // in fact, this is a username, not user's ObjectId
+    // as this field is more used in common scenes
+    private String username;
     private String name;
     private String avatar;
     private Address address;

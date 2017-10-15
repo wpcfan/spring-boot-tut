@@ -12,7 +12,7 @@ spring:
     serialization:
       INDENT_OUTPUT: true
   data.mongodb:
-      database: springboot
+    database: springboot
 
 # JWT
 jwt:
@@ -32,5 +32,6 @@ logging:
     org.springframework:
       data: DEBUG
       security: DEBUG
+    dev.local: DEBUG
 
 #spring.boot.admin.url: http://localhost:8080

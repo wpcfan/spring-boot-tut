@@ -39,16 +39,14 @@ public class ProjectController {
             @RequestParam(value = "archived", defaultValue = "false", required = false) boolean archived,
             Pageable pageable) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findByUsername(username);
-        return service.findRelated(user.getId(), enabled, archived, pageable);
+        return service.findRelated(username, enabled, archived, pageable);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public Project add(@RequestBody CreateProjectDTO projectDTO){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findByUsername(username);
         Project project = projectDTO.buildProject();
-        return service.add(project, user);
+        return service.add(project, username);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
