@@ -1,0 +1,36 @@
+
+// 在这个段落中你可以声明编译后的Jar文件信息
+jar {
+    baseName = 'taskmgr-ruleengine'
+}
+
+dependencies {
+    compile("org.jeasy:easy-rules-core:${easyRulesVersion}")
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa") {
+        exclude module: 'org.apache.tomcat:tomcat-jdbc'
+    }
+//    runtime("cn.easyproject:ojdbc7:${oracleVersion}")
+    runtime("com.h2database:h2")
+    compileOnly("org.projectlombok:lombok")
+}
+
+// 建立 docker image
+task buildDocker(type: Docker, dependsOn: build) {
+    baseImage = 'frolvlad/alpine-oraclejdk8:slim'
+    tag = 'wpcfan/taskmgr-ruleengine'
+    push = false
+    applicationName = jar.baseName
+    addFile {
+        from "build/libs/$applicationName-$jar.version" + ".jar"
+        rename {'ruleengine.jar'}
+    }
+    entryPoint([
+            'java',
+            '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
+            '-Djava.security.egd=file:/dev/./urandom',
+            '-jar',
+            '/ruleengine.jar'
+    ])
+    exposePort(8092)
+}

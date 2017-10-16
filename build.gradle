@@ -12,9 +12,11 @@ buildscript {
         sqlserverVersion = '4.0'
         kotlinVersion = '1.1.50'
         swaggerVersion = '2.7.0'
+        easyRulesVersion = '3.0.0'
     }
     repositories {
-        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+//        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        mavenCentral()
         jcenter()
     }
     dependencies {
@@ -30,7 +32,8 @@ allprojects {
     // docker 的 group
     group = 'wpcfan'
     repositories() {
-        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+//        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        mavenCentral()
         jcenter()
     }
 
