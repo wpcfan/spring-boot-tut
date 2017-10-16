@@ -46,4 +46,16 @@ public class TaskServiceImpl implements TaskService {
         repository.save(task);
         return task;
     }
+
+    @Override
+    public Task toggle(String id) {
+        Task task = findById(id);
+        task.setCompleted(!task.isCompleted());
+        return repository.save(task);
+    }
+
+    @Override
+    public Task move(String id, String taskListId) {
+        return null;
+    }
 }
