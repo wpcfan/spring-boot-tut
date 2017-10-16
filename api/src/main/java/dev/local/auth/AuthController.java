@@ -1,10 +1,10 @@
 package dev.local.auth;
 
 import dev.local.domain.Profile;
+import dev.local.domain.User;
 import dev.local.dto.CreateUserDTO;
 import dev.local.secruity.JwtAuthenticationRequest;
 import dev.local.secruity.JwtAuthenticationResponse;
-import dev.local.domain.User;
 import dev.local.services.ProfileService;
 import dev.local.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

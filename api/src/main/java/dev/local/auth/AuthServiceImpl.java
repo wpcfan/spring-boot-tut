@@ -1,8 +1,8 @@
 package dev.local.auth;
 
+import dev.local.domain.User;
 import dev.local.secruity.JwtTokenUtil;
 import dev.local.secruity.JwtUser;
-import dev.local.domain.User;
 import dev.local.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,10 +20,10 @@ import java.util.Date;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private AuthenticationManager authenticationManager;
-    private UserDetailsService userDetailsService;
-    private JwtTokenUtil jwtTokenUtil;
-    private UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserService userService;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;

@@ -1,7 +1,6 @@
 package dev.local.services;
 
 import dev.local.domain.Project;
-import dev.local.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

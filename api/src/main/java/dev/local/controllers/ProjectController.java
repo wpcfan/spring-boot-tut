@@ -1,18 +1,14 @@
 package dev.local.controllers;
 
 import dev.local.domain.Project;
-import dev.local.domain.User;
 import dev.local.dto.CreateProjectDTO;
 import dev.local.services.ProjectService;
-import dev.local.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
 
 /**
  * Created by wangpeng on 2017/4/18.
@@ -22,15 +18,11 @@ import java.util.Collections;
 @PreAuthorize("hasRole('USER')")
 public class ProjectController {
 
-    private ProjectService service;
-    private UserService userService;
+    private final ProjectService service;
 
     @Autowired
-    public ProjectController(
-            ProjectService service,
-            UserService userService){
+    public ProjectController(ProjectService service){
         this.service = service;
-        this.userService = userService;
     }
 
     @RequestMapping(method = RequestMethod.GET)

@@ -11,11 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class ReportPdfController {
 
     @RequestMapping(path = "/pdf", method = RequestMethod.GET)
-    public ModelAndView report(ModelMap modelMap, ModelAndView modelAndView) {
+    public ModelAndView report(ModelMap modelMap) {
         modelMap.put("datasource", new JREmptyDataSource());
         modelMap.put("title", "王芃");
-        modelAndView = new ModelAndView("pdf", modelMap);
-        return modelAndView;
+        return new ModelAndView("pdf", modelMap);
     }
 }
 

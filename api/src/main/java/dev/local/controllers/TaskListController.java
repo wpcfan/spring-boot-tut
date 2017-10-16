@@ -17,7 +17,7 @@ import java.util.List;
 @PreAuthorize("hasRole('USER')")
 public class TaskListController {
 
-    private TaskListService service;
+    private final TaskListService service;
 
     @Autowired
     public TaskListController(TaskListService service){

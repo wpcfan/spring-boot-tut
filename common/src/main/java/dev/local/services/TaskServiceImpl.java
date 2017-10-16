@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository repository;
@@ -43,8 +41,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task update(Task task) {
-        repository.save(task);
-        return task;
+        return repository.save(task);
     }
 
     @Override

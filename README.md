@@ -579,7 +579,6 @@ public class SimpleMongoRepository<T, ID extends Serializable> implements MongoR
 		this.mongoOperations = mongoOperations;
 	}
 
-	repositories
 	public <S extends T> S save(S entity) {
 
 		Assert.notNull(entity, "Entity must not be null!");

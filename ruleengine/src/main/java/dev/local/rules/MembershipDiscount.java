@@ -1,7 +1,6 @@
 package dev.local.rules;
 
 import dev.local.domain.Customer;
-import dev.local.domain.Staff;
 import org.jeasy.rules.annotation.Action;
 import org.jeasy.rules.annotation.Condition;
 import org.jeasy.rules.annotation.Fact;

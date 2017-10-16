@@ -10,10 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ReportXlsController {
     @RequestMapping(path = "/xls", method = RequestMethod.GET)
-    public ModelAndView report(ModelMap modelMap, ModelAndView modelAndView) {
+    public ModelAndView report(ModelMap modelMap) {
         modelMap.put("datasource", new JREmptyDataSource());
         modelMap.put("title", "王芃");
-        modelAndView = new ModelAndView("xls", modelMap);
-        return modelAndView;
+        return new ModelAndView("xls", modelMap);
     }
 }

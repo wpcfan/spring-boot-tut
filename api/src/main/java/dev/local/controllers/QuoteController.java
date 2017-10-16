@@ -15,7 +15,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 @RestController
 @RequestMapping("/quotes")
 public class QuoteController {
-    private QuoteService service;
+    private final QuoteService service;
 
     @Autowired
     public QuoteController(QuoteService service) {

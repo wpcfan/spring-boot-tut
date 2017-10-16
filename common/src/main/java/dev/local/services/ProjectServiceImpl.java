@@ -2,7 +2,6 @@ package dev.local.services;
 
 import dev.local.domain.Project;
 import dev.local.domain.TaskList;
-import dev.local.domain.User;
 import dev.local.repositories.ProjectRepository;
 import dev.local.repositories.TaskListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
