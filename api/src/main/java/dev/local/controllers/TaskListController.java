@@ -1,7 +1,9 @@
 package dev.local.controllers;
 
+import dev.local.domain.SwapList;
 import dev.local.domain.TaskList;
 import dev.local.services.TaskListService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,16 +31,14 @@ public class TaskListController {
         return service.findByProjectId(projectId);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/swaporder")
-    public List<TaskList> swapOrder(
-            @RequestHeader(value = "srcListId") String srcListId,
-            @RequestHeader(value = "targetListId") String targetListId) {
-        return service.swapOrder(srcListId, targetListId);
+    @RequestMapping(method = RequestMethod.POST, value = "/swapOrder")
+    public List<TaskList> swapOrder(@RequestBody SwapList list) {
+        return service.swapOrder(list.getSrcListId(), list.getTargetListId());
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public TaskList add(@RequestBody TaskList list, @RequestHeader(value = "projectId") String projectId){
-        return service.add(list, projectId);
+    public TaskList add(@RequestBody TaskList list){
+        return service.add(list);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

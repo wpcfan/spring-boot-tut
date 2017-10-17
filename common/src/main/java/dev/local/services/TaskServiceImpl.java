@@ -1,19 +1,22 @@
 package dev.local.services;
 
 import dev.local.domain.Task;
+import dev.local.domain.TaskList;
+import dev.local.repositories.TaskListRepository;
 import dev.local.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository repository;
 
     @Autowired
-    TaskServiceImpl(
-            TaskRepository repository) {
+    TaskServiceImpl(TaskRepository repository) {
         this.repository = repository;
     }
 
@@ -27,6 +30,11 @@ public class TaskServiceImpl implements TaskService {
         Task deletedTask = repository.findOne(id);
         repository.delete(id);
         return deletedTask;
+    }
+
+    @Override
+    public List<Task> findTasksByUser(String username) {
+        return repository.findByParticipantIdsContaining(username);
     }
 
     @Override

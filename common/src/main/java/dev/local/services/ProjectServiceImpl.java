@@ -1,7 +1,11 @@
 package dev.local.services;
 
+import dev.local.domain.Profile;
 import dev.local.domain.Project;
 import dev.local.domain.TaskList;
+import dev.local.dto.QueryProjectDTO;
+import dev.local.repositories.ProfileRepository;
+import dev.local.repositories.ProjectRepoCustom;
 import dev.local.repositories.ProjectRepository;
 import dev.local.repositories.TaskListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +24,19 @@ import static java.util.Arrays.asList;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository repository;
     private final TaskListRepository taskListRepository;
+    private final ProfileRepository profileRepository;
+    private final ProjectRepoCustom projectRepoCustom;
 
     @Autowired
     public ProjectServiceImpl(
             ProjectRepository repository,
-            TaskListRepository taskListRepository){
+            TaskListRepository taskListRepository,
+            ProfileRepository profileRepository,
+            ProjectRepoCustom projectRepoCustom){
         this.repository = repository;
         this.taskListRepository = taskListRepository;
+        this.profileRepository = profileRepository;
+        this.projectRepoCustom = projectRepoCustom;
     }
 
     @Override
@@ -53,7 +63,9 @@ public class ProjectServiceImpl implements ProjectService {
                 plan.getId(),
                 inProgress.getId(),
                 done.getId()));
-
+        Profile profile = profileRepository.findByUsername(username);
+        profile.setProjectIdsJoined(Collections.singleton(savedProject.getId()));
+        profileRepository.save(profile);
         return repository.save(savedProject);
     }
 
@@ -65,9 +77,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Page<Project> findRelated(String userId, boolean enabled, boolean archived, Pageable pageable) {
-//        final User user =  userRepository.findOne(userId);
-        return repository.findRelated(userId, enabled, archived, pageable);
+    public Page<QueryProjectDTO> findRelated(String userId, Pageable pageable) {
+//        return repository.findRelated(userId, enabled, archived, pageable);
+        return projectRepoCustom.getJoinedProjectsWithUsers(userId, pageable);
     }
 
     @Override

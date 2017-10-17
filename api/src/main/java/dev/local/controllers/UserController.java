@@ -4,10 +4,12 @@ import dev.local.domain.Profile;
 import dev.local.domain.Task;
 import dev.local.domain.User;
 import dev.local.dto.CreateUserDTO;
-import dev.local.repositories.ProfileRepository;
-import dev.local.repositories.TaskRepository;
 import dev.local.repositories.UserRepository;
+import dev.local.services.ProfileService;
+import dev.local.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,17 +26,17 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository repository;
-    private final ProfileRepository profileRepository;
-    private final TaskRepository taskRepository;
+    private final ProfileService profileService;
+    private final TaskService taskService;
 
     @Autowired
     public UserController(
             UserRepository repository,
-            ProfileRepository profileRepository,
-            TaskRepository taskRepository) {
+            ProfileService profileService,
+            TaskService taskService) {
         this.repository = repository;
-        this.profileRepository = profileRepository;
-        this.taskRepository = taskRepository;
+        this.profileService = profileService;
+        this.taskService = taskService;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -48,16 +50,21 @@ public class UserController {
     User addUser(@RequestBody CreateUserDTO addedUser) {
         User userAdd = repository.insert(addedUser.buildUser());
         Profile profileAdd = addedUser.buildProfile();
-        profileAdd.setUsername(userAdd.getUsername());
-        profileRepository.insert(profileAdd);
+        profileService.add(profileAdd, userAdd.getUsername());
         return userAdd;
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(method = RequestMethod.GET, value = "/search")
+    Page<Profile> search(@RequestParam(value = "filter") String filter, Pageable pageable) {
+        return profileService.search(filter, pageable);
     }
 
     @PostAuthorize("returnObject.username == principal.username or hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/tasks")
     public List<Task> findRelated(@PathVariable String id) {
         String username = repository.findOne(id).getUsername();
-        return taskRepository.findByParticipantIdsContaining(username);
+        return taskService.findTasksByUser(username);
     }
 
     @PostAuthorize("returnObject.username == principal.username or hasRole('ROLE_ADMIN')")

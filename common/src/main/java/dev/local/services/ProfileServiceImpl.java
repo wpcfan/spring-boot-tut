@@ -1,25 +1,27 @@
 package dev.local.services;
 
 import dev.local.domain.Profile;
-import dev.local.domain.Project;
+import dev.local.repositories.ProfileRepoCustom;
 import dev.local.repositories.ProfileRepository;
-import dev.local.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository repository;
-    private final ProjectRepository projectRepository;
+    private final ProfileRepoCustom repoCustom;
 
     @Autowired
     public ProfileServiceImpl(
             ProfileRepository repository,
-            ProjectRepository projectRepository) {
+            ProfileRepoCustom repoCustom) {
         this.repository = repository;
-        this.projectRepository = projectRepository;
+        this.repoCustom = repoCustom;
     }
 
     @Override
@@ -34,9 +36,17 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Page<Profile> profilesByProject(final String projectId) {
-        Project project = projectRepository.findOne(projectId);
+    public List<Profile> profilesByProject(final String projectId) {
+        return repoCustom.findUsersInProject(projectId);
+    }
 
-        return null;
+    @Override
+    public Page<Profile> search(String filter, Pageable pageable) {
+        return repository.findDistinctProfileByUsernameLikeOrNameLike(filter, filter, pageable);
+    }
+
+    @Override
+    public Profile findByUsername(String username) {
+        return repository.findByUsername(username);
     }
 }

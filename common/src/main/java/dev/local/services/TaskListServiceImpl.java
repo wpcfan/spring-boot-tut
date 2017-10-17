@@ -27,8 +27,8 @@ public class TaskListServiceImpl implements TaskListService {
     }
 
     @Override
-    public TaskList add(TaskList list, String projectId) {
-        Project project = projectService.findById(projectId);
+    public TaskList add(TaskList list) {
+        Project project = projectService.findById(list.getProjectId());
         TaskList added = repository.insert(list);
         project.getTaskListIds().add(added.getId());
         projectService.update(project);
@@ -37,9 +37,9 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     public TaskList delete(String id) {
-        final TaskList group = repository.findOne(id);
+        final TaskList taskList = repository.findOne(id);
         repository.delete(id);
-        return group;
+        return taskList;
     }
 
     @Override

@@ -15,7 +15,7 @@ buildscript {
         easyRulesVersion = '3.0.0'
     }
     repositories {
-//        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
         mavenCentral()
         jcenter()
     }
@@ -32,7 +32,7 @@ allprojects {
     // docker 的 group
     group = 'wpcfan'
     repositories() {
-//        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
         mavenCentral()
         jcenter()
     }

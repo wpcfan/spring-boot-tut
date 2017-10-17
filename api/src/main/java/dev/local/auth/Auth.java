@@ -1,5 +1,6 @@
 package dev.local.auth;
 
+import dev.local.domain.Profile;
 import dev.local.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,5 +9,5 @@ import lombok.Data;
 @AllArgsConstructor
 class Auth {
     private String token;
-    private User user;
+    private Profile user;
 }

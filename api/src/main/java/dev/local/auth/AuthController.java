@@ -24,13 +24,11 @@ public class AuthController {
     private String tokenHeader;
 
     private final AuthService authService;
-    private final UserService userService;
     private final ProfileService profileService;
 
     @Autowired
-    public AuthController(AuthService authService, UserService userService, ProfileService profileService){
+    public AuthController(AuthService authService, ProfileService profileService){
         this.authService = authService;
-        this.userService = userService;
         this.profileService = profileService;
     }
 
@@ -38,7 +36,7 @@ public class AuthController {
     public Auth createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException{
         final String token = authService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        final User user = userService.findByUsername(authenticationRequest.getUsername());
+        final Profile user = profileService.findByUsername(authenticationRequest.getUsername());
         // Return the token
         return new Auth(token, user);
     }

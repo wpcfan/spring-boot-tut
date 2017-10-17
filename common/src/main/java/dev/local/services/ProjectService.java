@@ -1,6 +1,7 @@
 package dev.local.services;
 
 import dev.local.domain.Project;
+import dev.local.dto.QueryProjectDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 public interface ProjectService {
     Project add(Project project, String username);
     Project delete(String id);
-    Page<Project> findRelated(String userId, boolean enabled, boolean archived, Pageable pageable);
+    Page<QueryProjectDTO> findRelated(String userId, Pageable pageable);
     Project findById(String id);
     Project update(Project project);
 }
