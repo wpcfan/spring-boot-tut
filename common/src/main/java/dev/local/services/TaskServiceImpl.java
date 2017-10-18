@@ -61,6 +61,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task move(String id, String taskListId) {
-        return null;
+        Task task = findById(id);
+        task.setTaskListId(taskListId);
+        return repository.save(task);
     }
 }

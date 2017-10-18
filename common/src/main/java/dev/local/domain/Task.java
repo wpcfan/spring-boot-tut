@@ -21,4 +21,5 @@ public class Task {
     private Date reminder;
     private int priority;
     private String remark;
+    private List<TaskHistory> histories;
 }

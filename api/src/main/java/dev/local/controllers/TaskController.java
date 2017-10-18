@@ -37,10 +37,20 @@ public class TaskController {
         return service.findById(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     Task update(@PathVariable String id, @RequestBody Task updatedTask) {
         updatedTask.setId(id);
         return service.update(updatedTask);
+    }
+
+    @RequestMapping(value = "/{id}/toggle", method = RequestMethod.PATCH)
+    Task toggle(@PathVariable String id) {
+        return service.toggle(id);
+    }
+
+    @RequestMapping(value = "/{id}/move/{listId}", method = RequestMethod.PATCH)
+    Task move(@PathVariable String id, @PathVariable String listId) {
+        return service.move(id, listId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
