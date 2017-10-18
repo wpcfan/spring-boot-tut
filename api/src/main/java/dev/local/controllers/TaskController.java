@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tasks")
 @PreAuthorize("hasRole('USER')")
@@ -51,6 +53,11 @@ public class TaskController {
     @RequestMapping(value = "/{id}/move/{listId}", method = RequestMethod.PATCH)
     Task move(@PathVariable String id, @PathVariable String listId) {
         return service.move(id, listId);
+    }
+
+    @RequestMapping(value = "/moveAll", method = RequestMethod.PATCH)
+    List<Task> moveAll(@RequestParam("srcListId") String srcListId, @RequestParam("targetListId") String targetListId) {
+        return service.moveAll(srcListId, targetListId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -13,6 +13,7 @@ buildscript {
         kotlinVersion = '1.1.50'
         swaggerVersion = '2.7.0'
         easyRulesVersion = '3.0.0'
+        guavaVersion = '23.2-jre'
     }
     repositories {
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
@@ -59,6 +60,7 @@ subprojects {
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
         compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+        compile("com.google.guava:guava:${guavaVersion}")
         runtime('org.springframework.boot:spring-boot-devtools')
         testCompile('org.springframework.boot:spring-boot-starter-test')
         testCompile('org.springframework.security:spring-security-test')

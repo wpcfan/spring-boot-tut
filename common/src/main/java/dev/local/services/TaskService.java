@@ -15,4 +15,5 @@ public interface TaskService {
     Task update(Task task);
     Task toggle(String id);
     Task move(String id, String taskListId);
+    List<Task> moveAll(String srcListId, String targetListId);
 }

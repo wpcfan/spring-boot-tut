@@ -12,4 +12,5 @@ import java.util.List;
 public interface TaskRepository extends MongoRepository<Task, String>{
     List<Task> findByParticipantIdsContaining(String username);
     Page<Task> findByTaskListId(String taskListId, Pageable pageable);
+    List<Task> findByTaskListId(String taskListId);
 }
