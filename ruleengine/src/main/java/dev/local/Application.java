@@ -24,9 +24,11 @@ public class Application {
         Facts facts = new Facts();
         facts.put(
                 "customer",
-                new Customer("xxx", new Membership(1, "yyy", 100),
-                "zhangsan",
-                "zs001"));
+                new Customer(
+                        1L,
+                        "zhangsan",
+                        "zs001",
+                        new Membership(1, "yyy",  100)));
         try {
             facts.put("startDate", formatter.parse("2017-10-01"));
             facts.put("endDate", formatter.parse("2017-10-16"));

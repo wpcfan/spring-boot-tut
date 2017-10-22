@@ -5,12 +5,14 @@ jar {
 
 dependencies {
     compile project(':common')
+    compile("de.codecentric:spring-boot-admin-starter-client:${adminVersion}")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     //compile("com.microsoft.sqlserver:sqljdbc4:${sqlserverVersion}")
-    compileOnly("org.projectlombok:lombok")
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
 }
 
 // 建立 docker image

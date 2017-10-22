@@ -6,7 +6,6 @@ import dev.local.dto.CreateUserDTO;
 import dev.local.secruity.JwtAuthenticationRequest;
 import dev.local.secruity.JwtAuthenticationResponse;
 import dev.local.services.ProfileService;
-import dev.local.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

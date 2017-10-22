@@ -14,5 +14,8 @@ include 'report'
 include 'scheduled'
 include 'websocket'
 include 'ruleengine'
+include 'admin'
+include 'monitor'
+include 'registration-server'
 
 rootProject.name = 'spring-boot-tut'

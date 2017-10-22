@@ -2,6 +2,8 @@ package dev.local.repositories;
 
 import dev.local.domain.Project;
 import dev.local.dto.QueryProjectDTO;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +17,10 @@ import java.util.List;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 @Repository
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ProjectRepoCustomImpl implements ProjectRepoCustom {
 
     private final MongoTemplate mongoTemplate;
-
-    public ProjectRepoCustomImpl(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
-    }
 
     @Override
     public Page<QueryProjectDTO> getJoinedProjectsWithUsers(String username, Pageable pageable) {

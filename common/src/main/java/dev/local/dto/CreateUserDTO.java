@@ -21,19 +21,19 @@ public class CreateUserDTO {
     private Date dateOfBirth;
 
     public User buildUser() {
-        User user = new User();
-        user.setUsername(this.username);
-        user.setPassword(this.password);
-        return user;
+        return User.builder()
+                .password(this.password)
+                .username(this.username)
+                .build();
     }
 
     public Profile buildProfile() {
-        Profile profile = new Profile();
-        profile.setName(this.name);
-        profile.setAvatar(this.avatar);
-        profile.setDateOfBirth(this.dateOfBirth);
-        profile.setAddress(this.address);
-        profile.setIdentity(this.identity);
-        return profile;
+        return Profile.builder()
+                .name(this.name)
+                .avatar(this.avatar)
+                .dateOfBirth(this.dateOfBirth)
+                .address(this.address)
+                .identity(this.identity)
+                .build();
     }
 }

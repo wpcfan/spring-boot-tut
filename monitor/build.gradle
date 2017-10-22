@@ -1,0 +1,7 @@
+
+dependencies {
+    compile("de.codecentric:spring-boot-admin-server:${adminVersion}")
+    compile("de.codecentric:spring-boot-admin-server-ui:${adminVersion}")
+    compile("de.codecentric:spring-boot-admin-server-ui-login:${adminVersion}")
+    compile("org.springframework.boot:spring-boot-starter-security")
+}

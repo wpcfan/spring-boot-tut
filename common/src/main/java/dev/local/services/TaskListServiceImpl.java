@@ -3,6 +3,7 @@ package dev.local.services;
 import dev.local.domain.Project;
 import dev.local.domain.TaskList;
 import dev.local.repositories.TaskListRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +14,11 @@ import java.util.List;
  * Created by wangpeng on 2017/4/18.
  */
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskListServiceImpl implements TaskListService {
 
     private final TaskListRepository repository;
     private final ProjectService projectService;
-
-    @Autowired
-    public TaskListServiceImpl(
-            TaskListRepository repository,
-            ProjectService projectService){
-        this.repository = repository;
-        this.projectService = projectService;
-    }
 
     @Override
     public TaskList add(TaskList list) {
@@ -59,8 +53,8 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     public List<TaskList> swapOrder(String srcTaskListId, String targetTaskListId) {
-        TaskList src = repository.findOne(srcTaskListId);
-        TaskList target = repository.findOne(targetTaskListId);
+        TaskList src = findById(srcTaskListId);
+        TaskList target = findById(targetTaskListId);
         final int tempOrder = src.getOrder();
         src.setOrder(target.getOrder());
         repository.save(src);

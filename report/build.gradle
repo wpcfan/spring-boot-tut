@@ -9,9 +9,9 @@ dependencies {
     compile files(["lib/simsun.jar"])
     compile("org.springframework.boot:spring-boot-starter-web")
 //    compile("org.springframework:spring-context-support:${springCtxSupportVersion}")
-    compile("net.sf.jasperreports:jasperreports")
-    compile("com.lowagie:itext")
-    compile("org.apache.poi:poi")
+    compile("net.sf.jasperreports:jasperreports:${jasperVersion}")
+    compile("com.lowagie:itext:${itextVersion}")
+    compile("org.apache.poi:poi:${poiVersion}")
     compile("org.olap4j:olap4j:${olap4jVersion}")
 }
 // 建立 docker image

@@ -1,0 +1,44 @@
+// 在这个段落中你可以声明编译后的Jar文件信息
+jar {
+    baseName = 'taskmgr-service-registration'
+}
+
+repositories {
+    maven {
+        url 'https://repo.spring.io/libs-milestone'
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.M2'
+    }
+}
+
+dependencies {
+    compile("org.springframework.cloud:spring-cloud-starter-config")
+    compile("org.springframework.cloud:spring-cloud-starter-eureka")
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-web")
+}
+
+// 建立 docker image
+task buildDocker(type: Docker, dependsOn: build) {
+    baseImage = 'frolvlad/alpine-oraclejdk8:slim'
+    tag = 'wpcfan/taskmgr-service-registration'
+    push = false
+    applicationName = jar.baseName
+    addFile {
+        from "build/libs/$applicationName-$jar.version" + ".jar"
+        rename {'service-registration.jar'}
+    }
+    entryPoint([
+            'java',
+            '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
+            '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr',
+            '-Djava.security.egd=file:/dev/./urandom',
+            '-jar',
+            '/service-registration.jar'
+    ])
+    exposePort(8005)
+}

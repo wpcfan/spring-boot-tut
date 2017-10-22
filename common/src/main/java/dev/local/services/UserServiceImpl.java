@@ -2,31 +2,31 @@ package dev.local.services;
 
 import dev.local.domain.User;
 import dev.local.repositories.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
 
-    @Autowired
-    UserServiceImpl(UserRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
     public User add(User user) {
-        user.setRoles(Collections.singleton("ROLE_USER"));
-        return repository.insert(user);
+        return repository.insert(
+            user.withRoles(Collections.singleton("ROLE_USER"))
+        );
     }
 
     @Override
-    public String delete(String id) {
+    public void delete(String id) {
         repository.delete(id);
-        return id;
     }
 
     @Override
@@ -42,5 +42,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return repository.findByUsername(username);
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 }

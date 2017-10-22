@@ -2,6 +2,7 @@ package dev.local.controllers;
 
 import dev.local.domain.Task;
 import dev.local.services.TaskService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,14 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 @PreAuthorize("hasRole('USER')")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskController {
 
     private final TaskService service;
-
-    @Autowired
-    public TaskController(TaskService service){
-        this.service = service;
-    }
 
     @RequestMapping(method = RequestMethod.GET)
     public Page<Task> findByTaskListId(
@@ -61,7 +58,7 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    Task remove(@PathVariable String id) {
-        return service.delete(id);
+    void remove(@PathVariable String id) {
+        service.delete(id);
     }
 }

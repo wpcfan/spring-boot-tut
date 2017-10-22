@@ -5,10 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskService {
     Task add(Task task);
-    Task delete(String id);
+    void delete(String id);
     List<Task> findTasksByUser(String username);
     Page<Task> findByListId(String taskListId, Pageable pageable);
     Task findById(String id);

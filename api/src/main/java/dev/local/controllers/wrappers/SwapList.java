@@ -1,4 +1,4 @@
-package dev.local.domain;
+package dev.local.controllers.wrappers;
 
 import lombok.Data;
 

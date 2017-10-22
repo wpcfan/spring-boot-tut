@@ -1,9 +1,14 @@
 package dev.local.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Wither;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class CitizenId {
-    private int identityType;
-    private String identityNo;
+    @Wither private int identityType;
+    @Wither private String identityNo;
 }

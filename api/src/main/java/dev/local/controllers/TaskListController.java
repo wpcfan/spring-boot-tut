@@ -1,9 +1,9 @@
 package dev.local.controllers;
 
-import dev.local.domain.SwapList;
+import dev.local.controllers.wrappers.SwapList;
 import dev.local.domain.TaskList;
 import dev.local.services.TaskListService;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/taskLists")
 @PreAuthorize("hasRole('USER')")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskListController {
 
     private final TaskListService service;
-
-    @Autowired
-    public TaskListController(TaskListService service){
-        this.service = service;
-    }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<TaskList> findByProjectId(@RequestParam(value = "projectId") String projectId) {

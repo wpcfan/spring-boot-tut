@@ -1,11 +1,13 @@
 package dev.local.controllers;
 
+import dev.local.controllers.wrappers.ProjectMemberIds;
 import dev.local.domain.Profile;
 import dev.local.domain.Project;
 import dev.local.dto.CreateProjectDTO;
 import dev.local.dto.QueryProjectDTO;
 import dev.local.services.ProfileService;
 import dev.local.services.ProjectService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,17 +23,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/projects")
 @PreAuthorize("hasRole('USER')")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ProjectController {
 
     private final ProjectService service;
     private final ProfileService profileService;
-
-    @Autowired
-    public ProjectController(ProjectService service,
-                             ProfileService profileService){
-        this.service = service;
-        this.profileService = profileService;
-    }
 
     @RequestMapping(method = RequestMethod.GET)
     public Page<QueryProjectDTO> findRelated(
@@ -66,7 +62,13 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Project delete(@PathVariable String id){
-        return service.delete(id);
+    public void delete(@PathVariable String id){
+        service.delete(id);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public Project inviteMembers(@PathVariable String id, @RequestBody ProjectMemberIds memberIds) {
+        return service.inviteMembers(id, memberIds.getMemberIds());
+    }
+
 }

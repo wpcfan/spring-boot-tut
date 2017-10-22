@@ -3,6 +3,7 @@ package dev.local.services;
 import dev.local.domain.Profile;
 import dev.local.repositories.ProfileRepoCustom;
 import dev.local.repositories.ProfileRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,18 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository repository;
     private final ProfileRepoCustom repoCustom;
-
-    @Autowired
-    public ProfileServiceImpl(
-            ProfileRepository repository,
-            ProfileRepoCustom repoCustom) {
-        this.repository = repository;
-        this.repoCustom = repoCustom;
-    }
 
     @Override
     public Profile add(Profile profile, String userId) {

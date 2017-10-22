@@ -2,6 +2,7 @@ package dev.local.controllers;
 
 import dev.local.helpers.CacheFor;
 import dev.local.services.QuoteService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +15,9 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 @RestController
 @RequestMapping("/quotes")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class QuoteController {
     private final QuoteService service;
-
-    @Autowired
-    public QuoteController(QuoteService service) {
-        this.service = service;
-    }
 
     @CacheFor(amount=10, unit = MINUTES)
     @RequestMapping(value = "/daily", method = RequestMethod.GET)

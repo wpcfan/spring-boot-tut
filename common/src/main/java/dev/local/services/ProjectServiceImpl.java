@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 
@@ -44,25 +46,13 @@ public class ProjectServiceImpl implements ProjectService {
         project.setOwnerId(username);
         project.setMemberIds(Collections.singleton(username));
         Project savedProject = repository.insert(project);
-        TaskList plan = new TaskList();
-        plan.setName("计划");
-        plan.setOrder(0);
-        plan.setProjectId(savedProject.getId());
-        taskListRepository.insert(plan);
-        TaskList inProgress = new TaskList();
-        inProgress.setName("进行中");
-        inProgress.setOrder(1);
-        inProgress.setProjectId(savedProject.getId());
-        taskListRepository.insert(inProgress);
-        TaskList done = new TaskList();
-        done.setName("已完成");
-        done.setOrder(2);
-        done.setProjectId(savedProject.getId());
-        taskListRepository.insert(done);
-        savedProject.getTaskListIds().addAll(asList(
-                plan.getId(),
-                inProgress.getId(),
-                done.getId()));
+        List<TaskList> lists = taskListRepository.save(getInitLists(savedProject));
+        savedProject.getTaskListIds()
+                .addAll(lists.stream()
+                        .map(TaskList::getId)
+                        .collect(Collectors.toSet()
+                        )
+                );
         Profile profile = profileRepository.findByUsername(username);
         profile.setProjectIdsJoined(Collections.singleton(savedProject.getId()));
         profileRepository.save(profile);
@@ -70,10 +60,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project delete(String id) {
-        final Project project = repository.findOne(id);
+    public void delete(String id) {
         repository.delete(id);
-        return project;
     }
 
     @Override
@@ -89,7 +77,35 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project update(Project project) {
-        repository.save(project);
-        return project;
+        return repository.save(project);
+    }
+
+    @Override
+    public Project inviteMembers(String id, List<String> memberIds) {
+        Project project = findById(id);
+        project.getMemberIds().addAll(memberIds);
+        return repository.save(project);
+    }
+
+    private List<TaskList> getInitLists(Project savedProject) {
+        TaskList plan = TaskList.builder()
+                .name("计划")
+                .order(0)
+                .projectId(savedProject.getId())
+                .build();
+
+        TaskList inProgress = TaskList.builder()
+                .name("进行中")
+                .order(1)
+                .projectId(savedProject.getId())
+                .build();
+
+        TaskList done = TaskList.builder()
+                .name("已完成")
+                .order(2)
+                .projectId(savedProject.getId())
+                .build();
+
+        return asList(plan, inProgress, done);
     }
 }
