@@ -1,28 +1,13 @@
 buildscript {
     ext {
         springBootVersion = '1.5.8.RELEASE'
-        springCtxSupportVersion = '5.0.0.RELEASE'
-        jjwtVersion = '0.7.0'
-        jasperVersion = '6.4.0'
-        olap4jVersion = '1.2.0'
         gradleDockerVersion = '1.2'
         gradleDMVersion = '1.0.3.RELEASE'
-        oracleVersion =  '12.1.0.2.0'
-        h2Version = '1.4.196'
-        jasperVersion = '6.4.3'
-        itextVersion = '2.0.7'
-        poiVersion = '3.17'
-        sqlserverVersion = '4.0'
-        lombokVersion = '1.16.18'
-        swaggerVersion = '2.7.0'
-        easyRulesVersion = '3.0.0'
-        guavaVersion = '23.2-jre'
-        adminVersion = '1.5.4'
-        immutableVersion = '2.5.5'
+
     }
     repositories {
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
-        maven { url 'https://repo.spring.io/libs-snapshot' }
+        maven { url 'https://repo.spring.io/libs-milestone' }
         mavenCentral()
         jcenter()
     }
@@ -33,12 +18,32 @@ buildscript {
     }
 }
 
+ext {
+    springCloudVersion = 'Dalston.SR4'
+    springCtxSupportVersion = '5.0.0.RELEASE'
+    jjwtVersion = '0.7.0'
+    jasperVersion = '6.4.0'
+    olap4jVersion = '1.2.0'
+    oracleVersion =  '12.1.0.2.0'
+    h2Version = '1.4.196'
+    jasperVersion = '6.4.3'
+    itextVersion = '2.0.7'
+    poiVersion = '3.17'
+    sqlserverVersion = '4.0'
+    lombokVersion = '1.16.18'
+    swaggerVersion = '2.7.0'
+    easyRulesVersion = '3.0.0'
+    guavaVersion = '23.2-jre'
+    adminVersion = '1.5.4'
+    immutableVersion = '2.5.5'
+}
+
 allprojects {
     // docker 的 group
     group = 'wpcfan'
     repositories() {
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
-        maven { url 'https://repo.spring.io/libs-snapshot' }
+        maven { url 'https://repo.spring.io/libs-milestone' }
         mavenCentral()
         jcenter()
     }
@@ -54,23 +59,112 @@ subprojects {
     version = "0.0.1-SNAPSHOT"
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
     dependencies {
-        compile("com.google.guava:guava:${guavaVersion}")
-        compile("org.immutables:value:${immutableVersion}")
+//        compile("com.google.guava:guava:${guavaVersion}")
+//        compile("org.immutables:value:${immutableVersion}")
+        compileOnly('org.projectlombok:lombok')
         runtime('org.springframework.boot:spring-boot-devtools')
         testCompile('org.springframework.boot:spring-boot-starter-test')
         testCompile('org.springframework.security:spring-security-test')
     }
+    /*
+     * This task builds the docker image by copying the output of the "jar" gradle command
+     * and moving it to the "build/docker" directory which is used as the staging directory
+     * by the docker gradle plugin. We then build the docker image by invoking the appropriate
+     * Dockerfile.
+     */
+    task buildDocker(type: Docker, dependsOn: build) {
+        push = false
+        applicationName = jar.baseName
+        tagVersion = jar.version
+        dockerfile = file('src/main/docker/Dockerfile')
+        doFirst {
+            // Copy the built fat jar to the Docker plugin staging directory
+            copy {
+                from jar
+                into stageDir
+            }
+            // Copy the run.sh file to the Docker plugin staging directory
+            copy {
+                from "${project.buildDir}/resources/main/run.sh"
+                into stageDir
+            }
+        }
+    }
 }
 
-//project(':common') {
-//
-//}
-//
-//project(':api') {
-//
-//}
-//
-//project(':report') {
-//
-//}
+project(':config-server') {
+    jar {
+        baseName = 'taskmgr-config'
+    }
+    dependencies {
+        compile("org.springframework.cloud:spring-cloud-config-server")
+    }
+}
+
+project(':registration-server') {
+    jar {
+        baseName = 'taskmgr-registration'
+    }
+    dependencies {
+        compile('org.springframework.cloud:spring-cloud-starter-config')
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        compile("org.springframework.cloud:spring-cloud-starter-eureka-server")
+    }
+}
+
+project(':api-gateway') {
+    jar {
+        baseName = 'taskmgr-api-gateway'
+    }
+    dependencies {
+        // Basic Spring boot with config client
+        compile('org.springframework.cloud:spring-cloud-starter-config')
+        compile("org.springframework.boot:spring-boot-starter-web")
+        compile("org.springframework.boot:spring-boot-starter-actuator")
+        compile("org.springframework.cloud:spring-cloud-starter-zuul")
+
+        // Spring OAuth2 security
+        compile("org.springframework.boot:spring-boot-starter-security")
+        compile("org.springframework.security.oauth:spring-security-oauth2")
+        compile("org.springframework.cloud:spring-cloud-starter-oauth2")
+        compile("org.springframework.security:spring-security-jwt")
+
+        // Eureka client
+        compile('org.springframework.cloud:spring-cloud-starter-eureka')
+
+        // Zipkin tracing
+        compile('org.springframework.cloud:spring-cloud-starter-zipkin')
+    }
+}
+
+project(':auth-server') {
+    jar {
+        baseName = 'taskmgr-auth'
+    }
+    dependencies {
+        // Basic Spring boot with config client
+        compile('org.springframework.cloud:spring-cloud-starter-config')
+        compile("org.springframework.boot:spring-boot-starter-web")
+        compile("org.springframework.boot:spring-boot-starter-actuator")
+        compile("org.springframework.boot:spring-boot-starter-freemarker")
+
+        // Spring OAuth2 security
+        compile("org.springframework.boot:spring-boot-starter-security")
+        compile("org.springframework.security.oauth:spring-security-oauth2")
+        compile("org.springframework.security:spring-security-jwt")
+
+        // Eureka client
+        compile('org.springframework.cloud:spring-cloud-starter-eureka')
+
+        // JPA for persisting user data
+        compile("org.springframework.boot:spring-boot-starter-data-jpa")
+        compile("mysql:mysql-connector-java:5.1.30")
+    }
+}

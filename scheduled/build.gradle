@@ -14,23 +14,3 @@ dependencies {
 //    runtime("cn.easyproject:ojdbc7:${oracleVersion}")
     runtime("com.h2database:h2")
 }
-
-// 建立 docker image
-task buildDocker(type: Docker, dependsOn: build) {
-    baseImage = 'frolvlad/alpine-oraclejdk8:slim'
-    tag = 'wpcfan/taskmgr-scheduled'
-    push = false
-    applicationName = jar.baseName
-    addFile {
-        from "build/libs/$applicationName-$jar.version" + ".jar"
-        rename {'scheduled.jar'}
-    }
-    entryPoint([
-            'java',
-            '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
-            '-Djava.security.egd=file:/dev/./urandom',
-            '-jar',
-            '/scheduled.jar'
-    ])
-    exposePort(8092)
-}

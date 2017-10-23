@@ -17,5 +17,8 @@ include 'ruleengine'
 include 'admin'
 include 'monitor'
 include 'registration-server'
+include('config-server')
+include('auth-server')
+include('api-gateway')
 
 rootProject.name = 'spring-boot-tut'

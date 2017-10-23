@@ -11,25 +11,4 @@ dependencies {
         exclude module: 'org.apache.tomcat:tomcat-jdbc'
     }
     runtime("com.h2database:h2:${h2Version}")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
-}
-
-// 建立 docker image
-task buildDocker(type: Docker, dependsOn: build) {
-    baseImage = 'frolvlad/alpine-oraclejdk8:slim'
-    tag = 'wpcfan/taskmgr-ruleengine'
-    push = false
-    applicationName = jar.baseName
-    addFile {
-        from "build/libs/$applicationName-$jar.version" + ".jar"
-        rename {'ruleengine.jar'}
-    }
-    entryPoint([
-            'java',
-            '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
-            '-Djava.security.egd=file:/dev/./urandom',
-            '-jar',
-            '/ruleengine.jar'
-    ])
-    exposePort(8092)
 }

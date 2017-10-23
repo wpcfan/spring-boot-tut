@@ -7,26 +7,4 @@ dependencies {
     compile project(':common')
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
-}
-
-// 建立 docker image
-task buildDocker(type: Docker, dependsOn: build) {
-    baseImage = 'frolvlad/alpine-oraclejdk8:slim'
-    tag = 'wpcfan/taskmgr-admin'
-    push = false
-    applicationName = jar.baseName
-    addFile {
-        from "build/libs/$applicationName-$jar.version" + ".jar"
-        rename {'admin.jar'}
-    }
-    entryPoint([
-            'java',
-            '-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n',
-            '-Dspring.data.mongodb.uri=mongodb://mongodb/taskmgr',
-            '-Djava.security.egd=file:/dev/./urandom',
-            '-jar',
-            '/admin.jar'
-    ])
-    exposePort(8090)
 }

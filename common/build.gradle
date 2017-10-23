@@ -6,7 +6,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
 //    compile("org.springframework.boot:spring-boot-starter-data-couchbase")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
 }
 
 dependencyManagement {
