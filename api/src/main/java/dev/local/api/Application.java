@@ -3,6 +3,9 @@ package dev.local.api;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,6 +21,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @SpringBootApplication
 @EnableSwagger2
+@ComponentScan({"dev.local.services", "dev.local.repositories", "dev.local.helpers"})
+@EnableMongoRepositories({"dev.local.repositories"})
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

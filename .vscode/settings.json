@@ -1,0 +1,19 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/.settings": true,
+    "**/.idea": true,
+    "**/.gradle": true,
+    "**/build": true,
+    "**/*.classpath": true,
+    "**/*.project": true,
+    "*.iml": true,
+    "*.bat": true,
+    "gradlew": true
+  },
+  "java.configuration.updateBuildConfiguration": "automatic"
+}

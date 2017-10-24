@@ -1,0 +1,6 @@
+logging:
+  level:
+    org.springframework:
+      data: DEBUG
+    dev.local:
+      common: DEBUG

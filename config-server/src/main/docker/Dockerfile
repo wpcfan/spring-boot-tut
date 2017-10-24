@@ -1,16 +1,16 @@
 #-----------------------------------------------------------------------------------------------------
-# Authorization Server
+# Config Server
 #-----------------------------------------------------------------------------------------------------
 FROM openjdk:8u121-jdk-alpine
 
-LABEL author="Peng Wang <wpcfan@gmail.com>"
+LABEL author="Anil Allewar <anilallewar@yahoo.co.in>"
 
 # Keep consistent with build.gradle
-ENV APP_JAR_NAME basic-auth-server
+ENV APP_JAR_NAME basic-config-server
 ENV APP_JAR_VERSION 0.0.1
 
-# Install curl
-RUN apk --update add curl bash && \
+# Install curl, bash and mysql-client to check if DB is up
+RUN apk --update add curl bash mysql-client && \
 	rm -rf /var/cache/apk/*
 
 RUN mkdir /app
@@ -21,7 +21,7 @@ RUN chmod +x /app/run.sh
 
 WORKDIR /app
 
-EXPOSE 8899
+EXPOSE 8888
 
 ENTRYPOINT ["/bin/bash","-c"]
 CMD ["/app/run.sh"]
