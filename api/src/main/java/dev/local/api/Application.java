@@ -21,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan({"dev.local.services", "dev.local.repositories", "dev.local.helpers"})
+@ComponentScan({"dev.local"})
 @EnableMongoRepositories({"dev.local.repositories"})
 public class Application {
     public static void main(String[] args) {

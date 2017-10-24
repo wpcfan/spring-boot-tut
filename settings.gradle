@@ -18,6 +18,7 @@ include 'admin'
 include 'monitor'
 include 'registration-server'
 include('config-server')
+include('zipkin-server')
 include('auth-server')
 include('api-gateway')
 

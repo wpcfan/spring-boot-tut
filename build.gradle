@@ -77,7 +77,7 @@ subprojects {
     task buildDocker(type: Docker, dependsOn: build) {
         push = false
         applicationName = jar.baseName
-        tagVersion = jar.version
+        tagVersion = version
         dockerfile = file('src/main/docker/Dockerfile')
         doFirst {
             // Copy the built fat jar to the Docker plugin staging directory
@@ -116,6 +116,28 @@ project(':config-server') {
     }
     dependencies {
         compile("org.springframework.cloud:spring-cloud-config-server")
+    }
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+}
+
+project(':zipkin-server') {
+    jar {
+        baseName = 'taskmgr-zipkin'
+    }
+    dependencies {
+        // Basic Spring boot with config client
+        compile('org.springframework.cloud:spring-cloud-starter-config')
+        compile("org.springframework.boot:spring-boot-starter-web")
+        compile("org.springframework.boot:spring-boot-starter-actuator")
+
+        // Zipkin tracing
+        compile('org.springframework.cloud:spring-cloud-starter-zipkin')
+        runtime('io.zipkin.java:zipkin-autoconfigure-ui')
+        compile('io.zipkin.java:zipkin-server')
     }
     dependencyManagement {
         imports {
