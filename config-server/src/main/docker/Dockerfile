@@ -3,10 +3,10 @@
 #-----------------------------------------------------------------------------------------------------
 FROM openjdk:8u121-jdk-alpine
 
-LABEL author="Anil Allewar <anilallewar@yahoo.co.in>"
+LABEL author="Peng Wang <wpcfan@gmail.com>"
 
 # Keep consistent with build.gradle
-ENV APP_JAR_NAME basic-config-server
+ENV APP_JAR_NAME configserver
 ENV APP_JAR_VERSION 0.0.1
 
 # Install curl, bash and mysql-client to check if DB is up

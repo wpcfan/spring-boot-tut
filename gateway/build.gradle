@@ -1,0 +1,15 @@
+jar {
+    baseName = 'taskmgr-gateway'
+}
+dependencies {
+    compile('org.springframework.cloud:spring-cloud-starter-zuul')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}

@@ -8,9 +8,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.Wither;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,10 +17,12 @@ import java.util.Set;
 @Data
 @Builder
 @AllArgsConstructor
+@Entity
+@Table(name = "prfo", )
 public class User {
-    @Id
+    @Id @GeneratedValue(strategy= GenerationType.AUTO)
     private String id;
-    @Indexed(unique=true, direction= IndexDirection.DESCENDING, dropDups=true)
+    @Column(nullable = false)
     private String username;
     @JsonIgnore @Getter
     private String password;

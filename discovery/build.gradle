@@ -1,0 +1,11 @@
+jar {
+    baseName = 'discovery'
+}
+dependencies {
+    compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}

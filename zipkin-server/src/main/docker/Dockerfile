@@ -3,10 +3,10 @@
 #-----------------------------------------------------------------------------------------------------
 FROM openjdk:8u121-jdk-alpine
 
-MAINTAINER Anil Allewar <anilallewar@yahoo.co.in>
+MAINTAINER Peng Wang <wpcfan@gmail.com>
 
 # Keep consistent with build.gradle
-ENV APP_JAR_NAME basic-zipkin-server
+ENV APP_JAR_NAME zipkin-server
 ENV APP_JAR_VERSION 0.0.1
 
 # Install curl

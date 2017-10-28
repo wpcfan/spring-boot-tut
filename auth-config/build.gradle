@@ -1,0 +1,12 @@
+jar {
+    baseName = 'taskmgr-auth-config'
+}
+dependencies {
+    compile("org.springframework.security.oauth:spring-security-oauth2")
+    compile("org.springframework.security:spring-security-jwt")
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}

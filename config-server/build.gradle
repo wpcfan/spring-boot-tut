@@ -1,0 +1,11 @@
+jar {
+    baseName = 'config-server'
+}
+dependencies {
+    compile("org.springframework.cloud:spring-cloud-config-server")
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}

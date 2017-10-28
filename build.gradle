@@ -21,7 +21,7 @@ buildscript {
 ext {
     springCloudVersion = 'Dalston.SR4'
     springCtxSupportVersion = '5.0.0.RELEASE'
-    jjwtVersion = '0.7.0'
+    jjwtVersion = '0.9.0'
     jasperVersion = '6.4.0'
     olap4jVersion = '1.2.0'
     oracleVersion =  '12.1.0.2.0'
@@ -36,6 +36,7 @@ ext {
     guavaVersion = '23.2-jre'
     adminVersion = '1.5.4'
     immutableVersion = '2.5.5'
+    mysqlVersion = '5.1.30'
 }
 
 allprojects {
@@ -47,19 +48,18 @@ allprojects {
         mavenCentral()
         jcenter()
     }
-
     apply plugin: 'java'
     apply plugin: 'idea'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'docker'
 }
 
 subprojects {
-    version = "0.0.1-SNAPSHOT"
+    version = "0.0.1"
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'docker'
     dependencies {
 //        compile("com.google.guava:guava:${guavaVersion}")
 //        compile("org.immutables:value:${immutableVersion}")
@@ -91,149 +91,5 @@ subprojects {
                 into stageDir
             }
         }
-    }
-}
-
-project(':common') {
-    jar {
-        baseName = 'taskmgr-common'
-    }
-
-    dependencies {
-        compile("org.springframework.boot:spring-boot-starter-data-rest")
-        compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-    }
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
-        }
-    }
-}
-
-project(':config-server') {
-    jar {
-        baseName = 'taskmgr-config'
-    }
-    dependencies {
-        compile("org.springframework.cloud:spring-cloud-config-server")
-    }
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
-    }
-}
-
-project(':zipkin-server') {
-    jar {
-        baseName = 'taskmgr-zipkin'
-    }
-    dependencies {
-        // Basic Spring boot with config client
-        compile('org.springframework.cloud:spring-cloud-starter-config')
-        compile("org.springframework.boot:spring-boot-starter-web")
-        compile("org.springframework.boot:spring-boot-starter-actuator")
-
-        // Zipkin tracing
-        compile('org.springframework.cloud:spring-cloud-starter-zipkin')
-        runtime('io.zipkin.java:zipkin-autoconfigure-ui')
-        compile('io.zipkin.java:zipkin-server')
-    }
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
-    }
-}
-
-project(':registration-server') {
-    jar {
-        baseName = 'taskmgr-registration'
-    }
-    dependencies {
-        compile('org.springframework.cloud:spring-cloud-starter-config')
-        compile('org.springframework.boot:spring-boot-starter-actuator')
-        compile("org.springframework.cloud:spring-cloud-starter-eureka-server")
-    }
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
-    }
-}
-
-project(':api-gateway') {
-    jar {
-        baseName = 'taskmgr-api-gateway'
-    }
-    dependencies {
-        // Basic Spring boot with config client
-        compile('org.springframework.cloud:spring-cloud-starter-config')
-        compile("org.springframework.boot:spring-boot-starter-web")
-        compile("org.springframework.boot:spring-boot-starter-actuator")
-        compile("org.springframework.cloud:spring-cloud-starter-zuul")
-
-        // Spring OAuth2 security
-        compile("org.springframework.boot:spring-boot-starter-security")
-        compile("org.springframework.security.oauth:spring-security-oauth2")
-        compile("org.springframework.cloud:spring-cloud-starter-oauth2")
-        compile("org.springframework.security:spring-security-jwt")
-
-        // Eureka client
-        compile('org.springframework.cloud:spring-cloud-starter-eureka')
-
-        // Zipkin tracing
-        compile('org.springframework.cloud:spring-cloud-starter-zipkin')
-    }
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
-    }
-}
-
-project(':auth-server') {
-    jar {
-        baseName = 'taskmgr-auth'
-    }
-    dependencies {
-        // Basic Spring boot with config client
-        compile('org.springframework.cloud:spring-cloud-starter-config')
-        compile("org.springframework.boot:spring-boot-starter-web")
-        compile("org.springframework.boot:spring-boot-starter-actuator")
-        compile("org.springframework.boot:spring-boot-starter-freemarker")
-
-        // Spring OAuth2 security
-        compile("org.springframework.boot:spring-boot-starter-security")
-        compile("org.springframework.security.oauth:spring-security-oauth2")
-        compile("org.springframework.security:spring-security-jwt")
-
-        // Eureka client
-        compile('org.springframework.cloud:spring-cloud-starter-eureka')
-
-        // JPA for persisting user data
-        compile("org.springframework.boot:spring-boot-starter-data-jpa")
-        compile("mysql:mysql-connector-java:5.1.30")
-    }
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
-    }
-}
-
-project(':api') {
-    jar {
-        baseName = 'taskmgr-api'
-    }
-    dependencies {
-        compile project(':common')
-        compile("de.codecentric:spring-boot-admin-starter-client:${adminVersion}")
-        compile("org.springframework.boot:spring-boot-starter-actuator")
-        compile("org.springframework.boot:spring-boot-starter-security")
-        compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
-        compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
-        compile("io.springfox:springfox-swagger2:${swaggerVersion}")
-        //compile("com.microsoft.sqlserver:sqljdbc4:${sqlserverVersion}")
     }
 }

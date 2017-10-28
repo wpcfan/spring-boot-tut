@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: discovery
+  cloud:
+    config:
+      uri: http://localhost:8888
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+     config:
+        # change to ip when deploy to server
+        uri: http://localhost:8888

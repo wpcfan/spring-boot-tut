@@ -2,29 +2,74 @@ package dev.local.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.experimental.Wither;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-@Data
 @Builder
 @AllArgsConstructor
-public class Profile {
-    @Id
-    private String id;
+@Entity
+@Table(name = "profile",
+        indexes = {
+            @Index(name = "idx_profile_username", columnList = "username", unique = true)
+        }
+)
+public class Profile implements Serializable{
+    private static final long serialVersionUID = 1L;
+
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     // in fact, this is a username, not user's ObjectId
     // as this field is more used in common scenes
-    @Indexed(unique=true, direction= IndexDirection.DESCENDING, dropDups=true)
     private String username;
-    @Wither private String name;
-    @Wither private String avatar;
-    @Wither private Address address;
-    @Wither private CitizenId identity;
+
+    @Wither
+    private String name;
+
+    @Wither
+    private String avatar;
+
+    @Wither
+    private Address address;
+
+    @Wither
+    private CitizenId identity;
+
+    @Column(name = "date_of_birth")
+    @Temporal(TemporalType.DATE)
     @Wither private Date dateOfBirth;
-    @Wither private Set<String> projectIdsJoined;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "profile_project",
+            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    )
+    @Wither
+    private Set<String> projectsJoined;
+
+    @JoinTable(
+            name = "profile_task",
+            joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    )
+    @Wither
+    private Set<String> tasksJoined;
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || o instanceof Profile
+                && id != null
+                && id.equals(((Profile) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
 }
