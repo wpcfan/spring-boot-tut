@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequestMapping("/user")
 public class AuthController {
 
     private final AuthService service;

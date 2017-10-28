@@ -3,6 +3,9 @@ server:
 spring:
   application:
     name: auth
+  devtools:
+    remote:
+      secret: thisismysecret
   datasource:
     url: jdbc:mysql://localhost:3306/auth
     username: root
