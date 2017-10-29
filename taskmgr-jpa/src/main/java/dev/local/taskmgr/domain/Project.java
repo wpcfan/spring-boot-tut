@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @Value
 @Entity
-@Table(name = "project")
+@Table(name = "taskmgr_project")
 @ToString(exclude = {"owner", "members", "taskLists"})
 public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,10 +23,13 @@ public class Project implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private @Wither Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(name = "prj_desc")
     private String desc;
 
+    @Column(nullable = false)
     private String coverImg;
 
     @Builder.Default
@@ -42,7 +45,7 @@ public class Project implements Serializable {
     @Builder.Default
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "profile_project",
+            name = "taskmgr_profile_project",
             joinColumns = @JoinColumn(name = "profile_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id")
     )

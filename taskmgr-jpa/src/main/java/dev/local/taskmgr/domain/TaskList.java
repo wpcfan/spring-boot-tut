@@ -12,6 +12,7 @@ import java.util.List;
 @Value
 @Builder
 @Entity
+@Table(name = "taskmgr_task_list")
 @ToString(exclude={"project"})
 public class TaskList implements Serializable {
 
@@ -25,6 +26,7 @@ public class TaskList implements Serializable {
     private String name;
 
     @Wither
+    @Column(name = "list_order")
     private int order;
 
     @ManyToOne

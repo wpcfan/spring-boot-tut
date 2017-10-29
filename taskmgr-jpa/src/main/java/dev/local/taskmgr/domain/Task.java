@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "task")
+@Table(name = "taskmgr_task")
 @Builder
 @Value
 @ToString(exclude={"taskList", "owner", "participants", "histories"})
@@ -24,6 +24,7 @@ public class Task implements Serializable {
     @Wither
     private Long id;
 
+    @Column(name = "task_desc", nullable = false)
     private String desc;
 
     @Wither
@@ -40,7 +41,7 @@ public class Task implements Serializable {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
-            name = "profile_task",
+            name = "taskmgr_profile_task",
             joinColumns = @JoinColumn(name = "profile_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )

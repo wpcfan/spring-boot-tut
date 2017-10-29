@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -22,6 +23,7 @@ import java.util.List;
 @EnableResourceServer
 @ComponentScan({"dev.local"})
 @SpringBootApplication
+@EnableFeignClients
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskMgrApplication {
 

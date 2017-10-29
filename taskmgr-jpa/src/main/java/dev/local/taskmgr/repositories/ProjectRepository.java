@@ -8,10 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by wangpeng on 2017/4/19.
+ * Custom query example, count query is required for pagination to work
+ *
  */
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    @Query("select p from Project p inner join p.members m where m.username=:username and p.enabled=:enabled and p.archived=:archived")
+    @Query(value = "select p from Project p inner join p.members m where m.username=?1 and p.enabled=?2 and p.archived=?3",
+            countQuery = "select count(*) from Project p inner join p.members m where m.username=?1 and p.enabled=?2 and p.archived=?3")
     Page<Project> findRelated(String username, boolean enabled, boolean archived, Pageable pageable);
 }

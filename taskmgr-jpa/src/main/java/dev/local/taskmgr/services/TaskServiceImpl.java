@@ -1,5 +1,6 @@
 package dev.local.taskmgr.services;
 
+import dev.local.taskmgr.domain.Profile;
 import dev.local.taskmgr.domain.Task;
 import dev.local.taskmgr.domain.TaskList;
 import dev.local.taskmgr.repositories.ProfileRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +35,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> findTasksByUser(String username) {
-        return profileRepository.findByUsername(username).getTasksJoined();
+        final Profile profile = profileRepository.findByUsername(username);
+        return  profile == null ?  new ArrayList<>() : profile.getTasksJoined();
     }
 
     @Override

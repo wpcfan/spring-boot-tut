@@ -4,6 +4,23 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+  hystrix:
+    enabled: false
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          semaphore:
+            timeoutInMilliseconds: 5000
 
 spring:
   application:

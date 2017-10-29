@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "task_history")
+@Table(name = "taskmgr_task_history")
 @Builder
 @ToString(exclude = "task")
 public class TaskHistory extends Auditable<String> implements Serializable {

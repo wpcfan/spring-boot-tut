@@ -1,5 +1,6 @@
 package dev.local.taskmgr.domain;
 
+import dev.local.taskmgr.dto.ProfileDTO;
 import lombok.Builder;
 import lombok.ToString;
 import lombok.Value;
@@ -10,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "profile",
+@Table(name = "taskmgr_profile",
         indexes = {
             @Index(name = "idx_profile_username", columnList = "username", unique = true)
         }
@@ -54,5 +55,27 @@ public class Profile implements Serializable{
     @Override
     public int hashCode() {
         return 31;
+    }
+
+    public ProfileDTO toProfileDTO() {
+        return ProfileDTO.builder()
+                .username(username)
+                .avatar(avatar)
+                .address(address)
+                .dateOfBirth(dateOfBirth)
+                .identity(identity)
+                .name(name)
+                .build();
+    }
+
+    public static Profile fromProfileDTO(ProfileDTO dto) {
+        return Profile.builder()
+                .name(dto.getName())
+                .address(dto.getAddress())
+                .avatar(dto.getAvatar())
+                .dateOfBirth(dto.getDateOfBirth())
+                .identity(dto.getIdentity())
+                .username(dto.getUsername())
+                .build();
     }
 }
