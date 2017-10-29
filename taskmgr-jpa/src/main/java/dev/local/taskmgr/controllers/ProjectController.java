@@ -4,8 +4,6 @@ import dev.local.taskmgr.controllers.wrappers.ProjectMemberIds;
 import dev.local.taskmgr.domain.Profile;
 import dev.local.taskmgr.domain.Project;
 import dev.local.taskmgr.dto.CreateProjectDTO;
-import dev.local.taskmgr.dto.QueryProjectDTO;
-import dev.local.taskmgr.services.ProfileService;
 import dev.local.taskmgr.services.ProjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,6 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService service;
-    private final ProfileService profileService;
 
     @RequestMapping(method = RequestMethod.GET)
     public Page<Project> findRelated(

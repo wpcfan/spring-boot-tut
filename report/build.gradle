@@ -4,7 +4,6 @@ jar {
 }
 
 dependencies {
-    compile project(':common')
     // the following 5 are required by jasperreport rendering
     compile files(["lib/simsun.jar"])
     compile("org.springframework.boot:spring-boot-starter-web")

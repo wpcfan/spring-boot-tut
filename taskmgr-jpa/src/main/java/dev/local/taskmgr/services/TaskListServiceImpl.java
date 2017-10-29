@@ -1,6 +1,5 @@
 package dev.local.taskmgr.services;
 
-import dev.local.taskmgr.domain.Project;
 import dev.local.taskmgr.domain.TaskList;
 import dev.local.taskmgr.repositories.TaskListRepository;
 import lombok.AllArgsConstructor;

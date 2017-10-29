@@ -7,20 +7,15 @@
  * Detailed information about configuring a multi-project build in Gradle can be found
  * in the user guide at https://docs.gradle.org/3.3/userguide/multi_project_builds.html
  */
-
-include 'common'
-include 'api'
-
-include 'admin'
 include 'monitor'
 include('config-server')
 include('zipkin-server')
 include('gateway')
 include('taskmgr-jpa')
+include('taskmgr-mongo')
 include('discovery')
 include('auth-config')
 include('auth')
-include('user-service')
 include('report')
 include('scheduled')
 include('websocket')

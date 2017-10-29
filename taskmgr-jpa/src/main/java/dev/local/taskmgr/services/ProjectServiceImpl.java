@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,7 +27,6 @@ import static java.util.Arrays.asList;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository repository;
     private final TaskListRepository taskListRepository;
-    private final ProfileRepository profileRepository;
 
     @Override
     public Project add(Project project, String username) {
