@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @Entity
 @ToString(exclude={"project"})
 public class TaskList implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -32,6 +34,10 @@ public class TaskList implements Serializable {
     @JoinColumn(name = "project_id")
     @Wither
     private Project project;
+
+    @OneToMany(mappedBy = "taskList")
+    @Wither
+    private List tasks;
 
     @Override
     public boolean equals(Object o) {

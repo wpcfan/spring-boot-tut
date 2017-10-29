@@ -3,13 +3,14 @@ package dev.local.taskmgr.domain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Value;
 import lombok.experimental.Wither;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Data
+@Value
 @Builder
 @AllArgsConstructor
 @Embeddable

@@ -6,7 +6,9 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -14,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "project")
+@ToString(exclude = {"owner", "members", "taskLists"})
 public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -46,7 +49,7 @@ public class Project implements Serializable {
 
     @Builder.Default @Wither
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private Set<String> taskLists = new HashSet<>();
+    private List<String> taskLists = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

@@ -3,20 +3,20 @@ package dev.local.taskmgr.domain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Value;
 import lombok.experimental.Wither;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Data
+@Value
 @Builder
 @AllArgsConstructor
 @Embeddable
-public class CitizenId implements Serializable{
+public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Column(name = "id_type")
-    @Wither private int identityType;
-    @Column(name = "id_no")
-    @Wither private String identityNo;
+    @Wither private String province;
+    @Wither private String city;
+    @Wither private String district;
+    @Wither private String street;
 }

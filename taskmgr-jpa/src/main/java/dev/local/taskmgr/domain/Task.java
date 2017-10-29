@@ -6,17 +6,15 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Todo是一个领域对象（domain object）
- */
-@Builder
-@AllArgsConstructor
 @Entity
 @Table(name = "task")
-@ToString(exclude={"taskList", "owner", "participants"})
+@Builder
+@AllArgsConstructor
+@ToString(exclude={"taskList", "owner", "participants", "histories"})
 public class Task implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,7 +56,8 @@ public class Task implements Serializable {
     @Wither @Getter @Setter
     private String remark;
 
-    @Wither private List<TaskHistory> histories;
+    @Wither @Getter @Setter
+    private List<TaskHistory> histories = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

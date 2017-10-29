@@ -53,6 +53,7 @@ public class Profile implements Serializable{
     @Wither
     private Set<String> projectsJoined;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "profile_task",
             joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"),

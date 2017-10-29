@@ -1,16 +1,15 @@
 package dev.local.taskmgr.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Wither;
 
-@Data
+import java.io.Serializable;
+
+@Value
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Quote {
+public class Quote implements Serializable{
     @Wither private String cn;
     @Wither private String en;
     @Wither private String pic;

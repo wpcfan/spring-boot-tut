@@ -1,4 +1,4 @@
-package dev.local.repositories;
+package dev.local.taskmgr.repositories;
 
 import dev.local.taskmgr.domain.TaskList;
 import org.springframework.data.jpa.repository.JpaRepository;

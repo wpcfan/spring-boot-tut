@@ -1,4 +1,4 @@
-package dev.local.domain;
+package dev.local.taskmgr.domain;
 
 import lombok.Data;
 
