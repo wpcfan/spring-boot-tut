@@ -2,8 +2,6 @@ package dev.local.auth.service;
 
 import dev.local.auth.jwt.entities.JwtUser;
 import dev.local.auth.jwt.util.JwtTokenUtil;
-import dev.local.domain.User;
-import dev.local.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;

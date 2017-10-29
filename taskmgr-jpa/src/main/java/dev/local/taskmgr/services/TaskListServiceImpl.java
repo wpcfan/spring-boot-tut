@@ -1,8 +1,8 @@
-package dev.local.services;
+package dev.local.taskmgr.services;
 
-import dev.local.domain.Project;
-import dev.local.domain.TaskList;
-import dev.local.repositories.TaskListRepository;
+import dev.local.taskmgr.domain.Project;
+import dev.local.taskmgr.domain.TaskList;
+import dev.local.taskmgr.repositories.TaskListRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,48 +18,40 @@ import java.util.List;
 public class TaskListServiceImpl implements TaskListService {
 
     private final TaskListRepository repository;
-    private final ProjectService projectService;
 
     @Override
-    public TaskList add(TaskList list) {
-        Project project = projectService.findById(list.getProjectId());
-        TaskList added = repository.insert(list);
-        project.getTaskListIds().add(added.getId());
-        projectService.update(project);
-        return added;
+    public TaskList add(final TaskList list) {
+        return repository.save(list);
     }
 
     @Override
-    public TaskList delete(String id) {
+    public TaskList delete(final Long id) {
         final TaskList taskList = repository.findOne(id);
         repository.delete(id);
         return taskList;
     }
 
     @Override
-    public TaskList findById(String id) {
+    public TaskList findById(final Long id) {
         return repository.findOne(id);
     }
 
     @Override
-    public TaskList update(TaskList list) {
+    public TaskList update(final TaskList list) {
         return repository.save(list);
     }
 
     @Override
-    public List<TaskList> findByProjectId(String projectId) {
+    public List<TaskList> findByProjectId(final Long projectId) {
         return repository.findByProjectId(projectId);
     }
 
     @Override
-    public List<TaskList> swapOrder(String srcTaskListId, String targetTaskListId) {
-        TaskList src = findById(srcTaskListId);
-        TaskList target = findById(targetTaskListId);
-        final int tempOrder = src.getOrder();
-        src.setOrder(target.getOrder());
-        repository.save(src);
-        target.setOrder(tempOrder);
-        repository.save(target);
-        return Arrays.asList(src, target);
+    public List<TaskList> swapOrder(final Long srcTaskListId, final Long targetTaskListId) {
+        final TaskList src = findById(srcTaskListId);
+        final TaskList target = findById(targetTaskListId);
+        final TaskList savedSrc = repository.save(src.withOrder(target.getOrder()));
+        final TaskList savedTarget = repository.save(target.withOrder(src.getOrder()));
+        return Arrays.asList(savedSrc, savedTarget);
     }
 }

@@ -1,6 +1,5 @@
 package dev.local.auth.jwt.entities;
 
-import dev.local.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

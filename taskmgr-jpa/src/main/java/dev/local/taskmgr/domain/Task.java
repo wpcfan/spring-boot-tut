@@ -1,8 +1,9 @@
 package dev.local.taskmgr.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.ToString;
+import lombok.Value;
 import lombok.experimental.Wither;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,50 +14,49 @@ import java.util.List;
 @Entity
 @Table(name = "task")
 @Builder
-@AllArgsConstructor
+@Value
 @ToString(exclude={"taskList", "owner", "participants", "histories"})
 public class Task implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id @Getter @Setter @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Wither
+    private Long id;
 
-    @Wither @Getter @Setter
     private String desc;
 
-    @Wither @Getter @Setter
+    @Wither
     private boolean completed;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_list_id")
-    @Getter @Setter @Wither
+    @Wither
     private TaskList taskList;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    @Getter @Setter @Wither
     private Profile owner;
 
-    @ManyToMany(mappedBy = "tasksJoined")
-    @Getter @Setter @Wither
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "profile_task",
+            joinColumns = @JoinColumn(name = "profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
     private List<Profile> participants;
 
     @Temporal(TemporalType.DATE)
-    @Wither @Getter @Setter
     private Date dueDate;
 
     @Temporal(TemporalType.DATE)
-    @Wither @Getter @Setter
     private Date reminder;
 
-    @Wither @Getter @Setter
     private int priority;
 
-    @Wither @Getter @Setter
     private String remark;
 
-    @Wither @Getter @Setter
+    @OneToMany(mappedBy="task")
     private List<TaskHistory> histories = new ArrayList<>();
 
     @Override

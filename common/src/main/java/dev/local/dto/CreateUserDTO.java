@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.local.domain.Address;
 import dev.local.domain.CitizenId;
 import dev.local.domain.Profile;
-import dev.local.domain.User;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,13 +18,6 @@ public class CreateUserDTO {
     private CitizenId identity;
     private Address address;
     private Date dateOfBirth;
-
-    public User buildUser() {
-        return User.builder()
-                .password(this.password)
-                .username(this.username)
-                .build();
-    }
 
     public Profile buildProfile() {
         return Profile.builder()

@@ -3,15 +3,14 @@ package dev.local.auth.dto;
 import dev.local.auth.domain.User;
 
 import lombok.Builder;
-import lombok.NonNull;
 import lombok.Value;
 
 @Value
 @Builder
-public class UserDTO {
+public class RegisterUserDTO {
 
     private String username;
-    
+
     private String password;
 
     public User build() {

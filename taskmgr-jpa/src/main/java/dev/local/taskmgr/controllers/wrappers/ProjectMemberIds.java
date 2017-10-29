@@ -1,4 +1,4 @@
-package dev.local.api.controllers.wrappers;
+package dev.local.taskmgr.controllers.wrappers;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,5 +7,5 @@ import java.util.List;
 
 public class ProjectMemberIds {
     @Getter @Setter
-    private List<String> memberIds;
+    private List<Long> memberIds;
 }

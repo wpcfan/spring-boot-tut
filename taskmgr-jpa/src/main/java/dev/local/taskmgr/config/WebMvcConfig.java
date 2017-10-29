@@ -1,4 +1,4 @@
-package dev.local.api.controllers;
+package dev.local.taskmgr.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;

@@ -1,8 +1,6 @@
 package dev.local.auth.service;
 
 import dev.local.auth.jwt.entities.JwtUserFactory;
-import dev.local.domain.User;
-import dev.local.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

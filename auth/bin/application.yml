@@ -1,0 +1,43 @@
+server:
+  port: 8899
+spring:
+  application:
+    name: auth
+  devtools:
+    remote:
+      secret: thisismysecret
+  datasource:
+    url: jdbc:mysql://localhost:3306/auth
+    username: root
+    password: Wp770521
+    driver-class: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+logging:
+  level:
+    org.springframework:
+      data: DEBUG
+    dev.local: DEBUG
+    org.hibernate:
+      SQL: DEBUG
+      type:
+        descriptor:
+          sql:
+            BasicBinder: TRACE
+flyway:
+  locations: classpath:db/migration
+  baseline-on-migrate: true
+  baseline-version: 1.0
+  baseline-description: Base Migration
+endpoints:
+  flyway:
+    web:
+      enabled: true

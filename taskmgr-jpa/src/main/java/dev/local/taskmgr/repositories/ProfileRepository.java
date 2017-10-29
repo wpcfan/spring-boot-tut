@@ -1,6 +1,6 @@
 package dev.local.taskmgr.repositories;
 
-import org.springframework.context.annotation.Profile;
+import dev.local.taskmgr.domain.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

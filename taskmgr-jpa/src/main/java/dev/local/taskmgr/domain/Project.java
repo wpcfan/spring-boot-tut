@@ -1,19 +1,19 @@
 package dev.local.taskmgr.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.ToString;
+import lombok.Value;
 import lombok.experimental.Wither;
-import org.springframework.data.annotation.Id;
+
+import javax.persistence.Id;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Value
 @Entity
 @Table(name = "project")
 @ToString(exclude = {"owner", "members", "taskLists"})
@@ -21,35 +21,36 @@ public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private @Wither Long id;
 
-    @Wither
     private String name;
 
-    @Wither
     private String desc;
 
-    @Wither
     private String coverImg;
 
-    @Builder.Default @Wither
+    @Builder.Default
     private boolean enabled = true;
 
-    @Builder.Default @Wither
+    @Builder.Default
     private boolean archived = false;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    @Getter @Setter @Wither
     private Profile owner;
 
-    @Builder.Default @Wither
-    @ManyToMany(mappedBy = "projectsJoined")
-    private Set<String> members = new HashSet<>();
+    @Builder.Default
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "profile_project",
+            joinColumns = @JoinColumn(name = "profile_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id")
+    )
+    private List<Profile> members = new ArrayList<>();
 
-    @Builder.Default @Wither
+    @Builder.Default
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<String> taskLists = new ArrayList<>();
+    private List<TaskList> taskLists = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

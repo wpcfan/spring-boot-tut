@@ -1,7 +1,5 @@
-package dev.local.api.controllers;
+package dev.local.taskmgr.controllers;
 
-import dev.local.helpers.CacheFor;
-import dev.local.services.QuoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
+
+import dev.local.taskmgr.helpers.CacheFor;
+import dev.local.taskmgr.services.QuoteService;
 
 @RestController
 @RequestMapping("/quotes")

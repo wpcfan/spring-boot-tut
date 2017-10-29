@@ -1,11 +1,7 @@
 package dev.local.auth.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Wither;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,26 +11,25 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Data
+@Builder
 @Entity
 @Table(name = "users")
-@AllArgsConstructor
+@ToString(exclude = {"authorities"})
 @NoArgsConstructor
+@AllArgsConstructor
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Wither @Getter @Setter
     private String username;
 
     @JsonIgnore
-    @Wither @Getter @Setter
     private String password;
 
-    @Wither @Getter @Setter
     private boolean enabled = true;
 
-    @Wither @Getter @Setter
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Authority> authorities;
 

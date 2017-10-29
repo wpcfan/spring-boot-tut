@@ -16,7 +16,7 @@ include 'monitor'
 include('config-server')
 include('zipkin-server')
 include('gateway')
-include('task-service')
+include('taskmgr-jpa')
 include('discovery')
 include('auth-config')
 include('auth')

@@ -1,7 +1,7 @@
-package dev.local.dto;
+package dev.local.taskmgr.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import dev.local.domain.Project;
+import dev.local.taskmgr.domain.Project;
 import lombok.Data;
 
 @Data
@@ -12,10 +12,10 @@ public class CreateProjectDTO {
     private String coverImg;
 
     public Project buildProject() {
-        Project project = new Project();
-        project.setName(this.name);
-        project.setDesc(this.desc);
-        project.setCoverImg(this.coverImg);
-        return project;
+        return Project.builder()
+                .name(name)
+                .desc(desc)
+                .coverImg(coverImg)
+                .build();
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -35,20 +34,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource)
-                .withClient("web_app")
-                .accessTokenValiditySeconds(3600*24)
-                .scopes("FOO")
-                .autoApprove(true)
-                .authorities("USER", "ADMIN")
-                .authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code")
-                .and()
-                .withClient("erp")
-                .accessTokenValiditySeconds(3600*24)
-                .scopes("BOO")
-                .autoApprove(true)
-                .authorities("OPERATOR", "DOCTOR")
-                .authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code");
+        clients.jdbc(dataSource);
     }
 
 

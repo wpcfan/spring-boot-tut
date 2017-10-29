@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, String> {
-    List<Task> findByParticipantIdsContaining(String username);
-    Page<Task> findByTaskListId(String taskListId, Pageable pageable);
-    List<Task> findByTaskListId(String taskListId);
+public interface TaskRepository extends JpaRepository<Task, Long> {
+    List<Task> findByParticipantsContaining(String username);
+    Page<Task> findByTaskListId(Long taskListId, Pageable pageable);
+    List<Task> findByTaskListId(Long taskListId);
 }

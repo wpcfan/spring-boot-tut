@@ -4,8 +4,7 @@ jar {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("mysql:mysql-connector-java:${mysqlVersion}")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
 }
 dependencyManagement {
     imports {

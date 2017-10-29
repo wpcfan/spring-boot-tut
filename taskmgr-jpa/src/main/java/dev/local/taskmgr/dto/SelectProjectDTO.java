@@ -1,10 +1,9 @@
-package dev.local.dto;
+package dev.local.taskmgr.dto;
 
-import dev.local.domain.Project;
-import dev.local.domain.Task;
-import dev.local.domain.TaskList;
 import lombok.Data;
-
+import dev.local.taskmgr.domain.Project;
+import dev.local.taskmgr.domain.Task;
+import dev.local.taskmgr.domain.TaskList;
 import java.util.List;
 
 @Data

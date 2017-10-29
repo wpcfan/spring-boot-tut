@@ -1,8 +1,8 @@
 package dev.local.auth.services;
 
-import dev.local.auth.dto.UserDTO;
+import dev.local.auth.dto.RegisterUserDTO;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 public interface AuthService {
-    UserDTO register(UserDTO userDTO) throws HttpRequestMethodNotSupportedException;
+    RegisterUserDTO register(RegisterUserDTO userDTO) throws HttpRequestMethodNotSupportedException;
 }

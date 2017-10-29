@@ -2,11 +2,9 @@ package dev.local.api.controllers;
 
 import dev.local.domain.Profile;
 import dev.local.domain.Task;
-import dev.local.domain.User;
 import dev.local.dto.CreateUserDTO;
 import dev.local.services.ProfileService;
 import dev.local.services.TaskService;
-import dev.local.services.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;

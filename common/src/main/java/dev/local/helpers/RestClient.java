@@ -15,7 +15,7 @@ import java.util.List;
 public class RestClient {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        HttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
+        HttpMessageConverter<String> stringHttpMessageConverter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
         List<HttpMessageConverter<?>> httpMessageConverters = new ArrayList<>();
         httpMessageConverters.add(stringHttpMessageConverter);
         return builder

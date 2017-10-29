@@ -1,19 +1,16 @@
 package dev.local.taskmgr.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.Value;
 import lombok.experimental.Wither;
-import org.springframework.data.annotation.Id;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
+@Value
 @Builder
-@AllArgsConstructor
 @Entity
 @ToString(exclude={"project"})
 public class TaskList implements Serializable {
@@ -22,9 +19,9 @@ public class TaskList implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
-
     @Wither
+    private Long id;
+
     private String name;
 
     @Wither
@@ -36,8 +33,7 @@ public class TaskList implements Serializable {
     private Project project;
 
     @OneToMany(mappedBy = "taskList")
-    @Wither
-    private List tasks;
+    private List<Task> tasks;
 
     @Override
     public boolean equals(Object o) {

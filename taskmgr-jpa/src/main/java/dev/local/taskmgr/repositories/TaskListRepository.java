@@ -10,6 +10,6 @@ import java.util.List;
  * 任务组存储
  */
 @Repository
-public interface TaskListRepository extends JpaRepository<TaskList, String> {
-    List<TaskList> findByProjectId(String projectId);
+public interface TaskListRepository extends JpaRepository<TaskList, Long> {
+    List<TaskList> findByProjectId(Long projectId);
 }

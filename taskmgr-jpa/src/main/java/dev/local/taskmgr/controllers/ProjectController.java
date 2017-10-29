@@ -1,12 +1,12 @@
-package dev.local.api.controllers;
+package dev.local.taskmgr.controllers;
 
-import dev.local.api.controllers.wrappers.ProjectMemberIds;
-import dev.local.domain.Profile;
-import dev.local.domain.Project;
-import dev.local.dto.CreateProjectDTO;
-import dev.local.dto.QueryProjectDTO;
-import dev.local.services.ProfileService;
-import dev.local.services.ProjectService;
+import dev.local.taskmgr.controllers.wrappers.ProjectMemberIds;
+import dev.local.taskmgr.domain.Profile;
+import dev.local.taskmgr.domain.Project;
+import dev.local.taskmgr.dto.CreateProjectDTO;
+import dev.local.taskmgr.dto.QueryProjectDTO;
+import dev.local.taskmgr.services.ProfileService;
+import dev.local.taskmgr.services.ProjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +30,7 @@ public class ProjectController {
     private final ProfileService profileService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Page<QueryProjectDTO> findRelated(
+    public Page<Project> findRelated(
             @RequestParam(value = "enabled", defaultValue = "true", required = false) boolean enabled,
             @RequestParam(value = "archived", defaultValue = "false", required = false) boolean archived,
             Pageable pageable) {
@@ -46,28 +46,27 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Project findById(@PathVariable String id) {
+    public Project findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/projects")
-    List<Profile> getUserByProject(@PathVariable String id) {
-        return profileService.profilesByProject(id);
+    List<Profile> getUserByProject(@PathVariable Long id) {
+        return service.findById(id).getMembers();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public Project update(@PathVariable String id, @RequestBody Project project){
-        project.setId(id);
-        return service.update(project);
+    public Project update(@PathVariable Long id, @RequestBody Project project){
+        return service.update(project.withId(id));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable String id){
+    public void delete(@PathVariable Long id){
         service.delete(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public Project inviteMembers(@PathVariable String id, @RequestBody ProjectMemberIds memberIds) {
+    public Project inviteMembers(@PathVariable Long id, @RequestBody ProjectMemberIds memberIds) {
         return service.inviteMembers(id, memberIds.getMemberIds());
     }
 

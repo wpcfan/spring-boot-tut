@@ -1,13 +1,12 @@
-package dev.local.api.controllers;
+package dev.local.taskmgr.controllers;
 
-import dev.local.api.controllers.wrappers.SwapList;
-import dev.local.domain.TaskList;
-import dev.local.services.TaskListService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import dev.local.taskmgr.controllers.wrappers.SwapList;
+import dev.local.taskmgr.domain.TaskList;
+import dev.local.taskmgr.services.TaskListService;
 import java.util.List;
 
 /**
@@ -23,7 +22,7 @@ public class TaskListController {
     private final TaskListService service;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<TaskList> findByProjectId(@RequestParam(value = "projectId") String projectId) {
+    public List<TaskList> findByProjectId(@RequestParam(value = "projectId") Long projectId) {
         return service.findByProjectId(projectId);
     }
 
@@ -38,18 +37,17 @@ public class TaskListController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public TaskList findById(@PathVariable String id) {
+    public TaskList findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public TaskList update(@PathVariable String id, @RequestBody TaskList group){
-        group.setId(id);
-        return service.update(group);
+    public TaskList update(@PathVariable Long id, @RequestBody TaskList list){
+        return service.update(list.withId(id));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public TaskList delete(@PathVariable String id){
+    public TaskList delete(@PathVariable Long id){
         return service.delete(id);
     }
 }

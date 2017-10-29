@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+
 import java.util.List;
 
 @RestController
@@ -20,6 +22,7 @@ import java.util.List;
 @EnableResourceServer
 @ComponentScan({"dev.local"})
 @SpringBootApplication
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskMgrApplication {
 
     private final DiscoveryClient discoveryClient;

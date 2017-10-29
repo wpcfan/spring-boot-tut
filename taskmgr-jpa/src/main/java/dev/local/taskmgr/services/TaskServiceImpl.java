@@ -1,7 +1,9 @@
-package dev.local.services;
+package dev.local.taskmgr.services;
 
-import dev.local.domain.Task;
-import dev.local.repositories.TaskRepository;
+import dev.local.taskmgr.domain.Task;
+import dev.local.taskmgr.domain.TaskList;
+import dev.local.taskmgr.repositories.ProfileRepository;
+import dev.local.taskmgr.repositories.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,29 +19,30 @@ import java.util.stream.Stream;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository repository;
+    private final ProfileRepository profileRepository;
 
     @Override
-    public Task add(Task task) {
-        return repository.insert(task);
+    public Task add(final Task task) {
+        return repository.save(task);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         repository.delete(id);
     }
 
     @Override
     public List<Task> findTasksByUser(String username) {
-        return repository.findByParticipantIdsContaining(username);
+        return profileRepository.findByUsername(username).getTasksJoined();
     }
 
     @Override
-    public Page<Task> findByListId(String taskListId, Pageable pageable) {
+    public Page<Task> findByListId(Long taskListId, Pageable pageable) {
         return repository.findByTaskListId(taskListId, pageable);
     }
 
     @Override
-    public Task findById(String id) {
+    public Task findById(Long id) {
         return repository.findOne(id);
     }
 
@@ -49,32 +52,27 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task toggle(String id) {
+    public Task toggle(final Long id) {
         Task task = findById(id);
-        task.setCompleted(!task.isCompleted());
-        return repository.save(task);
+        return repository.save(task.withCompleted(!task.isCompleted()));
     }
 
     @Override
-    public Task move(String id, String taskListId) {
-        Task task = findById(id);
-        task.setTaskListId(taskListId);
-        return repository.save(task);
+    public Task move(final Long id, final Long taskListId) {
+        final Task task = findById(id);
+        return repository.save(task.withTaskList(TaskList.builder().id(taskListId).build()));
     }
 
     @Override
-    public List<Task> moveAll(final String srcListId, final String targetListId) {
-        List<Task> srcTasks = repository.findByTaskListId(srcListId);
-        for (Task task: srcTasks) {
-            task.setTaskListId(targetListId);
-        }
-        List<Task> targetTasks = repository.findByTaskListId(targetListId);
-        for (Task task: targetTasks) {
-            task.setTaskListId(srcListId);
-        }
-        Stream<Task> combinedStream = Stream.of(srcTasks, targetTasks)
-                .flatMap(Collection::stream);
-        Collection<Task> collectionCombined =
+    public List<Task> moveAll(final Long srcListId, final Long targetListId) {
+        final List<Task> srcTasks = repository.findByTaskListId(srcListId);
+        final Stream<Task> srcStream = srcTasks.stream()
+            .map(task -> task.withTaskList(TaskList.builder().id(targetListId).build()));
+        final List<Task> targetTasks = repository.findByTaskListId(targetListId);
+        final Stream<Task> targetStream = targetTasks.stream()
+            .map(task -> task.withTaskList(TaskList.builder().id(srcListId).build()));
+        final Stream<Task> combinedStream = Stream.concat(srcStream, targetStream);
+        final Collection<Task> collectionCombined =
                 combinedStream.collect(Collectors.toList());
         return repository.save(collectionCombined);
     }

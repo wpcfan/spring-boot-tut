@@ -15,5 +15,6 @@
     "*.bat": true,
     "gradlew": true
   },
-  "java.configuration.updateBuildConfiguration": "automatic"
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.jdt.ls.vmargs": "-javaagent:/Users/wangpeng/lombok/lombok.jar -Xbootclasspath/a:/Users/wangpeng/lombok/lombok.jar"
 }

@@ -1,5 +1,5 @@
 jar {
-    baseName = 'taskmgr-task-service'
+    baseName = 'taskmgr-jpa'
 }
 dependencies {
     compile project(':auth-config')

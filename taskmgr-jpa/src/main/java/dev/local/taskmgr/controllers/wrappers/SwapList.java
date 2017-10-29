@@ -1,9 +1,9 @@
-package dev.local.api.controllers.wrappers;
+package dev.local.taskmgr.controllers.wrappers;
 
 import lombok.Data;
 
 @Data
 public class SwapList {
-    private String srcListId;
-    private String targetListId;
+    private Long srcListId;
+    private Long targetListId;
 }

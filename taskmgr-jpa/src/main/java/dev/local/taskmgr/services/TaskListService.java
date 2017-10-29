@@ -1,6 +1,7 @@
-package dev.local.services;
+package dev.local.taskmgr.services;
 
-import dev.local.domain.TaskList;
+
+import dev.local.taskmgr.domain.TaskList;
 
 import java.util.List;
 
@@ -9,9 +10,9 @@ import java.util.List;
  */
 public interface TaskListService {
     TaskList add(TaskList list);
-    TaskList delete(String id);
-    TaskList findById(String id);
+    TaskList delete(Long id);
+    TaskList findById(Long id);
     TaskList update(TaskList list);
-    List<TaskList> findByProjectId(String projectId);
-    List<TaskList> swapOrder(String srcTaskListId, String targetTaskListId);
+    List<TaskList> findByProjectId(Long projectId);
+    List<TaskList> swapOrder(Long srcTaskListId, Long targetTaskListId);
 }

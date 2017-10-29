@@ -1,6 +1,7 @@
-package dev.local.services;
+package dev.local.taskmgr.services;
 
-import dev.local.domain.Quote;
+
+import dev.local.taskmgr.domain.Quote;
 
 import java.io.IOException;
 

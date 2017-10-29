@@ -1,4 +1,4 @@
-package dev.local.taskmgr.domain;
+package dev.local.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,13 +1,13 @@
-package dev.local.services;
+package dev.local.taskmgr.services;
 
-import dev.local.domain.Profile;
-import dev.local.domain.Project;
-import dev.local.domain.TaskList;
-import dev.local.dto.QueryProjectDTO;
-import dev.local.repositories.ProfileRepository;
-import dev.local.repositories.ProjectRepoCustom;
-import dev.local.repositories.ProjectRepository;
-import dev.local.repositories.TaskListRepository;
+import dev.local.taskmgr.domain.Profile;
+import dev.local.taskmgr.domain.Project;
+import dev.local.taskmgr.domain.TaskList;
+import dev.local.taskmgr.repositories.ProfileRepository;
+import dev.local.taskmgr.repositories.ProjectRepository;
+import dev.local.taskmgr.repositories.TaskListRepository;
+import lombok.AllArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
@@ -23,55 +24,32 @@ import static java.util.Arrays.asList;
  * Created by wangpeng on 2017/4/18.
  */
 @Service
+@AllArgsConstructor(onConstructor=@__(@Autowired))
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository repository;
     private final TaskListRepository taskListRepository;
     private final ProfileRepository profileRepository;
-    private final ProjectRepoCustom projectRepoCustom;
-
-    @Autowired
-    public ProjectServiceImpl(
-            ProjectRepository repository,
-            TaskListRepository taskListRepository,
-            ProfileRepository profileRepository,
-            ProjectRepoCustom projectRepoCustom){
-        this.repository = repository;
-        this.taskListRepository = taskListRepository;
-        this.profileRepository = profileRepository;
-        this.projectRepoCustom = projectRepoCustom;
-    }
 
     @Override
     public Project add(Project project, String username) {
-        project.setOwnerId(username);
-        project.setMemberIds(Collections.singleton(username));
-        Project savedProject = repository.insert(project);
-        List<TaskList> lists = taskListRepository.save(getInitLists(savedProject));
-        savedProject.getTaskListIds()
-                .addAll(lists.stream()
-                        .map(TaskList::getId)
-                        .collect(Collectors.toSet()
-                        )
-                );
-        Profile profile = profileRepository.findByUsername(username);
-        profile.setProjectIdsJoined(Collections.singleton(savedProject.getId()));
-        profileRepository.save(profile);
-        return repository.save(savedProject);
+        project.getMembers().add(Profile.builder().username(username).build());
+        Project savedProject = repository.save(project);
+        taskListRepository.save(getInitLists(savedProject));
+        return savedProject;
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         repository.delete(id);
     }
 
     @Override
-    public Page<QueryProjectDTO> findRelated(String userId, Pageable pageable) {
-//        return repository.findRelated(userId, enabled, archived, pageable);
-        return projectRepoCustom.getJoinedProjectsWithUsers(userId, pageable);
+    public Page<Project> findRelated(String username, Pageable pageable) {
+       return repository.findRelated(username, true, false, pageable);
     }
 
     @Override
-    public Project findById(String id) {
+    public Project findById(Long id) {
         return repository.findOne(id);
     }
 
@@ -81,9 +59,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project inviteMembers(String id, List<String> memberIds) {
+    public Project inviteMembers(Long id, List<Long> memberIds) {
         Project project = findById(id);
-        project.getMemberIds().addAll(memberIds);
+        Stream<Profile> members = memberIds.stream()
+                .map(memberId -> Profile.builder().id(memberId).build());
+        project.getMembers().addAll(members.collect(Collectors.toList()));
         return repository.save(project);
     }
 
@@ -91,19 +71,19 @@ public class ProjectServiceImpl implements ProjectService {
         TaskList plan = TaskList.builder()
                 .name("计划")
                 .order(0)
-                .projectId(savedProject.getId())
+                .project(savedProject)
                 .build();
 
         TaskList inProgress = TaskList.builder()
                 .name("进行中")
                 .order(1)
-                .projectId(savedProject.getId())
+                .project(savedProject)
                 .build();
 
         TaskList done = TaskList.builder()
                 .name("已完成")
                 .order(2)
-                .projectId(savedProject.getId())
+                .project(savedProject)
                 .build();
 
         return asList(plan, inProgress, done);

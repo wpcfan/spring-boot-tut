@@ -1,6 +1,6 @@
-package dev.local.services;
+package dev.local.taskmgr.services;
 
-import dev.local.domain.Task;
+import dev.local.taskmgr.domain.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface TaskService {
     Task add(Task task);
-    void delete(String id);
+    void delete(Long id);
     List<Task> findTasksByUser(String username);
-    Page<Task> findByListId(String taskListId, Pageable pageable);
-    Task findById(String id);
+    Page<Task> findByListId(Long taskListId, Pageable pageable);
+    Task findById(Long id);
     Task update(Task task);
-    Task toggle(String id);
-    Task move(String id, String taskListId);
-    List<Task> moveAll(String srcListId, String targetListId);
+    Task toggle(Long id);
+    Task move(Long id, Long taskListId);
+    List<Task> moveAll(Long srcListId, Long targetListId);
 }

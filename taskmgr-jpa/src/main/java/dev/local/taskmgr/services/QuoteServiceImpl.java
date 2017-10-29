@@ -1,9 +1,9 @@
-package dev.local.services;
+package dev.local.taskmgr.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.local.domain.Quote;
+import dev.local.taskmgr.domain.Quote;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -45,7 +45,11 @@ public class QuoteServiceImpl implements QuoteService {
         JsonNode note = rootNode.path("note");
         JsonNode content = rootNode.path("content");
         JsonNode picture = rootNode.path("picture2");
-        return new Quote(note.asText(), content.asText(), picture.asText());
+        return Quote.builder()
+            .cn(note.asText())
+            .en(content.asText())
+            .pic(picture.asText())
+            .build();
     }
 
     @Data

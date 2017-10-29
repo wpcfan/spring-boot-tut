@@ -1,6 +1,6 @@
 package dev.local.auth.controllers;
 
-import dev.local.auth.dto.UserDTO;
+import dev.local.auth.dto.RegisterUserDTO;
 import dev.local.auth.services.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class AuthController {
     private final AuthService service;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public UserDTO register(@RequestBody UserDTO user) throws HttpRequestMethodNotSupportedException {
+    public RegisterUserDTO register(@RequestBody RegisterUserDTO user) throws HttpRequestMethodNotSupportedException {
         return service.register(user);
     }
 }
