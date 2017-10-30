@@ -1,0 +1,17 @@
+logging:
+  level:
+    org.springframework:
+      data: DEBUG
+    dev.local:
+      common: DEBUG
+spring:
+  devtools:
+    remote:
+      secret: thisismysecret
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+  data.mongodb:
+    database: springboot
+server:
+  port: 8090
