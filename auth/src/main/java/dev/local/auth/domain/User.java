@@ -28,6 +28,7 @@ public class User implements Serializable {
     @JsonIgnore
     private String password;
 
+    @Builder.Default
     private boolean enabled = true;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)

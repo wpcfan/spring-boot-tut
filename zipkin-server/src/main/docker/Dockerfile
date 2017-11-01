@@ -3,7 +3,7 @@
 #-----------------------------------------------------------------------------------------------------
 FROM openjdk:8u121-jdk-alpine
 
-MAINTAINER Peng Wang <wpcfan@gmail.com>
+LABEL author="Peng Wang <wpcfan@gmail.com>"
 
 # Keep consistent with build.gradle
 ENV APP_JAR_NAME zipkin-server

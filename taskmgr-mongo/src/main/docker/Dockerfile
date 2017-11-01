@@ -6,10 +6,10 @@ FROM openjdk:8u121-jdk-alpine
 LABEL author="Peng Wang <wpcfan@gmail.com>"
 
 # Keep consistent with build.gradle
-ENV APP_JAR_NAME gateway
+ENV APP_JAR_NAME taskmgr-mongo
 ENV APP_JAR_VERSION 0.0.1
 
-# Install curl and bash for the entry script
+# Install curl, bash and mysql-client to check if DB is up
 RUN apk --update add curl bash && \
 	rm -rf /var/cache/apk/*
 
@@ -21,7 +21,7 @@ RUN chmod +x /app/run.sh
 
 WORKDIR /app
 
-EXPOSE 8765
+EXPOSE 8094
 
 ENTRYPOINT ["/bin/bash","-c"]
 CMD ["/app/run.sh"]

@@ -1,5 +1,5 @@
 jar {
-    baseName = 'taskmgr-gateway'
+    baseName = 'gateway'
 }
 dependencies {
     compile('org.springframework.cloud:spring-cloud-starter-zuul')

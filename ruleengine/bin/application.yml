@@ -10,4 +10,4 @@ spring:
     driver-class: com.mysql.jdbc.Driver
 logging:
   level:
-    org.hibernate.SQL: debug
+    dev.local: debug
