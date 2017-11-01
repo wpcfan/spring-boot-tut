@@ -14,4 +14,4 @@ spring:
   data.mongodb:
     database: springboot
 server:
-  port: 8090
+  port: 8094

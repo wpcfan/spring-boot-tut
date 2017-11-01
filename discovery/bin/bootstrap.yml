@@ -12,4 +12,4 @@ spring:
   cloud:
      config:
         # change to ip when deploy to server
-        uri: http://localhost:8888
+        uri: http://config-server:8888

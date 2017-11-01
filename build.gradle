@@ -64,7 +64,7 @@ subprojects {
     dependencies {
 //        compile("com.google.guava:guava:${guavaVersion}")
 //        compile("org.immutables:value:${immutableVersion}")
-        compileOnly('org.projectlombok:lombok')
+        compile('org.projectlombok:lombok')
         runtime('org.springframework.boot:spring-boot-devtools')
         testCompile('org.springframework.boot:spring-boot-starter-test')
         testCompile('org.springframework.security:spring-security-test')
