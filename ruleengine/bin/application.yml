@@ -1,7 +1,13 @@
 spring:
   h2:
     console.enabled: true
-
+  application:
+    name: taskmgr-rules
+  datasource:
+    url: jdbc:mysql://localhost:3306/rules
+    username: root
+    password: Wp770521
+    driver-class: com.mysql.jdbc.Driver
 logging:
   level:
     org.hibernate.SQL: debug

@@ -1,17 +1,16 @@
 package dev.local.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import java.io.Serializable;
 
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
-@AllArgsConstructor
-public class Staff {
-    @Id
+@Value
+@Builder
+public class Staff implements Serializable {
+
+    private final static long serialVersionUID = 1L;
+
     private String id;
 
     private String username;

@@ -1,14 +1,13 @@
 package dev.local.domain;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Value;
 
-import javax.persistence.Id;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Value
 public class LocationEntry extends TimeStampedEntity{
-    @Id
+    private final static long serialVersionUID = 1L;
     private Long id;
     private Location location;
     private Product product;

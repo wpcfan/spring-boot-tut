@@ -7,8 +7,6 @@ jar {
 dependencies {
     compile("org.jeasy:easy-rules-core:${easyRulesVersion}")
     compile("org.springframework.boot:spring-boot-starter")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa") {
-        exclude module: 'org.apache.tomcat:tomcat-jdbc'
-    }
+    compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}")
     runtime("com.h2database:h2:${h2Version}")
 }

@@ -1,11 +1,15 @@
 package dev.local.domain;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
+import java.io.Serializable;
 import java.util.Date;
 
-@Data
-public class InventoryItem {
+@Value
+@Builder
+public class InventoryItem implements Serializable {
+    private final static long serialVersionUID = 1L;
     private String id;
     private Product product;
     private String shipCode;

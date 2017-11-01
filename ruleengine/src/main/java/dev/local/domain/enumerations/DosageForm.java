@@ -1,4 +1,4 @@
-package dev.local.domain;
+package dev.local.domain.enumerations;
 
 public enum DosageForm {
     TABLET,

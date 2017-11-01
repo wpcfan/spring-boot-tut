@@ -1,13 +1,18 @@
 package dev.local.domain;
 
-import lombok.Data;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
-
+import lombok.Value;
+import dev.local.domain.enumerations.InventoryOperations;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
-public class InventoryHistory extends TimeStampedEntity{
+@Value
+@Builder
+public class InventoryHistory extends TimeStampedEntity {
+
+    private final static long serialVersionUID = 1L;
+
     private String id;
     private InventoryItem item;
     private OrderItem orderItem;

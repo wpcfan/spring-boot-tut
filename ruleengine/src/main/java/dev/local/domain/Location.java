@@ -1,13 +1,16 @@
 package dev.local.domain;
 
-import lombok.Data;
-
-import javax.persistence.Id;
+import dev.local.domain.enumerations.LocationType;
+import java.io.Serializable;
 import java.util.List;
 
-@Data
-public class Location {
-    @Id
+import lombok.Builder;
+import lombok.Value;
+
+@Value
+@Builder
+public class Location implements Serializable {
+    private final static long serialVersionUID = 1L;
     private Long id;
     private String name;
     private LocationType type;
