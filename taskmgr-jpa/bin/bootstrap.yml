@@ -1,6 +1,6 @@
 spring:
   application:
-    name: taskmgr-jpa
+    name: taskmgrjpa
   cloud:
     config:
       uri: http://localhost:8888
@@ -11,4 +11,4 @@ spring:
   profiles: docker
   cloud:
      config:
-        uri: http://config-server:8888
+        uri: http://configserver:8888

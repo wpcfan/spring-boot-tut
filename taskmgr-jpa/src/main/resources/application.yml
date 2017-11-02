@@ -24,7 +24,7 @@ hystrix:
 
 spring:
   application:
-    name: taskmgr-jpa
+    name: taskmgrjpa
   datasource:
     url: jdbc:mysql://localhost:3306/taskmgr
     username: root

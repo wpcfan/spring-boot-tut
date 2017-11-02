@@ -1,11 +1,11 @@
 spring:
   application:
-    name: zipkin-server
+    name: zipkinserver
   cloud:
     config:
 
 # Define the URL from where this service would pick up it's external configuration. Note that it is
-# pointing to the config-server aplication
+# pointing to the configserver aplication
       uri: http://localhost:8888
 
 ---
@@ -14,4 +14,4 @@ spring:
   profiles: docker
   cloud:
      config:
-        uri: http://localhost:8888
+        uri: http://configserver:8888

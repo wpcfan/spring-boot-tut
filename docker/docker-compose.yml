@@ -1,0 +1,94 @@
+version: '2.1'
+services:
+  # mysql:
+  #   image: mysql
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-pWp770521", "--silent"]
+  #     interval: 5s
+  #     timeout: 3s
+  #     retries: 5
+  #   ports:
+  #     - "3306/tcp"
+  #   volumes:
+  #     - ./db:/var/lib/mysql
+  #   environment:
+  #     - MYSQL_DATABASE=auth
+  #     - MYSQL_ROOT_PASSWORD=Wp770521
+  configserver:
+    image: wpcfan/config-server:0.0.1
+    healthcheck:
+      test: ["CMD", "curl", "-I", "http://configserver:8888"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "8888/tcp"
+    # depends_on:
+    #   mysql:
+    #     condition: service_healthy
+  discovery:
+    image: wpcfan/discovery:0.0.1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://discovery:8761"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    ports:
+      - "8761:8761/tcp"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    links:
+      - configserver
+  zipkinserver:
+    image: wpcfan/zipkin-server:0.0.1
+    ports:
+      - "9411:9411/tcp"
+    healthcheck:
+      test: ["CMD", "curl", "-I", "http://zipkinserver:9411"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      configserver:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+    links:
+      - configserver
+      - discovery
+  # auth:
+  #   image: wpcfan/auth:0.0.1
+  #   ports:
+  #   - "8899:8899"
+  #   depends_on:
+  #     discovery:
+  #       condition: service_healthy
+  #   links:
+  #     - discovery
+  #     - configserver
+  # taskmgrjpa:
+  #   image: wpcfan/taskmgrjpa:0.0.1
+  #   depends_on:
+  #       discovery:
+  #         condition: service_healthy
+  #   links:
+  #     - discovery
+  #     - configserver
+  gateway:
+    image: wpcfan/gateway:0.0.1
+    ports:
+    - "8091:8091"
+    depends_on:
+      configserver:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      zipkinserver:
+        condition: service_healthy
+    links:
+      - configserver
+      - discovery
+      - zipkinserver
+

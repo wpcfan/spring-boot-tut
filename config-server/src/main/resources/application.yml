@@ -20,3 +20,11 @@ logging:
   level:
     org.springframework:
       cloud: DEBUG
+eureka:
+  instance:
+    hostname: configserver
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/

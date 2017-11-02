@@ -1,7 +1,9 @@
 jar {
-    baseName = 'taskmgr-jpa'
+    baseName = 'taskmgrjpa'
 }
 dependencies {
+    compile('org.springframework.cloud:spring-cloud-starter-config')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
     compile project(':auth-config')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.springframework.security.oauth:spring-security-oauth2")

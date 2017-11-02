@@ -6,7 +6,7 @@ FROM openjdk:8u121-jdk-alpine
 LABEL author="Peng Wang <wpcfan@gmail.com>"
 
 # Keep consistent with build.gradle
-ENV APP_JAR_NAME zipkin-server
+ENV APP_JAR_NAME zipkinserver
 ENV APP_JAR_VERSION 0.0.1
 
 # Install curl

@@ -1,12 +1,11 @@
 jar {
-    baseName = 'zipkin-server'
+    baseName = 'zipkinserver'
 }
 dependencies {
-    // Basic Spring boot with config client
     compile('org.springframework.cloud:spring-cloud-starter-config')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+    // Basic Spring boot with config client
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-
     // Zipkin tracing
     compile('org.springframework.cloud:spring-cloud-starter-zipkin')
     runtime('io.zipkin.java:zipkin-autoconfigure-ui')

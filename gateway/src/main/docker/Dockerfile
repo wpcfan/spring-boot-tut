@@ -21,7 +21,7 @@ RUN chmod +x /app/run.sh
 
 WORKDIR /app
 
-EXPOSE 8765
+EXPOSE 8091
 
 ENTRYPOINT ["/bin/bash","-c"]
 CMD ["/app/run.sh"]
