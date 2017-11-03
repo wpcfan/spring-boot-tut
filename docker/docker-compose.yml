@@ -45,11 +45,6 @@ services:
     image: wpcfan/zipkin-server:0.0.1
     ports:
       - "9411:9411/tcp"
-    healthcheck:
-      test: ["CMD", "curl", "-I", "http://zipkinserver:9411"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
     depends_on:
       configserver:
         condition: service_healthy
@@ -65,17 +60,31 @@ services:
     depends_on:
       discovery:
         condition: service_healthy
+      mysql:
+        condition: service_healthy
     links:
       - discovery
       - configserver
+      - mysql
   taskmgrjpa:
-    image: wpcfan/taskmgrjpa:0.0.1
+    image: wpcfan/taskmgr-jpa:0.0.1
     depends_on:
-        discovery:
-          condition: service_healthy
+      discovery:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
     links:
       - discovery
       - configserver
+      - mysql
+  # taskmgrmongo:
+  #   image: wpcfan/taskmgr-mongo:0.0.1
+  #   depends_on:
+  #       discovery:
+  #         condition: service_healthy
+  #   links:
+  #     - discovery
+  #     - configserver
   gateway:
     image: wpcfan/gateway:0.0.1
     ports:
@@ -84,8 +93,6 @@ services:
       configserver:
         condition: service_healthy
       discovery:
-        condition: service_healthy
-      zipkinserver:
         condition: service_healthy
     links:
       - configserver
