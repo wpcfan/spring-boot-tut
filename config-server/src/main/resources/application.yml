@@ -15,11 +15,19 @@ spring:
 # their external configurations
 server:
   port: 8888
-
 logging:
   level:
     org.springframework:
       cloud: DEBUG
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+---
+
+spring:
+  profiles: docker
 eureka:
   instance:
     hostname: configserver

@@ -14,7 +14,7 @@ wrapper/dists/
 **/.project
 **/.classpath
 **/.settings/
-blog/bin/
+**/bin/
 **/.tern-project
 
 #IntelliJ files
@@ -25,3 +25,4 @@ blog/bin/
 *.log
 
 docker/db
+**/out

@@ -26,3 +26,6 @@ endpoints:
   logfile:
     sensitive: false
     enabled: true
+management:
+  security:
+    enabled: false
